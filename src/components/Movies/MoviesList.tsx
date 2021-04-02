@@ -1,13 +1,15 @@
-// @ts-ignore
 import React, {Component} from 'react';
 import MovieItem from './MovieItem';
-import {API_URL, API_KEY_3, MovieType, GetMovies} from '../../api/api';
+import {API_KEY_3, API_URL, GetMovies, MovieType} from '../../api/api';
 import axios from 'axios';
+import {FilterType} from '../App';
 
 
-
-export default class MovieList extends Component < {}, {movies:Array<MovieType>}>{
-    constructor(props:{}) {
+type MovieListType = {
+    filters: FilterType
+}
+export default class MovieList extends Component <MovieListType, { movies: Array<MovieType> }> {
+    constructor(props: MovieListType) {
         super(props);
 
         this.state = {
@@ -15,13 +17,10 @@ export default class MovieList extends Component < {}, {movies:Array<MovieType>}
         };
     }
 
-    componentDidMount() {
-        const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&sort_by=popularity.desc`;
+    getMovies = () => {
+        const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&sort_by=${this.props.filters.sort_by}`;
 
-        axios.get<GetMovies>(link).then(res => {
-            console.log(res.data)
-            return res.data;
-        })
+        axios.get<GetMovies>(link).then(res => res.data)
             .then(data => {
                 this.setState({
                     movies: data.results
@@ -29,9 +28,20 @@ export default class MovieList extends Component < {}, {movies:Array<MovieType>}
             });
     }
 
+    componentDidMount() {
+        this.getMovies();
+    }
+
+
+    componentDidUpdate(prevProps: Readonly<MovieListType>, prevState: Readonly<{ movies: Array<MovieType> }>, snapshot?: any) {
+        if (prevProps.filters.sort_by !== this.props.filters.sort_by) {
+            console.log(1)
+            this.getMovies();
+        }
+    }
+
     render() {
-        const {movies } = this.state;
-        console.log(movies)
+        const {movies} = this.state;
         return (
             <div className="row">
                 {movies.map(movie => {
