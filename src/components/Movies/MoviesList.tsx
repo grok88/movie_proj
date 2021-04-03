@@ -7,6 +7,8 @@ import {FilterType} from '../App';
 
 type MovieListType = {
     filters: FilterType
+    page:number
+    onChangePage:(value:number) => void
 }
 export default class MovieList extends Component <MovieListType, { movies: Array<MovieType> }> {
     constructor(props: MovieListType) {
@@ -17,8 +19,8 @@ export default class MovieList extends Component <MovieListType, { movies: Array
         };
     }
 
-    getMovies = () => {
-        const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&sort_by=${this.props.filters.sort_by}`;
+    getMovies = (page:number) => {
+        const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&sort_by=${this.props.filters.sort_by}&page=${page}`;
 
         axios.get<GetMovies>(link).then(res => res.data)
             .then(data => {
@@ -29,15 +31,19 @@ export default class MovieList extends Component <MovieListType, { movies: Array
     }
 
     componentDidMount() {
-        this.getMovies();
+        this.getMovies(this.props.page);
     }
 
 
     componentDidUpdate(prevProps: Readonly<MovieListType>, prevState: Readonly<{ movies: Array<MovieType> }>, snapshot?: any) {
         if (prevProps.filters.sort_by !== this.props.filters.sort_by) {
-            console.log(1)
-            this.getMovies();
+            this.getMovies(1);
+            this.props.onChangePage(1);
         }
+        if (prevProps.page !== this.props.page) {
+            this.getMovies(this.props.page);
+        }
+
     }
 
     render() {

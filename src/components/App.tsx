@@ -8,6 +8,7 @@ export type FilterType = {
 }
 export type AppConstructorType = {
     filters: FilterType
+    page: number
 }
 export default class App extends React.Component<{}, AppConstructorType> {
     constructor(props: {}) {
@@ -15,7 +16,8 @@ export default class App extends React.Component<{}, AppConstructorType> {
         this.state = {
             filters: {
                 sort_by: 'popularity.desc'
-            }
+            },
+            page: 1
         }
     }
 
@@ -25,19 +27,20 @@ export default class App extends React.Component<{}, AppConstructorType> {
             ...this.state.filters,
             [name]: value
         }
-
         this.setState({
-            // filters: {
-            //     ...prevState.filters,
-            //     [name]: value
-            // }
-
             filters: newFilter
         })
     }
 
+    //Change pageNumber
+    onChangePage = (page: number) => {
+        this.setState({
+            page
+        })
+    }
+
     render() {
-        const {filters} = this.state;
+        const {filters, page} = this.state;
         return (
             <div className="container">
                 <div className="row mt-4">
@@ -45,12 +48,13 @@ export default class App extends React.Component<{}, AppConstructorType> {
                         <div className="card" style={{width: '100%'}}>
                             <div className="card-body">
                                 <h3>Фильтры:</h3>
-                                <Filters filters={filters} changeFilters={this.changeFilters}/>
+                                <Filters filters={filters} changeFilters={this.changeFilters} page={page}
+                                         onChangePage={this.onChangePage}/>
                             </div>
                         </div>
                     </div>
                     <div className="col-8">
-                        <MoviesList filters={filters}/>
+                        <MoviesList filters={filters} page={page} onChangePage={this.onChangePage}/>
                     </div>
                 </div>
             </div>
