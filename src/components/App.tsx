@@ -5,24 +5,27 @@ import MoviesList from './Movies/MoviesList';
 export type Sort_By_type = 'popularity.desc' | 'popularity.asc' | 'vote_average.desc' | 'vote_average.asc';
 export type FilterType = {
     sort_by: Sort_By_type
+    primary_release_year: string
 }
 export type AppConstructorType = {
     filters: FilterType
     page: number
+
 }
 export default class App extends React.Component<{}, AppConstructorType> {
     constructor(props: {}) {
         super(props);
         this.state = {
             filters: {
-                sort_by: 'popularity.desc'
+                sort_by: 'popularity.desc',
+                primary_release_year: '2021'
             },
             page: 1
         }
     }
 
     //Change Filter Type
-    changeFilters = (value: Sort_By_type, name: string) => {
+    changeFilters = (value: string, name: string) => {
         const newFilter = {
             ...this.state.filters,
             [name]: value
