@@ -10,7 +10,7 @@ export type FilterType = {
 export type AppConstructorType = {
     filters: FilterType
     page: number
-
+    total_pages:null | number
 }
 export default class App extends React.Component<{}, AppConstructorType> {
     constructor(props: {}) {
@@ -20,7 +20,8 @@ export default class App extends React.Component<{}, AppConstructorType> {
                 sort_by: 'popularity.desc',
                 primary_release_year: '2021'
             },
-            page: 1
+            page: 1,
+            total_pages:null
         }
     }
 
@@ -41,6 +42,12 @@ export default class App extends React.Component<{}, AppConstructorType> {
             page
         })
     }
+    //Change pageNumber
+    setTotalPages = (pages: number) => {
+        this.setState({
+            total_pages:pages
+        })
+    }
 
     render() {
         const {filters, page} = this.state;
@@ -52,12 +59,14 @@ export default class App extends React.Component<{}, AppConstructorType> {
                             <div className="card-body">
                                 <h3>Фильтры:</h3>
                                 <Filters filters={filters} changeFilters={this.changeFilters} page={page}
-                                         onChangePage={this.onChangePage}/>
+                                         onChangePage={this.onChangePage}
+                                         totalPages={this.state.total_pages}
+                                />
                             </div>
                         </div>
                     </div>
                     <div className="col-8">
-                        <MoviesList filters={filters} page={page} onChangePage={this.onChangePage}/>
+                        <MoviesList filters={filters} page={page} onChangePage={this.onChangePage} setTotalPages={this.setTotalPages}/>
                     </div>
                 </div>
             </div>

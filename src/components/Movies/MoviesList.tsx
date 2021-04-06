@@ -9,13 +9,15 @@ type MovieListType = {
     filters: FilterType
     page:number
     onChangePage:(value:number) => void
+    setTotalPages : (pages: number) => void
 }
 export default class MovieList extends Component <MovieListType, { movies: Array<MovieType> }> {
     constructor(props: MovieListType) {
         super(props);
 
         this.state = {
-            movies: []
+            movies: [],
+
         };
     }
 
@@ -24,8 +26,10 @@ export default class MovieList extends Component <MovieListType, { movies: Array
 
         axios.get<GetMovies>(link).then(res => res.data)
             .then(data => {
+                this.props.setTotalPages(data.total_pages);
+                console.log(data)
                 this.setState({
-                    movies: data.results
+                    movies: data.results,
                 });
             });
     }
@@ -45,12 +49,14 @@ export default class MovieList extends Component <MovieListType, { movies: Array
         }
         if (prevProps.filters.primary_release_year !== this.props.filters.primary_release_year) {
             this.getMovies(this.props.page,this.props.filters.primary_release_year);
+            this.props.onChangePage(1);
         }
 
     }
 
     render() {
         const {movies} = this.state;
+
         return (
             <div className="row">
                 {movies.map(movie => {
