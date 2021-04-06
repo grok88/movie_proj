@@ -1,4 +1,4 @@
-import React, {ChangeEvent, Component} from 'react';
+import React, {ChangeEvent, Component, PureComponent} from 'react';
 import {FilterType, Sort_By_type} from '../../App';
 
 type SelectPropsType = {
@@ -6,16 +6,17 @@ type SelectPropsType = {
     filters: FilterType
 }
 
-type DefaultProps ={
-    options:Array<{label:string, value:string}>
+type DefaultProps = {
+    options: Array<{ label: string, value: string }>
 }
-class Select extends Component<SelectPropsType, {}> {
-    static defaultProps:DefaultProps =  {
+
+class Select extends PureComponent<SelectPropsType, {}> {
+    static defaultProps: DefaultProps = {
         options: [
-            { label: 'Популярные по убыванию', value: 'popularity.desc' },
-            { label: 'Популярные по возростанию', value: 'popularity.asc' },
-            { label: 'Рейтинг по убыванию', value: 'vote_average.desc' },
-            { label: 'Рейтинг по возростанию', value: 'vote_average.asc' },
+            {label: 'Популярные по убыванию', value: 'popularity.desc'},
+            {label: 'Популярные по возростанию', value: 'popularity.asc'},
+            {label: 'Рейтинг по убыванию', value: 'vote_average.desc'},
+            {label: 'Рейтинг по возростанию', value: 'vote_average.asc'},
         ]
     }
 
@@ -25,10 +26,13 @@ class Select extends Component<SelectPropsType, {}> {
 
     render() {
         const {filters} = this.props;
+        console.log('Select')
         return <div className="form-group">
             <label htmlFor="sort_by">Сортировать по:</label>
             <select className="form-control" id="sort_by" name="sort_by" onChange={this.selectValue}
-                    defaultValue={filters.sort_by}>
+                // defaultValue={filters.sort_by}
+                    value={filters.sort_by}
+            >
                 {
                     Select.defaultProps.options.map(option => <option value={option.value}
                                                                       key={option.value}>{option.label}</option>)

@@ -48,6 +48,16 @@ export default class App extends React.Component<{}, AppConstructorType> {
             total_pages:pages
         })
     }
+    //Reset All Filters
+    resetAllFilters = () => {
+        this.setState({
+           filters:{
+               sort_by:'popularity.desc',
+               primary_release_year:'2021'
+           },
+           page:1
+        })
+    }
 
     render() {
         const {filters, page} = this.state;
@@ -61,6 +71,7 @@ export default class App extends React.Component<{}, AppConstructorType> {
                                 <Filters filters={filters} changeFilters={this.changeFilters} page={page}
                                          onChangePage={this.onChangePage}
                                          totalPages={this.state.total_pages}
+                                         resetAllFilters={this.resetAllFilters}
                                 />
                             </div>
                         </div>
