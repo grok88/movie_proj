@@ -3,6 +3,7 @@ import {FilterType} from '../App';
 import FilterPagination from './FilterPagination/FilterPagination';
 import Select from './Select/Select';
 import ReleaseYear from './ReleaseYear/ReleaseYear';
+import GenresFilterPage from './GenresFilterPage/GenresFilterPage';
 
 type FiltersType = {
     filters: FilterType
@@ -10,7 +11,7 @@ type FiltersType = {
     page: number
     onChangePage: (value: number) => void
     totalPages: null | number
-    resetAllFilters:() => void
+    resetAllFilters: () => void
 }
 
 export default class Filters extends React.Component<FiltersType, {}> {
@@ -23,7 +24,10 @@ export default class Filters extends React.Component<FiltersType, {}> {
                 <Select changeFilters={changeFilters} filters={filters}/>
                 <ReleaseYear releaseYear={filters.primary_release_year} changeFilters={changeFilters}/>
                 <FilterPagination page={page} onChangePage={onChangePage} totalPages={totalPages}/>
-                <button type="button" className="btn btn-info mt-3 " style={{width: '100%'}} onClick={resetAllFilters}>Сбросить фильтры</button>
+                <GenresFilterPage/>
+                <button type="button" className="btn btn-info mt-3 " style={{width: '100%'}}
+                        onClick={resetAllFilters}>Сбросить фильтры
+                </button>
             </form>
         );
     }

@@ -29,3 +29,12 @@ export type GetMovies = {
     total_pages: number
     total_results: number
 }
+
+//Genres
+export type GenreType = {
+    id:number
+    name:string
+}
+export type GetGenres = {
+   genres:Array<GenreType>
+}

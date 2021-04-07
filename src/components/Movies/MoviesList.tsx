@@ -22,7 +22,7 @@ export default class MovieList extends Component <MovieListType, { movies: Array
     }
 
     getMovies = (page:number,primary_release_year:string = '' ) => {
-        const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&sort_by=${this.props.filters.sort_by}&page=${page}&primary_release_year=${primary_release_year}`;
+        const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&sort_by=${this.props.filters.sort_by}&page=${page}&primary_release_year=${primary_release_year}&with_genres=${''}`;
 
         axios.get<GetMovies>(link).then(res => res.data)
             .then(data => {
