@@ -10,7 +10,9 @@ type MovieListType = {
     page:number
     onChangePage:(value:number) => void
     setTotalPages : (pages: number) => void
+    genres: Array<string>
 }
+
 export default class MovieList extends Component <MovieListType, { movies: Array<MovieType> }> {
     constructor(props: MovieListType) {
         super(props);
@@ -21,8 +23,8 @@ export default class MovieList extends Component <MovieListType, { movies: Array
         };
     }
 
-    getMovies = (page:number,primary_release_year:string = '' ) => {
-        const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&sort_by=${this.props.filters.sort_by}&page=${page}&primary_release_year=${primary_release_year}&with_genres=${''}`;
+    getMovies = (page:number,primary_release_year:string = '' , genres: Array<string>=['']) => {
+        const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&sort_by=${this.props.filters.sort_by}&page=${page}&primary_release_year=${primary_release_year}&with_genres=${genres}`;
 
         axios.get<GetMovies>(link).then(res => res.data)
             .then(data => {
@@ -35,20 +37,25 @@ export default class MovieList extends Component <MovieListType, { movies: Array
     }
 
     componentDidMount() {
-        this.getMovies(this.props.page, this.props.filters.primary_release_year);
+        console.log(this.props.genres)
+        this.getMovies(this.props.page, this.props.filters.primary_release_year, this.props.genres);
     }
 
 
     componentDidUpdate(prevProps: Readonly<MovieListType>, prevState: Readonly<{ movies: Array<MovieType> }>, snapshot?: any) {
         if (prevProps.filters.sort_by !== this.props.filters.sort_by) {
-            this.getMovies(1,this.props.filters.primary_release_year);
+            this.getMovies(1,this.props.filters.primary_release_year,this.props.genres);
             this.props.onChangePage(1);
         }
         if (prevProps.page !== this.props.page) {
-            this.getMovies(this.props.page,this.props.filters.primary_release_year);
+            this.getMovies(this.props.page,this.props.filters.primary_release_year,this.props.genres);
         }
         if (prevProps.filters.primary_release_year !== this.props.filters.primary_release_year) {
-            this.getMovies(this.props.page,this.props.filters.primary_release_year);
+            this.getMovies(this.props.page,this.props.filters.primary_release_year,this.props.genres);
+            this.props.onChangePage(1);
+        }
+        if (prevProps.filters.with_genres !== this.props.filters.with_genres) {
+            this.getMovies(this.props.page,this.props.filters.primary_release_year,this.props.filters.with_genres);
             this.props.onChangePage(1);
         }
 

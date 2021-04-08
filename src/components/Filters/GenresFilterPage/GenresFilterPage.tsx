@@ -3,7 +3,9 @@ import {API_KEY_3, API_URL, GenreType, GetGenres} from '../../../api/api';
 import axios from 'axios';
 import GenresFilter from './GenresFilter/GenresFilter';
 
-type GenresFilterPagePropsType = {};
+type GenresFilterPagePropsType = {
+    onGenresChange : (genreId: string) => void
+};
 
 class GenresFilterPage extends PureComponent<GenresFilterPagePropsType, { genres: Array<GenreType> }> {
     constructor(props: GenresFilterPagePropsType) {
@@ -25,10 +27,12 @@ class GenresFilterPage extends PureComponent<GenresFilterPagePropsType, { genres
 
     render() {
         const {genres} = this.state;
+        const {onGenresChange} = this.props;
+
         return (
             <div>
                 <button type="button" className="btn btn-info mt-3 " style={{width: '100%'}}>Показать все жанры</button>
-                <GenresFilter/>
+                <GenresFilter genres={genres} onGenresChange={onGenresChange}/>
             </div>
         );
     }

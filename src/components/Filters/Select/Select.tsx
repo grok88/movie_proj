@@ -1,4 +1,4 @@
-import React, {ChangeEvent, Component, PureComponent} from 'react';
+import React, {ChangeEvent, Component} from 'react';
 import {FilterType, Sort_By_type} from '../../App';
 
 type SelectPropsType = {
@@ -10,7 +10,7 @@ type DefaultProps = {
     options: Array<{ label: string, value: string }>
 }
 
-class Select extends PureComponent<SelectPropsType, {}> {
+class Select extends Component<SelectPropsType, {}> {
     static defaultProps: DefaultProps = {
         options: [
             {label: 'Популярные по убыванию', value: 'popularity.desc'},
@@ -18,6 +18,12 @@ class Select extends PureComponent<SelectPropsType, {}> {
             {label: 'Рейтинг по убыванию', value: 'vote_average.desc'},
             {label: 'Рейтинг по возростанию', value: 'vote_average.asc'},
         ]
+    }
+
+    shouldComponentUpdate(nextProps: Readonly<SelectPropsType>, nextState: Readonly<{}>, nextContext: any): boolean {
+        if (this.props.filters.sort_by !== nextProps.filters.sort_by) {
+            return true
+        } else return false;
     }
 
     selectValue = (e: ChangeEvent<HTMLSelectElement>) => {
