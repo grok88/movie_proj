@@ -1,6 +1,7 @@
 import React from 'react';
 import Filters from './Filters/Filters';
 import MoviesList from './Movies/MoviesList';
+import Header from './Header/Header';
 
 export type Sort_By_type = 'popularity.desc' | 'popularity.asc' | 'vote_average.desc' | 'vote_average.asc';
 export type FilterType = {
@@ -93,30 +94,33 @@ export default class App extends React.Component<{}, AppConstructorType> {
     render() {
         const {filters, page} = this.state;
         return (
-            <div className="container">
-                <div className="row mt-4">
-                    <div className="col-4">
-                        <div className="card" style={{width: '100%'}}>
-                            <div className="card-body">
-                                <h3>Фильтры:</h3>
-                                <Filters filters={filters} changeFilters={this.changeFilters} page={page}
-                                         onChangePage={this.onChangePage}
-                                         totalPages={this.state.total_pages}
-                                         resetAllFilters={this.resetAllFilters}
-                                         onGenresChange={this.onGenresChange}
+            <>
+                <Header/>
+                <div className="container">
+                    <div className="row mt-4">
+                        <div className="col-4">
+                            <div className="card" style={{width: '100%'}}>
+                                <div className="card-body">
+                                    <h3>Фильтры:</h3>
+                                    <Filters filters={filters} changeFilters={this.changeFilters} page={page}
+                                             onChangePage={this.onChangePage}
+                                             totalPages={this.state.total_pages}
+                                             resetAllFilters={this.resetAllFilters}
+                                             onGenresChange={this.onGenresChange}
                                              onGenresReset={this.onGenresReset}
-                                />
+                                    />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="col-8">
-                        <MoviesList filters={filters} page={page}
-                                    onChangePage={this.onChangePage}
-                                    setTotalPages={this.setTotalPages}
-                        />
+                        <div className="col-8">
+                            <MoviesList filters={filters} page={page}
+                                        onChangePage={this.onChangePage}
+                                        setTotalPages={this.setTotalPages}
+                            />
+                        </div>
                     </div>
                 </div>
-            </div>
+            </>
         );
     }
 }
