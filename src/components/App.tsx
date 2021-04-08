@@ -64,27 +64,30 @@ export default class App extends React.Component<{}, AppConstructorType> {
     }
     //Change GenresFilter
     onGenresChange = (genreId: string) => {
-        let genres: Array<string> = [ ...this.state.filters.with_genres];
+        let genres: Array<string> = [...this.state.filters.with_genres];
 
         let index = genres.findIndex(el => el === genreId)
-        console.log(index)
-        if(index === -1){
+        if (index === -1) {
             genres.push(genreId)
         } else {
-           genres.splice(index,1)
+            genres.splice(index, 1)
         }
 
         this.setState({
-                filters: {
-                    ...this.state.filters,
-                    with_genres: genres
-                        // state.filters.with_genres.push(genreId)
-                        // : state.filters.with_genres + genreId
-                }
-        }, () => {
-            console.log(genres)
+            filters: {
+                ...this.state.filters,
+                with_genres: genres
+            }
         })
-        console.log(genres)
+    }
+    //reset GenresFilter
+    onGenresReset = () => {
+        this.setState({
+            filters: {
+                ...this.state.filters,
+                with_genres: []
+            }
+        })
     }
 
     render() {
@@ -101,6 +104,7 @@ export default class App extends React.Component<{}, AppConstructorType> {
                                          totalPages={this.state.total_pages}
                                          resetAllFilters={this.resetAllFilters}
                                          onGenresChange={this.onGenresChange}
+                                             onGenresReset={this.onGenresReset}
                                 />
                             </div>
                         </div>

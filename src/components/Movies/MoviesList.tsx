@@ -7,9 +7,9 @@ import {FilterType} from '../App';
 
 type MovieListType = {
     filters: FilterType
-    page:number
-    onChangePage:(value:number) => void
-    setTotalPages : (pages: number) => void
+    page: number
+    onChangePage: (value: number) => void
+    setTotalPages: (pages: number) => void
 }
 
 export default class MovieList extends Component <MovieListType, { movies: Array<MovieType> }> {
@@ -22,7 +22,7 @@ export default class MovieList extends Component <MovieListType, { movies: Array
         };
     }
 
-    getMovies = (page:number,primary_release_year:string = '' , genres: Array<string>=['']) => {
+    getMovies = (page: number, primary_release_year: string = '', genres: Array<string> = ['']) => {
         const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&sort_by=${this.props.filters.sort_by}&page=${page}&primary_release_year=${primary_release_year}&with_genres=${genres}`;
 
         axios.get<GetMovies>(link).then(res => res.data)
@@ -36,25 +36,24 @@ export default class MovieList extends Component <MovieListType, { movies: Array
     }
 
     componentDidMount() {
-        console.log(this.props.filters.with_genres)
         this.getMovies(this.props.page, this.props.filters.primary_release_year, this.props.filters.with_genres);
     }
 
 
     componentDidUpdate(prevProps: Readonly<MovieListType>, prevState: Readonly<{ movies: Array<MovieType> }>, snapshot?: any) {
         if (prevProps.filters.sort_by !== this.props.filters.sort_by) {
-            this.getMovies(1,this.props.filters.primary_release_year,this.props.filters.with_genres);
+            this.getMovies(1, this.props.filters.primary_release_year, this.props.filters.with_genres);
             this.props.onChangePage(1);
         }
         if (prevProps.page !== this.props.page) {
-            this.getMovies(this.props.page,this.props.filters.primary_release_year,this.props.filters.with_genres);
+            this.getMovies(this.props.page, this.props.filters.primary_release_year, this.props.filters.with_genres);
         }
         if (prevProps.filters.primary_release_year !== this.props.filters.primary_release_year) {
-            this.getMovies(this.props.page,this.props.filters.primary_release_year,this.props.filters.with_genres);
+            this.getMovies(this.props.page, this.props.filters.primary_release_year, this.props.filters.with_genres);
             this.props.onChangePage(1);
         }
         if (prevProps.filters.with_genres !== this.props.filters.with_genres) {
-            this.getMovies(this.props.page,this.props.filters.primary_release_year,this.props.filters.with_genres);
+            this.getMovies(this.props.page, this.props.filters.primary_release_year, this.props.filters.with_genres);
             this.props.onChangePage(1);
         }
 
@@ -62,7 +61,7 @@ export default class MovieList extends Component <MovieListType, { movies: Array
 
     render() {
         const {movies} = this.state;
-        if(!movies.length){
+        if (!movies.length) {
             return <h1>Movies aren't found</h1>
         }
         return (

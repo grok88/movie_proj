@@ -13,19 +13,19 @@ type FiltersType = {
     totalPages: null | number
     resetAllFilters: () => void
     onGenresChange : (genreId: string) => void
+    onGenresReset : () => void
 }
 
 export default class Filters extends React.Component<FiltersType, {}> {
 
-
     render() {
-        const {page, onChangePage, filters, changeFilters, totalPages, resetAllFilters, onGenresChange} = this.props;
+        const {page, onChangePage, filters, changeFilters, totalPages, resetAllFilters, onGenresChange, onGenresReset} = this.props;
         return (
             <form className="mb-3 ">
                 <Select changeFilters={changeFilters} filters={filters}/>
                 <ReleaseYear releaseYear={filters.primary_release_year} changeFilters={changeFilters}/>
                 <FilterPagination page={page} onChangePage={onChangePage} totalPages={totalPages}/>
-                <GenresFilterPage onGenresChange={onGenresChange}/>
+                <GenresFilterPage onGenresChange={onGenresChange} onGenresReset={onGenresReset}/>
                 <button type="button" className="btn btn-info mt-3 " style={{width: '100%'}}
                         onClick={resetAllFilters}>Сбросить фильтры
                 </button>
