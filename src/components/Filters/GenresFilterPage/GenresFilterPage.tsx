@@ -28,7 +28,7 @@ class GenresFilterPage extends PureComponent<GenresFilterPagePropsType, { genres
     render() {
         const {genres} = this.state;
         const {onGenresChange} = this.props;
-
+        console.log('GenresFilterPage')
         return (
             <div>
                 <button type="button" className="btn btn-info mt-3 " style={{width: '100%'}}>Показать все жанры</button>

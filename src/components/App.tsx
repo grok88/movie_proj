@@ -109,7 +109,6 @@ export default class App extends React.Component<{}, AppConstructorType> {
                         <MoviesList filters={filters} page={page}
                                     onChangePage={this.onChangePage}
                                     setTotalPages={this.setTotalPages}
-                                    genres={this.state.filters.with_genres}
                         />
                     </div>
                 </div>

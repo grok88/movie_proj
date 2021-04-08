@@ -10,7 +10,6 @@ type MovieListType = {
     page:number
     onChangePage:(value:number) => void
     setTotalPages : (pages: number) => void
-    genres: Array<string>
 }
 
 export default class MovieList extends Component <MovieListType, { movies: Array<MovieType> }> {
@@ -37,21 +36,21 @@ export default class MovieList extends Component <MovieListType, { movies: Array
     }
 
     componentDidMount() {
-        console.log(this.props.genres)
-        this.getMovies(this.props.page, this.props.filters.primary_release_year, this.props.genres);
+        console.log(this.props.filters.with_genres)
+        this.getMovies(this.props.page, this.props.filters.primary_release_year, this.props.filters.with_genres);
     }
 
 
     componentDidUpdate(prevProps: Readonly<MovieListType>, prevState: Readonly<{ movies: Array<MovieType> }>, snapshot?: any) {
         if (prevProps.filters.sort_by !== this.props.filters.sort_by) {
-            this.getMovies(1,this.props.filters.primary_release_year,this.props.genres);
+            this.getMovies(1,this.props.filters.primary_release_year,this.props.filters.with_genres);
             this.props.onChangePage(1);
         }
         if (prevProps.page !== this.props.page) {
-            this.getMovies(this.props.page,this.props.filters.primary_release_year,this.props.genres);
+            this.getMovies(this.props.page,this.props.filters.primary_release_year,this.props.filters.with_genres);
         }
         if (prevProps.filters.primary_release_year !== this.props.filters.primary_release_year) {
-            this.getMovies(this.props.page,this.props.filters.primary_release_year,this.props.genres);
+            this.getMovies(this.props.page,this.props.filters.primary_release_year,this.props.filters.with_genres);
             this.props.onChangePage(1);
         }
         if (prevProps.filters.with_genres !== this.props.filters.with_genres) {
@@ -63,7 +62,9 @@ export default class MovieList extends Component <MovieListType, { movies: Array
 
     render() {
         const {movies} = this.state;
-
+        if(!movies.length){
+            return <h1>Movies aren't found</h1>
+        }
         return (
             <div className="row">
                 {movies.map(movie => {
