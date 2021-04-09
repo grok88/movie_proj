@@ -32,9 +32,16 @@ export type GetMovies = {
 
 //Genres
 export type GenreType = {
-    id:number
-    name:string
+    id: number
+    name: string
 }
 export type GetGenres = {
-   genres:Array<GenreType>
+    genres: Array<GenreType>
+}
+
+//AUTH
+export type GetToken = {
+    expires_at: string
+    request_token: string
+    success: boolean
 }

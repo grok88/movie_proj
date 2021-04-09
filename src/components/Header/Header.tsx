@@ -8,7 +8,7 @@ class Header extends Component {
                 <div className="container">
                     <ul className="navbar-nav">
                         <li className="nav-item active">
-                            <a className="nav-link" href='#'>Home</a>
+                            <a className="nav-link" href='tut.by' target='_blank'>Home</a>
                         </li>
                     </ul>
                     <Login/>
