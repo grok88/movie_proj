@@ -15,7 +15,7 @@ class GenresFilter extends PureComponent<GenresFilterPropsType, {}> {
         return (
             <div className='form-group mt-3'>
                 {genres.map(g => <GenreCheckbox onGenresChange={this.props.onGenresChange} genre={g} key={g.id}
-                                                checked={checked}/>)}
+                                                checked={g.checked}/>)}
             </div>
         );
     }
@@ -59,7 +59,7 @@ class GenreCheckbox extends Component<GenreCheckboxPropsType, { checked: boolean
 
         return <div className="form-check">
             <input className="form-check-input" type="checkbox"
-                   checked={this.state.checked}
+                   checked={this.props.genre.checked}
                    id={String(g.id)} name={String(g.id)}
                    onChange={this.onChangeFavorite}/>
             <label className="form-check-label" htmlFor={String(g.id)}>

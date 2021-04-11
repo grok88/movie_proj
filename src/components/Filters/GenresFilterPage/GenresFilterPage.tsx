@@ -22,7 +22,7 @@ class GenresFilterPage extends PureComponent<GenresFilterPagePropsType, { genres
         axios.get<GetGenres>(link).then(res => res.data)
             .then(res => {
                 this.setState({
-                    genres: res.genres,
+                    genres: res.genres.map(g => ({...g, checked: false})),
                 })
             })
     }
