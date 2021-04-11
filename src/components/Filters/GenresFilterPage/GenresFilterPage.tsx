@@ -8,12 +8,11 @@ type GenresFilterPagePropsType = {
     onGenresReset: () => void
 };
 
-class GenresFilterPage extends PureComponent<GenresFilterPagePropsType, { genres: Array<GenreType>, checked: boolean | undefined }> {
+class GenresFilterPage extends PureComponent<GenresFilterPagePropsType, { genres: Array<GenreType> }> {
     constructor(props: GenresFilterPagePropsType) {
         super(props);
         this.state = {
             genres: [],
-            checked: false
         }
     }
 
@@ -27,22 +26,21 @@ class GenresFilterPage extends PureComponent<GenresFilterPagePropsType, { genres
             })
     }
 
+    onChangeChecked = (genreId: number, checked: boolean) => {
+        console.log(genreId, checked)
+        this.setState({
+            genres: this.state.genres.map(g => g.id === genreId ? ({...g, checked: checked}) : g)
+        })
+    }
     onGenresResetHandler = () => {
         this.props.onGenresReset();
-
-        if (this.state.checked === false) {
-            this.setState({
-                checked: undefined
-            })
-        } else {
-            this.setState({
-                checked: false
-            })
-        }
+        this.setState({
+            genres: this.state.genres.map(g => ({...g, checked: false}))
+        })
     }
 
     render() {
-        const {genres, checked} = this.state;
+        const {genres} = this.state;
         const {onGenresChange,} = this.props;
         console.log('GenresFilterPage')
         return (
@@ -50,7 +48,7 @@ class GenresFilterPage extends PureComponent<GenresFilterPagePropsType, { genres
                 <button type="button" className="btn btn-info mt-3 " style={{width: '100%'}}
                         onClick={this.onGenresResetHandler}>Показать все жанры
                 </button>
-                <GenresFilter genres={genres} onGenresChange={onGenresChange} checked={checked}/>
+                <GenresFilter genres={genres} onGenresChange={onGenresChange} onChangeChecked={this.onChangeChecked}/>
             </div>
         );
     }

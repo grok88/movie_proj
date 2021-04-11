@@ -4,18 +4,22 @@ import {GenreType} from '../../../../api/api';
 type GenresFilterPropsType = {
     genres: Array<GenreType>
     onGenresChange: (genreId: string) => void
-    checked: boolean | undefined
+    // checked: boolean | undefined
+    onChangeChecked: (genreId: number, checked: boolean) => void
 }
 
 class GenresFilter extends PureComponent<GenresFilterPropsType, {}> {
 
     render() {
-        const {genres, checked} = this.props;
+        const {genres, onChangeChecked} = this.props;
         console.log('GenresFilter')
         return (
             <div className='form-group mt-3'>
-                {genres.map(g => <GenreCheckbox onGenresChange={this.props.onGenresChange} genre={g} key={g.id}
-                                                checked={g.checked}/>)}
+                {genres.map(g => <GenreCheckbox
+                    onGenresChange={this.props.onGenresChange}
+                    genre={g} key={g.id}
+                    onChangeChecked={onChangeChecked}
+                />)}
             </div>
         );
     }
@@ -25,34 +29,18 @@ class GenresFilter extends PureComponent<GenresFilterPropsType, {}> {
 type GenreCheckboxPropsType = {
     onGenresChange: (genreId: string) => void
     genre: GenreType
-    checked: boolean | undefined
+    onChangeChecked: (genreId: number, checked: boolean) => void
 }
 
-class GenreCheckbox extends Component<GenreCheckboxPropsType, { checked: boolean }> {
+class GenreCheckbox extends Component<GenreCheckboxPropsType, {}> {
 
-    constructor(props: GenreCheckboxPropsType) {
-        super(props);
-
-        this.state = {
-            checked: props.checked || false
-        }
-    }
-
-    onChangeFavorite = (event: ChangeEvent<HTMLInputElement>) => {
+    onChangeFavorite = (event: ChangeEvent<HTMLInputElement>, genreId: number) => {
         this.props.onGenresChange(event.target.name);
-        this.setState({
-            checked: event.target.checked
-        })
+        this.props.onChangeChecked(genreId, event.target.checked);
+        // this.setState({
+        //     checked: event.target.checked
+        // })
     };
-
-  componentDidUpdate(prevProps: Readonly<GenreCheckboxPropsType>, prevState: Readonly<{ checked: boolean }>, snapshot?: any) {
-      if(this.props.checked !== prevProps.checked){
-          this.setState({
-              checked: false
-          })
-      }
-
-  }
 
     render() {
         const g = this.props.genre;
@@ -61,7 +49,7 @@ class GenreCheckbox extends Component<GenreCheckboxPropsType, { checked: boolean
             <input className="form-check-input" type="checkbox"
                    checked={this.props.genre.checked}
                    id={String(g.id)} name={String(g.id)}
-                   onChange={this.onChangeFavorite}/>
+                   onChange={(e) => this.onChangeFavorite(e, g.id)}/>
             <label className="form-check-label" htmlFor={String(g.id)}>
                 {g.name}
             </label>
