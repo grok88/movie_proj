@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, {PureComponent} from 'react';
 import {API_KEY_3, API_URL, GetToken} from '../../../api/api';
+import {Modal, ModalBody,} from 'reactstrap';
 
 type ResponseWithLoginType = {
     success: boolean,
@@ -8,7 +9,25 @@ type ResponseWithLoginType = {
     request_token: string
 }
 
-class Login extends PureComponent {
+type LoginPropsType = {}
+
+class Login extends PureComponent<LoginPropsType, { showModal: boolean }> {
+    constructor(props: LoginPropsType) {
+        super(props)
+        this.state = {
+            showModal: false
+        }
+    }
+
+    //modal
+
+    toggleModal = () => {
+        this.setState(prevState => ({
+            showModal: !prevState.showModal
+        }))
+    }
+
+    // 3 request
     onSend = async () => {
         let tokenUrl = `${API_URL}/authentication/token/new?api_key=${API_KEY_3}`;
 
@@ -91,8 +110,13 @@ class Login extends PureComponent {
         console.log('Login')
         return (
             <div>
-                <button className="btn btn-outline-success my-2 my-sm-0" type="button" onClick={this.onSend}>Login
+                <button className="btn btn-outline-success my-2 my-sm-0" type="button" onClick={this.toggleModal}>Login
                 </button>
+                <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
+                    <ModalBody>
+                        LOGIN FORM
+                    </ModalBody>
+                </Modal>
             </div>
         );
     }
