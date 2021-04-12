@@ -1,5 +1,7 @@
-import {MovieType} from '../api/api';
-import {Dispatch} from 'redux';
+import {API, MovieType} from '../api/api';
+import {ThunkDispatch} from 'redux-thunk';
+import {AppRootStateType, TMDBActionType} from './store';
+import {setTotalPages} from './appReducer';
 
 const initialState = {
     movies: [] as Array<MovieType>
@@ -34,7 +36,14 @@ export const setMovies = (movies: Array<MovieType>) => {
 }
 
 //thunks
-export const getMovies = (page: number, primary_release_year: string = '', genres: Array<string> = ['']) => (dispatch:Dispatch) => {
-
+export const getMovies = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
+    try {
+        let data = await API.getMovies(link);
+        dispatch(setTotalPages(data.total_pages));
+        dispatch(setMovies(data.results));
+        console.log(data)
+    } catch (e) {
+        console.log(e.message);
+    }
 }
 

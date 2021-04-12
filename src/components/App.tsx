@@ -10,10 +10,11 @@ import {
     genresReset,
     InitialAppStateType,
     resetAllFilters,
-    setTotalPages
 } from '../Store/appReducer';
 import {connect} from 'react-redux';
 import {genresResetChecked} from '../Store/genresFilterReducer';
+import {getMovies} from '../Store/moviesReducer';
+import {MovieType} from '../api/api';
 
 export type Sort_By_type = 'popularity.desc' | 'popularity.asc' | 'vote_average.desc' | 'vote_average.asc';
 export type FilterType = {
@@ -28,7 +29,6 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
     //Change Filter Type
     changeFilters = (value: string, name: string) => {
         this.props.changeFilters(value, name);
-
     }
 
     //Change pageNumber
@@ -36,9 +36,9 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
         this.props.changePage(page);
     }
     //Change pageNumber
-    setTotalPages = (pages: number) => {
-        this.props.setTotalPages(pages);
-    }
+    // setTotalPages = (pages: number) => {
+    //     this.props.setTotalPages(pages);
+    // }
     //Reset All Filters
     resetAllFilters = () => {
         this.props.resetAllFilters();
@@ -77,7 +77,9 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                         <div className="col-8">
                             <MoviesList filters={filters} page={page}
                                         onChangePage={this.onChangePage}
-                                        setTotalPages={this.setTotalPages}
+                                        // setTotalPages={this.setTotalPages}
+                                        movies={this.props.movies}
+                                        getMovies={this.props.getMovies}
                             />
                         </div>
                     </div>
@@ -89,28 +91,30 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
 
 type MapStateToProps = {
     appReducer: InitialAppStateType
+    movies:  Array<MovieType>
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
     return {
-        appReducer: state.app
+        appReducer: state.app,
+        movies:state.movies.movies
     }
 }
 
 type MapDispatchToProps = {
     changeFilters: (value: string, name: string) => void
     changePage: (page: number) => void
-    setTotalPages: (pages: number) => void
     resetAllFilters: () => void
     genresReset: () => void
     genresChange: (genreId: string) => void
     genresResetChecked: () => void
+    getMovies : (link: string) => void
 }
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
     changeFilters,
     changePage,
-    setTotalPages,
     resetAllFilters,
     genresReset,
     genresChange,
-    genresResetChecked
+    genresResetChecked,
+    getMovies
 })(App);

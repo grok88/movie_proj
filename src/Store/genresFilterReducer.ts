@@ -40,6 +40,7 @@ export const genresFilterReducer = (state: InitialGenresFilterStateType = initia
 
 }
 
+//actions
 export const setGenres = (genres: Array<GenreResponseType>) => {
     return {
         type: 'GENRES/SET-GENRES',
@@ -62,10 +63,12 @@ export const genresResetChecked = () => {
 }
 
 //thunks
-export const getGenres = (link: string) => (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
-    API.getGenres(link)
-        .then(res => {
-            dispatch(setGenres(res.genres));
-        })
+export const getGenres = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
+    try {
+        const res = await API.getGenres(link)
+        dispatch(setGenres(res.genres));
+    } catch (e) {
+        console.log(e.message)
+    }
 }
 

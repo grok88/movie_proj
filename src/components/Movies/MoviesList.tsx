@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import MovieItem from './MovieItem';
-import {API_KEY_3, API_URL, GetMovies, MovieType} from '../../api/api';
-import axios from 'axios';
+import {API_KEY_3, API_URL, MovieType} from '../../api/api';
 import {FilterType} from '../App';
 
 
@@ -9,30 +8,33 @@ type MovieListType = {
     filters: FilterType
     page: number
     onChangePage: (value: number) => void
-    setTotalPages: (pages: number) => void
+    // setTotalPages: (pages: number) => void
+    movies: Array<MovieType>
+    getMovies: (link: string) => void
 }
 
-export default class MovieList extends Component <MovieListType, { movies: Array<MovieType> }> {
-    constructor(props: MovieListType) {
-        super(props);
-
-        this.state = {
-            movies: [],
-
-        };
-    }
+// export default class MovieList extends Component <MovieListType, { movies: Array<MovieType> }> {
+export default class MovieList extends Component <MovieListType, {}> {
+    // constructor(props: MovieListType) {
+    //     super(props);
+    //
+    //     this.state = {
+    //         movies: [],
+    //
+    //     };
+    // }
 
     getMovies = (page: number, primary_release_year: string = '', genres: Array<string> = ['']) => {
         const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&sort_by=${this.props.filters.sort_by}&page=${page}&primary_release_year=${primary_release_year}&with_genres=${genres}`;
-
-        axios.get<GetMovies>(link).then(res => res.data)
-            .then(data => {
-                this.props.setTotalPages(data.total_pages);
-                console.log(data)
-                this.setState({
-                    movies: data.results,
-                });
-            });
+        this.props.getMovies(link);
+        // axios.get<GetMovies>(link).then(res => res.data)
+        //     .then(data => {
+        //         this.props.setTotalPages(data.total_pages);
+        //         console.log(data)
+        //         this.setState({
+        //             movies: data.results,
+        //         });
+        //     });
     }
 
     componentDidMount() {
@@ -56,11 +58,10 @@ export default class MovieList extends Component <MovieListType, { movies: Array
             this.getMovies(this.props.page, this.props.filters.primary_release_year, this.props.filters.with_genres);
             this.props.onChangePage(1);
         }
-
     }
 
     render() {
-        const {movies} = this.state;
+        const {movies} = this.props;
         if (!movies.length) {
             return <h1>Movies aren't found</h1>
         }
