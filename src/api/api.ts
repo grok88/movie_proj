@@ -8,10 +8,15 @@ export const API_KEY_4 =
     'eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI3NGNmODcyYzM3NDQ2NGRlOTRlY2QwODdkMDUzZDI1NiIsInN1YiI6IjYwNjVkMGVjZDEzMzI0MDAyOTU3YWY4OSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.xDMzqEfiTRACW-aKuOO0uQJnWFWRNvmG4B6a2rsmxyE';
 
 export const API = {
-    getMovies(link:string){
-        axios.get<GetMovies>(link).then(res => res.data)
+    getMovies(link: string) {
+        return axios.get<GetMovies>(link).then(res => res.data)
+    },
+    getGenres(link: string) {
+        return axios.get<{ genres: GenreResponseType[] }>(link).then(res => res.data)
     }
 }
+
+//TYPES
 export type MovieType = {
     adult: boolean
     backdrop_path: string
@@ -37,6 +42,10 @@ export type GetMovies = {
 }
 
 //Genres
+export type GenreResponseType = {
+    id: number
+    name: string
+}
 export type GenreType = {
     id: number
     name: string
