@@ -13,6 +13,7 @@ import {
     setTotalPages
 } from '../Store/appReducer';
 import {connect} from 'react-redux';
+import {genresResetChecked} from '../Store/genresFilterReducer';
 
 export type Sort_By_type = 'popularity.desc' | 'popularity.asc' | 'vote_average.desc' | 'vote_average.asc';
 export type FilterType = {
@@ -27,6 +28,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
     //Change Filter Type
     changeFilters = (value: string, name: string) => {
         this.props.changeFilters(value, name);
+
     }
 
     //Change pageNumber
@@ -40,6 +42,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
     //Reset All Filters
     resetAllFilters = () => {
         this.props.resetAllFilters();
+        this.props.genresResetChecked();
     }
     //Change GenresFilter
     onGenresChange = (genreId: string) => {
@@ -100,6 +103,7 @@ type MapDispatchToProps = {
     resetAllFilters: () => void
     genresReset: () => void
     genresChange: (genreId: string) => void
+    genresResetChecked: () => void
 }
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
     changeFilters,
@@ -107,5 +111,6 @@ export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType
     setTotalPages,
     resetAllFilters,
     genresReset,
-    genresChange
+    genresChange,
+    genresResetChecked
 })(App);
