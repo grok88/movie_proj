@@ -16,6 +16,28 @@ export const API = {
     }
 }
 
+export const fetchApi = (url: string, options: any = {}) => {
+    return new Promise((res, rej) => {
+        fetch(url, options)
+            .then(res => {
+                    if (res.status < 400) {
+                        return res.json();
+                    } else {
+                        throw res
+                    }
+                }
+            ).then(data => {
+            res(data);
+        })
+            .catch(response => {
+                response.json()
+                    .then((err: any) => {
+                        rej(err)
+                    })
+            })
+    })
+}
+
 //TYPES
 export type MovieType = {
     adult: boolean

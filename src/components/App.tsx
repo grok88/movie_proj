@@ -16,8 +16,13 @@ import {
 import {connect} from 'react-redux';
 import {genresResetChecked} from '../Store/genresFilterReducer';
 import {getMovies} from '../Store/moviesReducer';
-import {MovieType} from '../api/api';
+import {API_KEY_3, API_URL, MovieType} from '../api/api';
 import {GetAccountDetailsResponse} from './Header/Login/LoginForm/LoginForm';
+//work with cookie
+import Cookies from 'universal-cookie';
+import axios from 'axios';
+
+const cookies = new Cookies();
 
 export type Sort_By_type = 'popularity.desc' | 'popularity.asc' | 'vote_average.desc' | 'vote_average.asc';
 export type FilterType = {
@@ -61,9 +66,33 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
         console.log(user);
         this.props.setUser(user);
     }
-    //update SessionId
+    //update SessionId and cookie
     updateSessionId = (session_id: string) => {
+        //cookie
+        cookies.set('session_id', session_id, {
+            path: '/',
+            maxAge: 2592000
+        });
+        console.log(cookies.get('session_id'));
+        //update SessionId
         this.props.setSessionId(session_id);
+    }
+
+    componentDidMount() {
+        const session_id = cookies.get('session_id');
+        if (session_id) {
+            const accountUrl = `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session_id}`;
+            const getAccountDetails = () => {
+                return axios.get<GetAccountDetailsResponse>(accountUrl).then(res => res.data)
+                    .catch((err) => {
+                        return err.response.data.status_message;
+                    })
+            }
+            getAccountDetails()
+                .then(data => {
+                    this.updateUser(data);
+                });
+        }
     }
 
     render() {

@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {Form, FormGroup, Input, Label} from 'reactstrap';
 import {useFormik} from 'formik';
-import {API_KEY_3, API_URL, GetToken} from '../../../../api/api';
+import {API_KEY_3, API_URL, fetchApi, GetToken} from '../../../../api/api';
 import axios from 'axios';
 
 export type GetAccountDetailsResponse = {
@@ -84,27 +84,7 @@ const LoginForm: React.FC<LoginFormPropsType> = ({updateUser, updateSessionId}) 
                 })
         }
 
-        const fetchApi = (url: string, options: any = {}) => {
-            return new Promise((res, rej) => {
-                fetch(url, options)
-                    .then(res => {
-                            if (res.status < 400) {
-                                return res.json();
-                            } else {
-                                throw res
-                            }
-                        }
-                    ).then(data => {
-                    res(data);
-                })
-                    .catch(response => {
-                        response.json()
-                            .then((err: any) => {
-                                rej(err)
-                            })
-                    })
-            })
-        }
+
         // Цепочка из 3 запросов на сервер
         // 1 за токеном
         // 2 логин + пасс + этот токен
@@ -151,7 +131,7 @@ const LoginForm: React.FC<LoginFormPropsType> = ({updateUser, updateSessionId}) 
             updateSessionId(session.session_id);
             // @ts-ignore
             const accountUrl = `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session.session_id}`;
-            const getAccountDetails = () => {
+            const getAccountDetails =  () => {
                 return axios.get<GetAccountDetailsResponse>(accountUrl).then(res => res.data)
                     .catch((err) => {
                         return err.response.data.status_message;
