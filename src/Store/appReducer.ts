@@ -79,8 +79,10 @@ export const appReducer = (state: InitialAppStateType = initialState, action: Ap
                     with_genres: genres
                 }
             }
+        default:
+            return state;
     }
-    return state;
+
 }
 
 export const changeFilters = (value: string, name: string) => {
