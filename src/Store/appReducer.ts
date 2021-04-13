@@ -9,7 +9,8 @@ const initialState = {
     } as FilterType,
     page: 1,
     total_pages: null as null | number,
-    user: null as null | GetAccountDetailsResponse
+    user: null as null | GetAccountDetailsResponse,
+    session_id: null as null | string
 }
 
 export type InitialAppStateType = typeof initialState;
@@ -21,6 +22,7 @@ type ResetAllFiltersAC = ReturnType<typeof resetAllFilters>
 type GenresResetAC = ReturnType<typeof genresReset>
 type GenresChangeAC = ReturnType<typeof genresChange>
 type SetUserAC = ReturnType<typeof setUser>
+type SetSessionIdAC = ReturnType<typeof setSessionId>
 
 export type AppActionsType =
     ChangeFiltersAC
@@ -29,7 +31,8 @@ export type AppActionsType =
     | ResetAllFiltersAC
     | GenresResetAC
     | GenresChangeAC
-    | SetUserAC;
+    | SetUserAC
+    | SetSessionIdAC;
 
 export const appReducer = (state: InitialAppStateType = initialState, action: AppActionsType): InitialAppStateType => {
     switch (action.type) {
@@ -88,6 +91,12 @@ export const appReducer = (state: InitialAppStateType = initialState, action: Ap
                 ...state,
                 user: action.payload
             }
+        case 'APP/SET-SESSION-ID':
+            return {
+                ...state,
+                session_id: action.payload
+            }
+
         default:
             return state;
     }
@@ -135,5 +144,11 @@ export const setUser = (user: GetAccountDetailsResponse) => {
     return {
         type: 'APP/SET-USER',
         payload: user
+    } as const
+}
+export const setSessionId = (session_id: string) => {
+    return {
+        type: 'APP/SET-SESSION-ID',
+        payload: session_id
     } as const
 }

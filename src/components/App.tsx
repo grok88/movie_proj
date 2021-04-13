@@ -9,7 +9,9 @@ import {
     genresChange,
     genresReset,
     InitialAppStateType,
-    resetAllFilters, setUser,
+    resetAllFilters,
+    setSessionId,
+    setUser,
 } from '../Store/appReducer';
 import {connect} from 'react-redux';
 import {genresResetChecked} from '../Store/genresFilterReducer';
@@ -59,11 +61,19 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
         console.log(user);
         this.props.setUser(user);
     }
+    //update SessionId
+    updateSessionId = (session_id: string) => {
+        this.props.setSessionId(session_id);
+    }
+
     render() {
         const {filters, page, total_pages} = this.props.appReducer;
         return (
             <>
-                <Header updateUser={this.updateUser} user={this.props.appReducer.user}/>
+                <Header updateUser={this.updateUser}
+                        user={this.props.appReducer.user}
+                        updateSessionId={this.updateSessionId}
+                />
                 <div className="container">
                     <div className="row mt-4">
                         <div className="col-4">
@@ -83,7 +93,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                         <div className="col-8">
                             <MoviesList filters={filters} page={page}
                                         onChangePage={this.onChangePage}
-                                        // setTotalPages={this.setTotalPages}
+                                // setTotalPages={this.setTotalPages}
                                         movies={this.props.movies}
                                         getMovies={this.props.getMovies}
                             />
@@ -97,12 +107,12 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
 
 type MapStateToProps = {
     appReducer: InitialAppStateType
-    movies:  Array<MovieType>
+    movies: Array<MovieType>
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
     return {
         appReducer: state.app,
-        movies:state.movies.movies,
+        movies: state.movies.movies,
     }
 }
 
@@ -113,8 +123,9 @@ type MapDispatchToProps = {
     genresReset: () => void
     genresChange: (genreId: string) => void
     genresResetChecked: () => void
-    getMovies : (link: string) => void
-    setUser : (user: GetAccountDetailsResponse) => void
+    getMovies: (link: string) => void
+    setUser: (user: GetAccountDetailsResponse) => void
+    setSessionId: (session_id: string) => void
 }
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
     changeFilters,
@@ -124,5 +135,6 @@ export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType
     genresChange,
     genresResetChecked,
     getMovies,
-    setUser
+    setUser,
+    setSessionId
 })(App);

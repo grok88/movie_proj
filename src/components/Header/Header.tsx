@@ -6,11 +6,12 @@ import UserHeaderAvatar from './UserHeaderAvatar/UserHeaderAvatar';
 type HeaderPropsType = {
     updateUser: (user: GetAccountDetailsResponse) => void
     user: GetAccountDetailsResponse | null
+    updateSessionId: (session_id: string) => void
 }
 
 class Header extends Component<HeaderPropsType> {
     render() {
-        const {user, updateUser} = this.props
+        const {user, updateUser, updateSessionId} = this.props
         return (
             <nav className={'navbar navbar-dark bg-dark'}>
                 <div className="container">
@@ -19,7 +20,7 @@ class Header extends Component<HeaderPropsType> {
                             <a className="nav-link" href='tut.by' target='_blank'>Home</a>
                         </li>
                     </ul>
-                    {user ? <UserHeaderAvatar user={user}/> : <Login updateUser={updateUser}/>}
+                    {user ? <UserHeaderAvatar user={user}/> : <Login updateUser={updateUser} updateSessionId={updateSessionId}/>}
                 </div>
             </nav>
         );

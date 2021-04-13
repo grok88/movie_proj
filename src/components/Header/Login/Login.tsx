@@ -10,6 +10,7 @@ type ResponseWithLoginType = {
 
 type LoginPropsType = {
     updateUser: (user: GetAccountDetailsResponse) => void
+    updateSessionId: (session_id: string) => void
 }
 
 class Login extends PureComponent<LoginPropsType, { showModal: boolean }> {
@@ -29,13 +30,14 @@ class Login extends PureComponent<LoginPropsType, { showModal: boolean }> {
 
     render() {
         console.log('Login')
+        const {updateSessionId, updateUser} = this.props;
         return (
             <div>
                 <button className="btn btn-outline-success my-2 my-sm-0" type="button" onClick={this.toggleModal}>Login
                 </button>
                 <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
                     <ModalBody>
-                        <LoginForm updateUser={this.props.updateUser}/>
+                        <LoginForm updateUser={updateUser} updateSessionId={updateSessionId}/>
                     </ModalBody>
                 </Modal>
             </div>

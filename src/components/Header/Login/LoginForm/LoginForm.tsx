@@ -24,10 +24,12 @@ export type GetAccountDetailsResponse = {
 type LoginFormValues = {
     username: string
     password: string
+    repeatPassword: string
 }
 type LoginFormErrorsValues = {
     username?: string
     password?: string
+    repeatPassword?: string
 }
 
 const validate = (values: LoginFormValues) => {
@@ -40,14 +42,20 @@ const validate = (values: LoginFormValues) => {
     if (!values.password) {
         errors.password = 'Required';
     }
+    if (!values.repeatPassword) {
+        errors.repeatPassword = 'Required';
+    } else if (values.password !== values.repeatPassword) {
+        errors.repeatPassword = ' Passwords are not equal'
+    }
     return errors;
 };
 
 // FUNCTIONAL COMPONENT USE  FOR
 type LoginFormPropsType = {
     updateUser: (user: GetAccountDetailsResponse) => void
+    updateSessionId: (session_id: string) => void
 }
-const LoginForm: React.FC<LoginFormPropsType> = ({updateUser}) => {
+const LoginForm: React.FC<LoginFormPropsType> = ({updateUser, updateSessionId}) => {
     const [serverError, setServerError] = useState<null | string>(null);
     const [submit, setSubmit] = useState<boolean>(false);
 
@@ -56,6 +64,7 @@ const LoginForm: React.FC<LoginFormPropsType> = ({updateUser}) => {
         initialValues: {
             username: '',
             password: '',
+            repeatPassword: '',
         },
         validate,
         onSubmit: values => {
@@ -138,6 +147,9 @@ const LoginForm: React.FC<LoginFormPropsType> = ({updateUser}) => {
                     }
                 )
             // @ts-ignore
+            //add session_id to AppReducer state
+            updateSessionId(session.session_id);
+            // @ts-ignore
             const accountUrl = `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session.session_id}`;
             const getAccountDetails = () => {
                 return axios.get<GetAccountDetailsResponse>(accountUrl).then(res => res.data)
@@ -146,12 +158,16 @@ const LoginForm: React.FC<LoginFormPropsType> = ({updateUser}) => {
                     })
             }
             let user = await getAccountDetails();
+            //add user to AppReducer state
             updateUser(user);
+            //disabled btn
             setSubmit(false);
             console.log(user)
         } catch (e) {
+            //disabled btn
             setSubmit(false);
             console.log(e)
+            //ser LoginForm serverError
             setServerError(e.status_message);
             setTimeout(() => {
                 setServerError(null);
@@ -165,23 +181,34 @@ const LoginForm: React.FC<LoginFormPropsType> = ({updateUser}) => {
                 <FormGroup className={'form-group'}>
                     <Label for="username">Email</Label>
                     <Input type="text" id="username" placeholder="username" {...formik.getFieldProps('username')}
-                           className={'form-control'}/>
+                           className={'form-control'}
+                           style={formik.touched.username && formik.errors.username ? {border: '2px solid red'} : undefined}/>
                     {formik.touched.username && formik.errors.username ?
                         <div style={{color: 'red'}}>{formik.errors.username}</div> : null}
                 </FormGroup>
                 <FormGroup className={'form-group'}>
                     <Label for="password">Password</Label>
                     <Input type="password" id="password" placeholder="password"
-                           {...formik.getFieldProps('password')} className={'form-control'}/>
+                           {...formik.getFieldProps('password')} className={'form-control'}
+                           style={formik.touched.password && formik.errors.password ? {border: '2px solid red'} : undefined}/>
                     {formik.touched.password && formik.errors.password ?
                         <div style={{color: 'red'}}>{formik.errors.password}</div> : null}
+                </FormGroup>
+                <FormGroup className={'form-group'}>
+                    <Label for="repeatPassword">Repeat Password</Label>
+                    <Input type="password" id="repeatPassword"
+                           placeholder="repeatPassword" {...formik.getFieldProps('repeatPassword')}
+                           className={'form-control'}
+                           style={formik.touched.repeatPassword && formik.errors.repeatPassword ? {border: '2px solid red'} : undefined}
+                    />
+                    {formik.touched.repeatPassword && formik.errors.repeatPassword ?
+                        <div style={{color: 'red'}}>{formik.errors.repeatPassword}</div> : null}
                 </FormGroup>
                 <button type="submit" className={'btn btn-ld btn-primary btn-block'} disabled={submit}>Submit</button>
                 {serverError ? <div style={{color: 'red'}} className={'mt-3 text-center'}>{serverError}</div> : null}
             </Form>
         </div>
     );
-
 }
 
 export default LoginForm;
