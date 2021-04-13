@@ -2,6 +2,7 @@ import axios from 'axios';
 import React, {PureComponent} from 'react';
 import {API_KEY_3, API_URL, GetToken} from '../../../api/api';
 import {Modal, ModalBody,} from 'reactstrap';
+import LoginForm from './LoginForm/LoginForm';
 
 type ResponseWithLoginType = {
     success: boolean,
@@ -114,7 +115,7 @@ class Login extends PureComponent<LoginPropsType, { showModal: boolean }> {
                 </button>
                 <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
                     <ModalBody>
-                        LOGIN FORM
+                        <LoginForm/>
                     </ModalBody>
                 </Modal>
             </div>
