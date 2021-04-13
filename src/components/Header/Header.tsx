@@ -1,7 +1,12 @@
 import React, {Component} from 'react';
 import Login from './Login/Login';
+import {GetAccountDetailsResponse} from './Login/LoginForm/LoginForm';
 
-class Header extends Component {
+type HeaderPropsType = {
+    updateUser: (user: GetAccountDetailsResponse) => void
+}
+
+class Header extends Component<HeaderPropsType> {
     render() {
         return (
             <nav className={'navbar navbar-dark bg-dark'}>
@@ -11,7 +16,7 @@ class Header extends Component {
                             <a className="nav-link" href='tut.by' target='_blank'>Home</a>
                         </li>
                     </ul>
-                    <Login/>
+                    <Login updateUser={this.props.updateUser}/>
                 </div>
             </nav>
         );

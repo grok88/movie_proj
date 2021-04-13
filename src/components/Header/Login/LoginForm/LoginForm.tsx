@@ -4,6 +4,22 @@ import {useFormik} from 'formik';
 import {API_KEY_3, API_URL, GetToken} from '../../../../api/api';
 import axios from 'axios';
 
+export type GetAccountDetailsResponse = {
+    avatar: {
+        gravatar: {
+            hash: string
+        },
+        tmdb: {
+            avatar_path: null | string
+        }
+    }
+    id: number
+    iso_639_1: string
+    iso_3166_1: string
+    name: string
+    include_adult: boolean
+    username: string
+}
 
 type LoginFormValues = {
     username: string
@@ -27,8 +43,11 @@ const validate = (values: LoginFormValues) => {
     return errors;
 };
 
-// FUNCTIONAL COMPONENT USE  FOR FORMIK
-const LoginForm = () => {
+// FUNCTIONAL COMPONENT USE  FOR
+type LoginFormPropsType = {
+    updateUser: (user: GetAccountDetailsResponse) => void
+}
+const LoginForm: React.FC<LoginFormPropsType> = ({updateUser}) => {
 
     const [serverError, setServerError] = useState<null | string>(null);
     const [submit, setSubmit] = useState<boolean>(false);
@@ -56,7 +75,7 @@ const LoginForm = () => {
                 })
         }
 
-        const fetchApi = (url: string, options: any) => {
+        const fetchApi = (url: string, options: any = {}) => {
             return new Promise((res, rej) => {
                 fetch(url, options)
                     .then(res => {
@@ -118,13 +137,23 @@ const LoginForm = () => {
                         })
                     }
                 )
+            // @ts-ignore
+            const accountUrl = `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session.session_id}`;
+            const getAccountDetails = () => {
+                return axios.get<GetAccountDetailsResponse>(accountUrl).then(res => res.data)
+                    .catch((err) => {
+                        return err.response.data.status_message;
+                    })
+            }
+            let user = await getAccountDetails();
+            updateUser(user);
             setSubmit(false);
-            console.log(session)
+            console.log(user)
         } catch (e) {
             setSubmit(false);
             console.log(e)
             setServerError(e.status_message);
-            setTimeout(()=>{
+            setTimeout(() => {
                 setServerError(null);
             }, 3000)
         }

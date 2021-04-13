@@ -1,8 +1,6 @@
-import axios from 'axios';
 import React, {PureComponent} from 'react';
-import {API_KEY_3, API_URL, GetToken} from '../../../api/api';
 import {Modal, ModalBody,} from 'reactstrap';
-import LoginForm from './LoginForm/LoginForm';
+import LoginForm, {GetAccountDetailsResponse} from './LoginForm/LoginForm';
 
 type ResponseWithLoginType = {
     success: boolean,
@@ -10,7 +8,9 @@ type ResponseWithLoginType = {
     request_token: string
 }
 
-type LoginPropsType = {}
+type LoginPropsType = {
+    updateUser: (user: GetAccountDetailsResponse) => void
+}
 
 class Login extends PureComponent<LoginPropsType, { showModal: boolean }> {
     constructor(props: LoginPropsType) {
@@ -27,7 +27,6 @@ class Login extends PureComponent<LoginPropsType, { showModal: boolean }> {
         }))
     }
 
-
     render() {
         console.log('Login')
         return (
@@ -36,7 +35,7 @@ class Login extends PureComponent<LoginPropsType, { showModal: boolean }> {
                 </button>
                 <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
                     <ModalBody>
-                        <LoginForm/>
+                        <LoginForm updateUser={this.props.updateUser}/>
                     </ModalBody>
                 </Modal>
             </div>

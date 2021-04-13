@@ -1,4 +1,5 @@
 import {FilterType} from '../components/App';
+import {GetAccountDetailsResponse} from '../components/Header/Login/LoginForm/LoginForm';
 
 const initialState = {
     filters: {
@@ -7,7 +8,8 @@ const initialState = {
         with_genres: []
     } as FilterType,
     page: 1,
-    total_pages: null as null | number
+    total_pages: null as null | number,
+    user: null as null | GetAccountDetailsResponse
 }
 
 export type InitialAppStateType = typeof initialState;
@@ -18,6 +20,7 @@ type SetTotalPagesAC = ReturnType<typeof setTotalPages>
 type ResetAllFiltersAC = ReturnType<typeof resetAllFilters>
 type GenresResetAC = ReturnType<typeof genresReset>
 type GenresChangeAC = ReturnType<typeof genresChange>
+type SetUserAC = ReturnType<typeof setUser>
 
 export type AppActionsType =
     ChangeFiltersAC
@@ -25,7 +28,8 @@ export type AppActionsType =
     | SetTotalPagesAC
     | ResetAllFiltersAC
     | GenresResetAC
-    | GenresChangeAC;
+    | GenresChangeAC
+    | SetUserAC;
 
 export const appReducer = (state: InitialAppStateType = initialState, action: AppActionsType): InitialAppStateType => {
     switch (action.type) {
@@ -79,6 +83,11 @@ export const appReducer = (state: InitialAppStateType = initialState, action: Ap
                     with_genres: genres
                 }
             }
+        case 'APP/SET-USER':
+            return {
+                ...state,
+                user: action.payload
+            }
         default:
             return state;
     }
@@ -120,5 +129,11 @@ export const genresChange = (genreId: string) => {
 export const genresReset = () => {
     return {
         type: 'APP/RESET-GENRES',
+    } as const
+}
+export const setUser = (user: GetAccountDetailsResponse) => {
+    return {
+        type: 'APP/SET-USER',
+        payload: user
     } as const
 }

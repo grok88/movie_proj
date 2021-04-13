@@ -9,12 +9,13 @@ import {
     genresChange,
     genresReset,
     InitialAppStateType,
-    resetAllFilters,
+    resetAllFilters, setUser,
 } from '../Store/appReducer';
 import {connect} from 'react-redux';
 import {genresResetChecked} from '../Store/genresFilterReducer';
 import {getMovies} from '../Store/moviesReducer';
 import {MovieType} from '../api/api';
+import {GetAccountDetailsResponse} from './Header/Login/LoginForm/LoginForm';
 
 export type Sort_By_type = 'popularity.desc' | 'popularity.asc' | 'vote_average.desc' | 'vote_average.asc';
 export type FilterType = {
@@ -53,11 +54,16 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
         this.props.genresReset();
     }
 
+    //updateUser
+    updateUser = (user: GetAccountDetailsResponse) => {
+        console.log(user);
+        this.props.setUser(user);
+    }
     render() {
         const {filters, page, total_pages} = this.props.appReducer;
         return (
             <>
-                <Header/>
+                <Header updateUser={this.updateUser}/>
                 <div className="container">
                     <div className="row mt-4">
                         <div className="col-4">
@@ -96,7 +102,7 @@ type MapStateToProps = {
 const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
     return {
         appReducer: state.app,
-        movies:state.movies.movies
+        movies:state.movies.movies,
     }
 }
 
@@ -108,6 +114,7 @@ type MapDispatchToProps = {
     genresChange: (genreId: string) => void
     genresResetChecked: () => void
     getMovies : (link: string) => void
+    setUser : (user: GetAccountDetailsResponse) => void
 }
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
     changeFilters,
@@ -116,5 +123,6 @@ export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType
     genresReset,
     genresChange,
     genresResetChecked,
-    getMovies
+    getMovies,
+    setUser
 })(App);
