@@ -8,33 +8,16 @@ type MovieListType = {
     filters: FilterType
     page: number
     onChangePage: (value: number) => void
-    // setTotalPages: (pages: number) => void
     movies: Array<MovieType>
     getMovies: (link: string) => void
 }
 
-// export default class MovieList extends Component <MovieListType, { movies: Array<MovieType> }> {
+
 export default class MovieList extends Component <MovieListType, {}> {
-    // constructor(props: MovieListType) {
-    //     super(props);
-    //
-    //     this.state = {
-    //         movies: [],
-    //
-    //     };
-    // }
 
     getMovies = (page: number, primary_release_year: string = '', genres: Array<string> = ['']) => {
         const link = `${API_URL}/discover/movie?api_key=${API_KEY_3}&language=ru-RU&sort_by=${this.props.filters.sort_by}&page=${page}&primary_release_year=${primary_release_year}&with_genres=${genres}`;
         this.props.getMovies(link);
-        // axios.get<GetMovies>(link).then(res => res.data)
-        //     .then(data => {
-        //         this.props.setTotalPages(data.total_pages);
-        //         console.log(data)
-        //         this.setState({
-        //             movies: data.results,
-        //         });
-        //     });
     }
 
     componentDidMount() {

@@ -43,10 +43,6 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
     onChangePage = (page: number) => {
         this.props.changePage(page);
     }
-    //Change pageNumber
-    // setTotalPages = (pages: number) => {
-    //     this.props.setTotalPages(pages);
-    // }
     //Reset All Filters
     resetAllFilters = () => {
         this.props.resetAllFilters();
@@ -103,6 +99,9 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                         user={this.props.appReducer.user}
                         updateSessionId={this.updateSessionId}
                 />
+                {/*<div className="text-center">*/}
+                {/*    <Spinner color="primary" className={'mt-3'}/>*/}
+                {/*</div>*/}
                 <div className="container">
                     <div className="row mt-4">
                         <div className="col-4">
@@ -122,7 +121,6 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                         <div className="col-8">
                             <MoviesList filters={filters} page={page}
                                         onChangePage={this.onChangePage}
-                                // setTotalPages={this.setTotalPages}
                                         movies={this.props.movies}
                                         getMovies={this.props.getMovies}
                             />

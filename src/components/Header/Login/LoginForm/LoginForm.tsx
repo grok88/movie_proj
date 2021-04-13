@@ -131,18 +131,17 @@ const LoginForm: React.FC<LoginFormPropsType> = ({updateUser, updateSessionId}) 
             updateSessionId(session.session_id);
             // @ts-ignore
             const accountUrl = `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session.session_id}`;
-            const getAccountDetails =  () => {
+            const getAccountDetails = () => {
                 return axios.get<GetAccountDetailsResponse>(accountUrl).then(res => res.data)
                     .catch((err) => {
                         return err.response.data.status_message;
                     })
             }
             let user = await getAccountDetails();
-            //add user to AppReducer state
-            updateUser(user);
             //disabled btn
             setSubmit(false);
-            console.log(user)
+            //add user to AppReducer state
+            updateUser(user);
         } catch (e) {
             //disabled btn
             setSubmit(false);
