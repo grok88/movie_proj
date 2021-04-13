@@ -63,7 +63,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
         const {filters, page, total_pages} = this.props.appReducer;
         return (
             <>
-                <Header updateUser={this.updateUser}/>
+                <Header updateUser={this.updateUser} user={this.props.appReducer.user}/>
                 <div className="container">
                     <div className="row mt-4">
                         <div className="col-4">
