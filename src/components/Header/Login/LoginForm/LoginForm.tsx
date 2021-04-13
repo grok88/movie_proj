@@ -48,10 +48,10 @@ type LoginFormPropsType = {
     updateUser: (user: GetAccountDetailsResponse) => void
 }
 const LoginForm: React.FC<LoginFormPropsType> = ({updateUser}) => {
-
     const [serverError, setServerError] = useState<null | string>(null);
     const [submit, setSubmit] = useState<boolean>(false);
-    //Formik
+
+//Formik
     const formik = useFormik({
         initialValues: {
             username: '',
@@ -155,7 +155,7 @@ const LoginForm: React.FC<LoginFormPropsType> = ({updateUser}) => {
             setServerError(e.status_message);
             setTimeout(() => {
                 setServerError(null);
-            }, 3000)
+            }, 3000);
         }
     }
     return (
