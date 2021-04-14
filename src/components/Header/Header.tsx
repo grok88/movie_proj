@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Login from './Login/Login';
 import {GetAccountDetailsResponse} from './Login/LoginForm/LoginForm';
 import UserHeaderAvatar from './UserHeaderAvatar/UserHeaderAvatar';
+import UserDropDownMenu from './UserDropDownMenu/UserDropDownMenu';
 
 type HeaderPropsType = {
     updateUser: (user: GetAccountDetailsResponse) => void
@@ -20,7 +21,10 @@ class Header extends Component<HeaderPropsType> {
                             <a className="nav-link" href='tut.by' target='_blank'>Home</a>
                         </li>
                     </ul>
-                    {user ? <UserHeaderAvatar user={user}/> : <Login updateUser={updateUser} updateSessionId={updateSessionId}/>}
+                    {user ?
+                        <UserDropDownMenu user={user}/>
+                        // <UserHeaderAvatar user={user}/>
+                        : <Login updateUser={updateUser} updateSessionId={updateSessionId}/>}
                 </div>
             </nav>
         );
