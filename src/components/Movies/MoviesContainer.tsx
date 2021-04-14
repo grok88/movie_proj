@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {API_KEY_3, API_URL, MovieType} from '../../api/api';
 import {FilterType} from '../App';
-import {MoviesList} from './MoviesList';
+import MoviesList from './MoviesList';
 
 
 type MoviesContainerType = {
@@ -48,6 +48,6 @@ export default class MoviesContainer extends Component <MoviesContainerType, {}>
         if (!movies.length) {
             return <h1>Movies aren't found</h1>
         }
-        return <MoviesList movies={movies}/>
+        // return <MoviesList movies={movies}/>
     }
 }

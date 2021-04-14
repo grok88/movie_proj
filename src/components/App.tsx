@@ -21,6 +21,7 @@ import {GetAccountDetailsResponse} from './Header/Login/LoginForm/LoginForm';
 import Cookies from 'universal-cookie';
 import axios from 'axios';
 import MoviesContainer from './Movies/MoviesContainer';
+import MoviesList from './Movies/MoviesList';
 
 const cookies = new Cookies();
 
@@ -119,7 +120,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                             </div>
                         </div>
                         <div className="col-8">
-                            <MoviesContainer filters={filters} page={page}
+                            <MoviesList filters={filters} page={page}
                                              onChangePage={this.onChangePage}
                                              movies={this.props.movies}
                                              getMovies={this.props.getMovies}

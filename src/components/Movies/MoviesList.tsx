@@ -1,13 +1,14 @@
 import React from 'react';
 import MovieItem from './MovieItem';
 import {MovieType} from '../../api/api';
+import MoviesHOC from './MoviesHOC';
 
 
 type MoviesListPropsType = {
     movies: Array<MovieType>
 }
 
-export const MoviesList: React.FC<MoviesListPropsType> = ({movies}) => {
+const MoviesList: React.FC<MoviesListPropsType> = ({movies}) => {
     return <div className="row">
         {movies.map(movie => {
             return (
@@ -18,3 +19,5 @@ export const MoviesList: React.FC<MoviesListPropsType> = ({movies}) => {
         })}
     </div>
 }
+
+export default MoviesHOC(MoviesList);
