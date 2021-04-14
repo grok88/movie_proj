@@ -1,6 +1,5 @@
 import React from 'react';
 import Filters from './Filters/Filters';
-import MoviesList from './Movies/MoviesList';
 import Header from './Header/Header';
 import {AppRootStateType} from '../Store/store';
 import {
@@ -21,6 +20,7 @@ import {GetAccountDetailsResponse} from './Header/Login/LoginForm/LoginForm';
 //work with cookie
 import Cookies from 'universal-cookie';
 import axios from 'axios';
+import MoviesContainer from './Movies/MoviesContainer';
 
 const cookies = new Cookies();
 
@@ -119,10 +119,10 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                             </div>
                         </div>
                         <div className="col-8">
-                            <MoviesList filters={filters} page={page}
-                                        onChangePage={this.onChangePage}
-                                        movies={this.props.movies}
-                                        getMovies={this.props.getMovies}
+                            <MoviesContainer filters={filters} page={page}
+                                             onChangePage={this.onChangePage}
+                                             movies={this.props.movies}
+                                             getMovies={this.props.getMovies}
                             />
                         </div>
                     </div>
