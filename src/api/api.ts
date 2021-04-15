@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {GetAccountDetailsResponse} from '../components/Header/Login/LoginForm/LoginForm';
 
 export const API_URL = 'https://api.themoviedb.org/3';
 
@@ -13,6 +14,16 @@ export const API = {
     },
     getGenres(link: string) {
         return axios.get<{ genres: GenreResponseType[] }>(link).then(res => res.data)
+    },
+    logout(link: string, session_id: string | null) {
+        const data = {session_id};
+        return axios.delete<{ success: boolean }>(link, {data}).then(res => res.data)
+    },
+    getAccountDetails(link: string) {
+        return axios.get<GetAccountDetailsResponse>(link).then(res => res.data)
+            .catch((err) => {
+                return err.response.data.status_message;
+            })
     }
 }
 

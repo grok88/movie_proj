@@ -7,23 +7,24 @@ import {
     changePage,
     genresChange,
     genresReset,
+    getAccountDetails,
     InitialAppStateType,
+    logoutUser,
     resetAllFilters,
     setSessionId,
-    setUser,
+    setUser
 } from '../Store/appReducer';
 import {connect} from 'react-redux';
 import {genresResetChecked} from '../Store/genresFilterReducer';
 import {getMovies} from '../Store/moviesReducer';
 import {API_KEY_3, API_URL, MovieType} from '../api/api';
 import {GetAccountDetailsResponse} from './Header/Login/LoginForm/LoginForm';
+import MoviesList from './Movies/MoviesList';
 //work with cookie
 import Cookies from 'universal-cookie';
-import axios from 'axios';
-import MoviesContainer from './Movies/MoviesContainer';
-import MoviesList from './Movies/MoviesList';
 
 const cookies = new Cookies();
+
 
 export type Sort_By_type = 'popularity.desc' | 'popularity.asc' | 'vote_average.desc' | 'vote_average.asc';
 export type FilterType = {
@@ -75,20 +76,20 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
         this.props.setSessionId(session_id);
     }
 
+    // logout USer
+    onDeleteSession = () => {
+        // cookies.remove('session_id');
+        const link = `${API_URL}/authentication/session?api_key=${API_KEY_3}`;
+        this.props.logoutUser(link);
+        cookies.remove('session_id');
+        console.log('delete');
+    }
+
     componentDidMount() {
         const session_id = cookies.get('session_id');
         if (session_id) {
             const accountUrl = `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session_id}`;
-            const getAccountDetails = () => {
-                return axios.get<GetAccountDetailsResponse>(accountUrl).then(res => res.data)
-                    .catch((err) => {
-                        return err.response.data.status_message;
-                    })
-            }
-            getAccountDetails()
-                .then(data => {
-                    this.updateUser(data);
-                });
+            this.props.getAccountDetails(accountUrl, session_id);
         }
     }
 
@@ -99,6 +100,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                 <Header updateUser={this.updateUser}
                         user={this.props.appReducer.user}
                         updateSessionId={this.updateSessionId}
+                        onDeleteSession={this.onDeleteSession}
                 />
                 {/*<div className="text-center">*/}
                 {/*    <Spinner color="primary" className={'mt-3'}/>*/}
@@ -121,9 +123,9 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                         </div>
                         <div className="col-8">
                             <MoviesList filters={filters} page={page}
-                                             onChangePage={this.onChangePage}
-                                             movies={this.props.movies}
-                                             getMovies={this.props.getMovies}
+                                        onChangePage={this.onChangePage}
+                                        movies={this.props.movies}
+                                        getMovies={this.props.getMovies}
                             />
                         </div>
                     </div>
@@ -152,8 +154,10 @@ type MapDispatchToProps = {
     genresChange: (genreId: string) => void
     genresResetChecked: () => void
     getMovies: (link: string) => void
-    setUser: (user: GetAccountDetailsResponse) => void
+    setUser: (user: GetAccountDetailsResponse | null) => void
     setSessionId: (session_id: string) => void
+    logoutUser: (link: string) => void
+    getAccountDetails: (link: string, session_id: string) => void;
 }
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
     changeFilters,
@@ -164,5 +168,7 @@ export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType
     genresResetChecked,
     getMovies,
     setUser,
-    setSessionId
+    setSessionId,
+    logoutUser,
+    getAccountDetails
 })(App);

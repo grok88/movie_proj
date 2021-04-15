@@ -1,5 +1,6 @@
 import React from 'react';
-import { MovieType } from '../../api/api';
+import {MovieType} from '../../api/api';
+import {StarsOutlined} from '@material-ui/icons';
 
 
 type MovieItemPropsType = {
@@ -14,8 +15,8 @@ export default class MovieItem extends React.Component<MovieItemPropsType, {}> {
                 <img
                     className="card-img-top card-img--height"
                     src={item.backdrop_path ||
-                            item.poster_path  ? `https://image.tmdb.org/t/p/w500${item.backdrop_path ||
-                    item.poster_path }` : 'https://static.wikia.nocookie.net/nopixel/images/b/b4/Not-found-image-15383864787lu.jpg/revision/latest?cb=20200910062142'}
+                    item.poster_path ? `https://image.tmdb.org/t/p/w500${item.backdrop_path ||
+                    item.poster_path}` : 'https://static.wikia.nocookie.net/nopixel/images/b/b4/Not-found-image-15383864787lu.jpg/revision/latest?cb=20200910062142'}
                     alt=""
                 />
                 <div className="card-body">

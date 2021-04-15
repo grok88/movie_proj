@@ -1,5 +1,8 @@
 import {FilterType} from '../components/App';
 import {GetAccountDetailsResponse} from '../components/Header/Login/LoginForm/LoginForm';
+import {ThunkDispatch} from 'redux-thunk';
+import {AppRootStateType, TMDBActionType} from './store';
+import {API} from '../api/api';
 
 const initialState = {
     filters: {
@@ -23,6 +26,7 @@ type GenresResetAC = ReturnType<typeof genresReset>
 type GenresChangeAC = ReturnType<typeof genresChange>
 type SetUserAC = ReturnType<typeof setUser>
 type SetSessionIdAC = ReturnType<typeof setSessionId>
+type DeleteSessionIdAC = ReturnType<typeof deleteSessionId>
 
 export type AppActionsType =
     ChangeFiltersAC
@@ -32,7 +36,8 @@ export type AppActionsType =
     | GenresResetAC
     | GenresChangeAC
     | SetUserAC
-    | SetSessionIdAC;
+    | SetSessionIdAC
+    | DeleteSessionIdAC;
 
 export const appReducer = (state: InitialAppStateType = initialState, action: AppActionsType): InitialAppStateType => {
     switch (action.type) {
@@ -96,7 +101,11 @@ export const appReducer = (state: InitialAppStateType = initialState, action: Ap
                 ...state,
                 session_id: action.payload
             }
-
+        case 'APP/DELETE-SESSION-ID':
+            return {
+                ...state,
+                session_id: null
+            }
         default:
             return state;
     }
@@ -140,7 +149,7 @@ export const genresReset = () => {
         type: 'APP/RESET-GENRES',
     } as const
 }
-export const setUser = (user: GetAccountDetailsResponse) => {
+export const setUser = (user: GetAccountDetailsResponse | null) => {
     return {
         type: 'APP/SET-USER',
         payload: user
@@ -151,4 +160,34 @@ export const setSessionId = (session_id: string) => {
         type: 'APP/SET-SESSION-ID',
         payload: session_id
     } as const
+}
+export const deleteSessionId = () => {
+    return {
+        type: 'APP/DELETE-SESSION-ID',
+    } as const
+}
+
+//thunks
+
+
+export const logoutUser = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>, getState: () => AppRootStateType) => {
+    const session_id = getState().app.session_id;
+    try {
+        let data = await API.logout(link, session_id);
+        dispatch(deleteSessionId());
+        dispatch(setUser(null));
+    } catch (e) {
+        console.log(e.message);
+    }
+}
+export const getAccountDetails = (link: string, session_id: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>, getState: () => AppRootStateType) => {
+    try {
+        let data = await API.getAccountDetails(link);
+        console.log(data);
+        dispatch(setUser(data));
+        dispatch(setSessionId(session_id));
+        return data;
+    } catch (e) {
+        console.log(e.message);
+    }
 }

@@ -1,18 +1,19 @@
 import React, {Component} from 'react';
 import Login from './Login/Login';
 import {GetAccountDetailsResponse} from './Login/LoginForm/LoginForm';
-import UserHeaderAvatar from './UserHeaderAvatar/UserHeaderAvatar';
 import UserDropDownMenu from './UserDropDownMenu/UserDropDownMenu';
 
 type HeaderPropsType = {
     updateUser: (user: GetAccountDetailsResponse) => void
     user: GetAccountDetailsResponse | null
     updateSessionId: (session_id: string) => void
+    onDeleteSession: () => void
 }
 
 class Header extends Component<HeaderPropsType> {
+
     render() {
-        const {user, updateUser, updateSessionId} = this.props
+        const {user, updateUser, updateSessionId, onDeleteSession} = this.props;
         return (
             <nav className={'navbar navbar-dark bg-dark'}>
                 <div className="container">
@@ -22,9 +23,10 @@ class Header extends Component<HeaderPropsType> {
                         </li>
                     </ul>
                     {user ?
-                        <UserDropDownMenu user={user}/>
+                        <UserDropDownMenu user={user} onDeleteSession={onDeleteSession}/>
                         // <UserHeaderAvatar user={user}/>
-                        : <Login updateUser={updateUser} updateSessionId={updateSessionId}/>}
+                        : <Login updateUser={updateUser} updateSessionId={updateSessionId}/>
+                    }
                 </div>
             </nav>
         );

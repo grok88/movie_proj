@@ -5,6 +5,7 @@ import UserHeaderAvatar from '../UserHeaderAvatar/UserHeaderAvatar';
 
 type UserDropDownMenuProps = {
     user: GetAccountDetailsResponse | null
+    onDeleteSession: () => void
 }
 
 class UserDropDownMenu extends Component<UserDropDownMenuProps, { dropdownOpen: boolean }> {
@@ -19,7 +20,7 @@ class UserDropDownMenu extends Component<UserDropDownMenuProps, { dropdownOpen: 
     }
 
     render() {
-        const {user} = this.props;
+        const {user, onDeleteSession} = this.props;
         return <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggleDropdown}>
             <DropdownToggle
                 tag="div"
@@ -29,7 +30,7 @@ class UserDropDownMenu extends Component<UserDropDownMenuProps, { dropdownOpen: 
                 <UserHeaderAvatar user={user}/>
             </DropdownToggle>
             <DropdownMenu right={true}>
-                <DropdownItem>Logout</DropdownItem>
+                <DropdownItem onClick={onDeleteSession}>Logout</DropdownItem>
             </DropdownMenu>
         </Dropdown>
     }
