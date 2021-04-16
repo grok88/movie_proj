@@ -24,6 +24,7 @@ type SetTotalPagesAC = ReturnType<typeof setTotalPages>
 type ResetAllFiltersAC = ReturnType<typeof resetAllFilters>
 type GenresResetAC = ReturnType<typeof genresReset>
 type GenresChangeAC = ReturnType<typeof genresChange>
+
 type SetUserAC = ReturnType<typeof setUser>
 type SetSessionIdAC = ReturnType<typeof setSessionId>
 type DeleteSessionIdAC = ReturnType<typeof deleteSessionId>
@@ -35,6 +36,7 @@ export type AppActionsType =
     | ResetAllFiltersAC
     | GenresResetAC
     | GenresChangeAC
+
     | SetUserAC
     | SetSessionIdAC
     | DeleteSessionIdAC;
@@ -149,6 +151,7 @@ export const genresReset = () => {
         type: 'APP/RESET-GENRES',
     } as const
 }
+//user
 export const setUser = (user: GetAccountDetailsResponse | null) => {
     return {
         type: 'APP/SET-USER',
@@ -167,9 +170,8 @@ export const deleteSessionId = () => {
     } as const
 }
 
+
 //thunks
-
-
 export const logoutUser = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>, getState: () => AppRootStateType) => {
     const session_id = getState().app.session_id;
     try {

@@ -1,6 +1,12 @@
 import axios from 'axios';
 import {GetAccountDetailsResponse} from '../components/Header/Login/LoginForm/LoginForm';
 
+const axiosInstance = axios.create({
+    headers:{
+        'Content-Type':'application/json;charset=utf-8'
+    }
+})
+
 export const API_URL = 'https://api.themoviedb.org/3';
 
 export const API_KEY_3 = '74cf872c374464de94ecd087d053d256';
@@ -21,6 +27,12 @@ export const API = {
     },
     getAccountDetails(link: string) {
         return axios.get<GetAccountDetailsResponse>(link).then(res => res.data)
+            .catch((err) => {
+                return err.response.data.status_message;
+            })
+    },
+    addFavorite(link: string, body:any){
+        return axiosInstance.post<AddFavoriteRespType>(link, body).then(res => res.data)
             .catch((err) => {
                 return err.response.data.status_message;
             })
@@ -93,4 +105,10 @@ export type GetToken = {
     expires_at: string
     request_token: string
     success: boolean
+}
+
+//add favorite
+export type AddFavoriteRespType ={
+    status_code:number
+    status_message:string
 }

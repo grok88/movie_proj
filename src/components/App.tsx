@@ -94,7 +94,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
     }
 
     render() {
-        const {filters, page, total_pages} = this.props.appReducer;
+        const {filters, page, total_pages,session_id} = this.props.appReducer;
         return (
             <>
                 <Header updateUser={this.updateUser}
@@ -123,6 +123,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                         </div>
                         <div className="col-8">
                             <MoviesList filters={filters} page={page}
+                                        session_id={session_id}
                                         onChangePage={this.onChangePage}
                                         movies={this.props.movies}
                                         getMovies={this.props.getMovies}

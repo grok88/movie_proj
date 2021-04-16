@@ -1,9 +1,10 @@
 import React from 'react';
-import {MovieType} from '../../api/api';
+import {API_URL, MovieType} from '../../api/api';
 
 
 type MovieItemPropsType = {
     item: MovieType
+    changeFavorite: (media_type: string, favorite: boolean, media_id: number) => void
 }
 
 export default class MovieItem extends React.Component<MovieItemPropsType, { favorite: boolean, bookmark: boolean }> {
@@ -16,7 +17,10 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
     changeFavoriteHandler = () => {
         this.setState(prevState => ({
             favorite: !prevState.favorite
-        }))
+        }), () => {
+            console.log(this.state.favorite)
+            this.props.changeFavorite('movie', this.state.favorite, this.props.item.id);
+        })
     }
 
     changeBookmarkHandler = () => {
@@ -27,6 +31,7 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
 
     render() {
         const {item} = this.props;
+        console.log(item)
         return (
             <div className="card" style={{width: '100%'}}>
                 <img
@@ -41,7 +46,7 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
                     <div className="card-text"><b>Описание</b>: {item.overview}</div>
                     <div className="card-text"><b>Рейтинг</b>: {item.vote_average}</div>
                     <div className="card-text"><b>Favorite </b>
-                        {this.state.favorite
+                        { this.state.favorite
                             ? <svg onClick={this.changeFavoriteHandler} style={{cursor: 'pointer'}}
                                    xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                    fill="currentColor"
