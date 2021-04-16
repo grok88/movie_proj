@@ -8,6 +8,9 @@ import {GetAccountDetailsResponse} from './Header/Login/LoginForm/LoginForm';
 //work with cookie
 import Cookies from 'universal-cookie';
 import MoviesPage from './Pages/MoviesPage/MoviesPage';
+import MoviePage from './Pages/MoviePage/MoviePage';
+import {Redirect, Route, Switch} from 'react-router-dom';
+import PageNotFound from './Pages/PageNotFound/PageNotFound';
 
 const cookies = new Cookies();
 
@@ -63,7 +66,12 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                         updateSessionId={this.updateSessionId}
                         onDeleteSession={this.onDeleteSession}
                 />
-                <MoviesPage/>
+                <Switch>
+                    <Route exact path={'/'} render={() => <MoviesPage/>}/>
+                    <Route exact path={'/movie/:id?'} render={() => <MoviePage/>}/>
+                    <Route exact path={'/404'} render={() => <PageNotFound/>}/>
+                    <Route exact path={'*'} render={() => <Redirect to={'/404'}/>}/>
+                </Switch>
             </>
         );
     }

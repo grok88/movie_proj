@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Login from './Login/Login';
 import {GetAccountDetailsResponse} from './Login/LoginForm/LoginForm';
 import UserDropDownMenu from './UserDropDownMenu/UserDropDownMenu';
+import {NavLink} from 'react-router-dom';
 
 type HeaderPropsType = {
     updateUser: (user: GetAccountDetailsResponse) => void
@@ -19,12 +20,13 @@ class Header extends Component<HeaderPropsType> {
                 <div className="container">
                     <ul className="navbar-nav">
                         <li className="nav-item active">
-                            <a className="nav-link" href='tut.by' target='_blank'>Home</a>
+                            <NavLink to={'/'} className={'nav-link'}>
+                                Home
+                            </NavLink>
                         </li>
                     </ul>
                     {user ?
                         <UserDropDownMenu user={user} onDeleteSession={onDeleteSession}/>
-                        // <UserHeaderAvatar user={user}/>
                         : <Login updateUser={updateUser} updateSessionId={updateSessionId}/>
                     }
                 </div>
