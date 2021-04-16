@@ -96,7 +96,7 @@ const LoginForm: React.FC<LoginFormPropsType> = ({updateUser, updateSessionId}) 
             const data = await getRequestToken();
             //2
             const loginUrl = `${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`;
-            const result = await fetchApi(loginUrl,
+            await fetchApi(loginUrl,
                 {
                     method: 'Post',
                     headers: {

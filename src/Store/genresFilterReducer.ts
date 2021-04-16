@@ -8,12 +8,6 @@ const initialState = {
 
 export type InitialGenresFilterStateType = typeof initialState;
 
-type SetGenresAC = ReturnType<typeof setGenres>;
-type ChangeCheckedAC = ReturnType<typeof changeChecked>;
-type GenresResetCheckedAC = ReturnType<typeof genresResetChecked>;
-
-export type GenresFilterActionsType = SetGenresAC | ChangeCheckedAC | GenresResetCheckedAC;
-
 export const genresFilterReducer = (state: InitialGenresFilterStateType = initialState, action: GenresFilterActionsType): InitialGenresFilterStateType => {
     switch (action.type) {
         case 'GENRES/SET-GENRES':
@@ -72,3 +66,10 @@ export const getGenres = (link: string) => async (dispatch: ThunkDispatch<AppRoo
     }
 }
 
+
+//types
+type SetGenresAC = ReturnType<typeof setGenres>;
+type ChangeCheckedAC = ReturnType<typeof changeChecked>;
+type GenresResetCheckedAC = ReturnType<typeof genresResetChecked>;
+
+export type GenresFilterActionsType = SetGenresAC | ChangeCheckedAC | GenresResetCheckedAC;

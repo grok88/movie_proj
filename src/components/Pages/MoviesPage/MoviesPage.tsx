@@ -1,10 +1,17 @@
 import React from 'react';
 import Filters from './../../Filters/Filters';
 import {AppRootStateType} from '../../../Store/store';
-import {changeFilters, changePage, genresChange, genresReset, resetAllFilters} from '../../../Store/appReducer';
+import {
+    changeFilters,
+    changePage,
+    genresChange,
+    genresReset,
+    getMovies,
+    InitialMoviesStateType,
+    resetAllFilters
+} from '../../../Store/moviesReducer';
 import {connect} from 'react-redux';
 import {genresResetChecked} from '../../../Store/genresFilterReducer';
-import {getMovies, InitialMoviesStateType} from '../../../Store/moviesReducer';
 import MoviesList from './../../Movies/MoviesList';
 
 class MoviesPage extends React.Component<MapStateToProps & MapDispatchToProps> {
@@ -34,7 +41,7 @@ class MoviesPage extends React.Component<MapStateToProps & MapDispatchToProps> {
     }
 
     render() {
-        const {filters, page, total_pages,movies} = this.props.moviesReducer;
+        const {filters, page, total_pages, movies} = this.props.moviesReducer;
         return (
             <>
                 <div className="container">
@@ -70,12 +77,12 @@ class MoviesPage extends React.Component<MapStateToProps & MapDispatchToProps> {
 
 type MapStateToProps = {
     moviesReducer: InitialMoviesStateType
-    session_id:string | null
+    session_id: string | null
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
     return {
         moviesReducer: state.movies,
-        session_id:state.app.session_id
+        session_id: state.app.session_id
     }
 }
 

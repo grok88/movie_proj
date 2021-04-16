@@ -16,23 +16,7 @@ const initialState = {
 
 export type InitialMoviesStateType = typeof initialState;
 
-type SetMoviesAC = ReturnType<typeof setMovies>
-type ChangeFiltersAC = ReturnType<typeof changeFilters>
-type ChangePageAC = ReturnType<typeof changePage>
-type SetTotalPagesAC = ReturnType<typeof setTotalPages>
-type ResetAllFiltersAC = ReturnType<typeof resetAllFilters>
-type GenresResetAC = ReturnType<typeof genresReset>
-type GenresChangeAC = ReturnType<typeof genresChange>
 
-
-export type MoviesActionsType =
-    SetMoviesAC
-    | ChangeFiltersAC
-    | ChangePageAC
-    | SetTotalPagesAC
-    | ResetAllFiltersAC
-    | GenresResetAC
-    | GenresChangeAC;
 
 
 export const moviesReducer = (state: InitialMoviesStateType = initialState, action: MoviesActionsType): InitialMoviesStateType => {
@@ -155,3 +139,22 @@ export const getMovies = (link: string) => async (dispatch: ThunkDispatch<AppRoo
     }
 }
 
+
+//types
+type SetMoviesAC = ReturnType<typeof setMovies>
+type ChangeFiltersAC = ReturnType<typeof changeFilters>
+type ChangePageAC = ReturnType<typeof changePage>
+type SetTotalPagesAC = ReturnType<typeof setTotalPages>
+type ResetAllFiltersAC = ReturnType<typeof resetAllFilters>
+type GenresResetAC = ReturnType<typeof genresReset>
+type GenresChangeAC = ReturnType<typeof genresChange>
+
+
+export type MoviesActionsType =
+    SetMoviesAC
+    | ChangeFiltersAC
+    | ChangePageAC
+    | SetTotalPagesAC
+    | ResetAllFiltersAC
+    | GenresResetAC
+    | GenresChangeAC;
