@@ -2,8 +2,8 @@ import axios from 'axios';
 import {GetAccountDetailsResponse} from '../components/Header/Login/LoginForm/LoginForm';
 
 const axiosInstance = axios.create({
-    headers:{
-        'Content-Type':'application/json;charset=utf-8'
+    headers: {
+        'Content-Type': 'application/json;charset=utf-8'
     }
 })
 
@@ -31,12 +31,18 @@ export const API = {
                 return err.response.data.status_message;
             })
     },
-    addFavorite(link: string, body:any){
+    addFavorite(link: string, body: any) {
         return axiosInstance.post<AddFavoriteRespType>(link, body).then(res => res.data)
             .catch((err) => {
                 return err.response.data.status_message;
             })
-    }
+    },
+    getMovieDetails(link: string) {
+        return axios.get<GetMovieDetailsResp>(link).then(res => res.data)
+            .catch((err) => {
+                return err.response.data.status_message;
+            })
+    },
 }
 
 export const fetchApi = (url: string, options: any = {}) => {
@@ -108,7 +114,50 @@ export type GetToken = {
 }
 
 //add favorite
-export type AddFavoriteRespType ={
-    status_code:number
-    status_message:string
+export type AddFavoriteRespType = {
+    status_code: number
+    status_message: string
+}
+
+//GetMovieDetailsResp
+type ProductionCompaniesType = {
+    name:string
+    id:number
+    logo_path:string  |null
+    origin_country:string
+}
+type ProductionCountriesType = {
+    name:string
+    iso_3166_1:string
+}
+type SpokenLanguagesType = {
+    iso_639_1:string
+    name:string
+}
+export type GetMovieDetailsResp = {
+    adult: boolean
+    backdrop_path: string | null
+    belongs_to_collection: null
+    budget: number
+    genres:Array<{id:number, name:string}>
+    homepage:string | null
+    id:number
+    imdb_id:string | null
+    original_language:string
+    original_title:string
+    overview:string | null
+    popularity:number
+    poster_path:string | null
+    production_companies:Array<ProductionCompaniesType>
+    production_countries:Array<ProductionCountriesType>
+    release_date:string
+    revenue:number
+    runtime:string | null
+    spoken_languages:Array<SpokenLanguagesType>
+    status:string
+    tagline:string | null
+    title:string
+    video:string
+    vote_average:number
+    vote_count:number
 }

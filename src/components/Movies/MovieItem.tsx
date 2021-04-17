@@ -1,5 +1,6 @@
 import React from 'react';
 import {MovieType} from '../../api/api';
+import {NavLink} from 'react-router-dom';
 
 
 type MovieItemPropsType = {
@@ -33,13 +34,15 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
         const {item} = this.props;
         return (
             <div className="card" style={{width: '100%'}}>
-                <img
-                    className="card-img-top card-img--height"
-                    src={item.backdrop_path ||
-                    item.poster_path ? `https://image.tmdb.org/t/p/w500${item.backdrop_path ||
-                    item.poster_path}` : 'https://static.wikia.nocookie.net/nopixel/images/b/b4/Not-found-image-15383864787lu.jpg/revision/latest?cb=20200910062142'}
-                    alt=""
-                />
+                <NavLink to={`movie/${item.id}`}>
+                    <img
+                        className="card-img-top card-img--height"
+                        src={item.poster_path ||
+                        item.backdrop_path ? `https://image.tmdb.org/t/p/w500${item.poster_path ||
+                        item.backdrop_path}` : 'https://static.wikia.nocookie.net/nopixel/images/b/b4/Not-found-image-15383864787lu.jpg/revision/latest?cb=20200910062142'}
+                        alt=""
+                    />
+                </NavLink>
                 <div className="card-body">
                     <h6 className="card-title">{item.title}</h6>
                     <div className="card-text"><b>Описание</b>: {item.overview}</div>
