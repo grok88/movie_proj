@@ -25,13 +25,17 @@ class MoviePage extends Component<MoviePagePropsType> {
             <div className={'Container'}>
                 <div className="movie_page_main"
                      style={{backgroundImage: `url(${backdrop_url})`}}>
-                    <div className={'pt-3 pb-3 pl-4 pr-4'}>
-                        <section className={'movie_page_section'}>
-                            <div>
-                                1
-                            </div>
-                            <div>
-                                2
+                    <div className={'pt-3 pb-3 pl-4 pr-4 movie_page_container' }>
+                        <section className={'movie_page_section '}>
+                            <div className="row">
+                                <div className="col-3 outlined movie_page_poster_block">
+                                   <div className="movie_page_poster_img">
+                                       <img  src={`https://image.tmdb.org/t/p/original/${movieDetails && movieDetails.poster_path}`} alt=""/>
+                                   </div>
+                                </div>
+                                <div className="col-sm outlined">
+                                    2 of 3 (широкая)
+                                </div>
                             </div>
                         </section>
                     </div>
