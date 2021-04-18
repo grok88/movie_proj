@@ -18,7 +18,7 @@ body {
 }
 
 .movie_page_container {
-    /*background-image: linear-gradient(to right, rgba(5.10%, 5.88%, 4.71%, 1.00) 150px, rgba(5.10%, 5.88%, 4.71%, 0.84) 100%);*/
+    background-image: linear-gradient(to right, rgba(5.10%, 5.88%, 4.71%, 1.00) 150px, rgba(5.10%, 5.88%, 4.71%, 0.60) 100%);
 }
 
 /*section*/
@@ -40,4 +40,75 @@ body {
     width: 100%;
     height: 100%;
     border-radius: 10px;
+}
+
+/*.movie_page_section_info*/
+.movie_page_section_info {
+    /*padding-left: 40px;*/
+}
+
+.movie_page_title {
+    margin-bottom: 24px;
+}
+
+.movie_page_title > h2 {
+    font-weight: 700;
+}
+
+/*.movie_page_facts*/
+.movie_page_facts{
+    margin-bottom: 24px;
+}
+.movie_page_facts span + span:before {
+    font-size: 1.1em;
+    line-height: 1;
+    content: '\2022';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 7px;
+    display: inline-flex;
+    align-content: center;
+    align-items: center;
+    /*z-index: -1;*/
+}
+
+.movie_page_facts span + span {
+    padding-left: 20px;
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+/*movie_page_info*/
+.movie_page_info_tagline {
+    margin-bottom: 0;
+    font-size: 1.1em;
+    font-weight: 400;
+    font-style: italic;
+    opacity: 0.7;
+}
+
+.movie_page_info_tagline + h3 {
+    margin-top: 10px;
+    font-weight: 600;
+    font-size: 1.3em;
+    margin-bottom: 18px;
+}
+.movie_page_info_review{
+
+}
+
+/*movie_page_info_vote*/
+.movie_page_info_vote{
+    margin-bottom: 18px;
+}
+
+/*favorite*/
+.movie_page_favorite{
+    margin-bottom: 8px;
+}
+.movie_page_watchlist{
+    margin-bottom: 8px;
 }

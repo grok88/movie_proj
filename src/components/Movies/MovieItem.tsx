@@ -45,7 +45,7 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
                 </NavLink>
                 <div className="card-body">
                     <h6 className="card-title">{item.title}</h6>
-                    <div className="card-text"><b>Описание</b>: {item.overview}</div>
+                    {/*<div className="card-text"><b>Описание</b>: {item.overview}</div>*/}
                     <div className="card-text"><b>Рейтинг</b>: {item.vote_average}</div>
                     <div className="card-text"><b>Favorite </b>
                         {this.state.favorite
