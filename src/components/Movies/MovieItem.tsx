@@ -6,6 +6,7 @@ import {NavLink} from 'react-router-dom';
 type MovieItemPropsType = {
     item: MovieType
     changeFavorite: (media_type: string, favorite: boolean, media_id: number) => void
+    changeWatchlist: (media_type: string, watchlist: boolean, media_id: number) => void
 }
 
 export default class MovieItem extends React.Component<MovieItemPropsType, { favorite: boolean, bookmark: boolean }> {
@@ -19,7 +20,6 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
         this.setState(prevState => ({
             favorite: !prevState.favorite
         }), () => {
-            console.log(this.state.favorite)
             this.props.changeFavorite('movie', this.state.favorite, this.props.item.id);
         })
     }
@@ -27,7 +27,9 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
     changeBookmarkHandler = () => {
         this.setState(prevState => ({
             bookmark: !prevState.bookmark
-        }))
+        }), () => {
+            this.props.changeWatchlist('movie', this.state.bookmark, this.props.item.id);
+        })
     }
 
     render() {

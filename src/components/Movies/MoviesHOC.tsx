@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
-import {API_KEY_3, API_URL, MovieType} from '../../api/api';
+import {AddFavoriteBodyType, AddWatchlistBodyType, API_KEY_3, API_URL, MovieType} from '../../api/api';
 import {FilterType} from '../App';
-import {AddFavoriteBodyType} from '../../Store/movieReducer';
+
 
 type MoviesContainerType = {
     filters: FilterType
@@ -11,6 +11,7 @@ type MoviesContainerType = {
     getMovies: (link: string) => void
     session_id: null | string
     addFavorite: (link: string, body: AddFavoriteBodyType) => void
+    addWatchlist: (link: string, body: AddWatchlistBodyType) => void
 }
 
 
@@ -27,17 +28,19 @@ function MoviesHOC<T>(WrappedComponent: React.ComponentType<T>) {
             const body = {
                 media_type: 'movie',
                 media_id: media_id,
-                favorite: favorite
+                favorite
             }
             this.props.addFavorite(addFavoriteUrl, body);
-            // API.addFavorite(addFavoriteUrl, body)
-            //     .then(res => {
-            //         console.log(res)
-            //     })
-            //     .catch(err => {
-            //         console.log(err);
-            //     })
-            // console.log(media_type, favorite)
+        }
+        changeWatchlist = (media_type: string, watchlist: boolean, media_id: number) => {
+            console.log(media_type, watchlist, media_id)
+            const addFavoriteUrl = `${API_URL}/account/10303391/watchlist?api_key=${API_KEY_3}&session_id=${this.props.session_id}`;
+            const body = {
+                media_type: 'movie',
+                media_id: media_id,
+                watchlist
+            }
+            this.props.addWatchlist(addFavoriteUrl, body);
         }
 
         componentDidMount() {
@@ -69,7 +72,8 @@ function MoviesHOC<T>(WrappedComponent: React.ComponentType<T>) {
                 return <h1>Movies aren't found</h1>
             }
             // @ts-ignore
-            return <WrappedComponent movies={movies} changeFavorite={this.changeFavorite}/>
+            return <WrappedComponent movies={movies} changeFavorite={this.changeFavorite}
+                                     changeWatchlist={this.changeWatchlist}/>
         }
     }
 }

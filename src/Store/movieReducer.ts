@@ -1,4 +1,4 @@
-import {API, GetMovieDetailsResp} from '../api/api';
+import {AddFavoriteBodyType, AddWatchlistBodyType, API, GetMovieDetailsResp} from '../api/api';
 import {ThunkDispatch} from 'redux-thunk';
 import {AppRootStateType, TMDBActionType} from './store';
 
@@ -41,15 +41,18 @@ export const getMovieDetails = (link: string) => async (dispatch: ThunkDispatch<
     }
 }
 
-export type AddFavoriteBodyType = {
-    media_type: string
-    media_id: number
-    favorite: boolean
-}
+
 export const addFavorite = (link: string, body: AddFavoriteBodyType) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
-    debugger
     try {
         let data = await API.addFavorite(link, body);
+        console.log(data)
+    } catch (e) {
+        console.log(e.message);
+    }
+}
+export const addWatchlist = (link: string, body: AddWatchlistBodyType) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
+    try {
+        let data = await API.addWatchlist(link, body);
         console.log(data)
     } catch (e) {
         console.log(e.message);

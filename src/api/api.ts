@@ -31,7 +31,13 @@ export const API = {
                 return err.response.data.status_message;
             })
     },
-    addFavorite(link: string, body: any) {
+    addFavorite(link: string, body: AddFavoriteBodyType) {
+        return axiosInstance.post<AddFavoriteRespType>(link, body).then(res => res.data)
+            .catch((err) => {
+                return err.response.data.status_message;
+            })
+    },
+    addWatchlist(link: string, body: AddWatchlistBodyType) {
         return axiosInstance.post<AddFavoriteRespType>(link, body).then(res => res.data)
             .catch((err) => {
                 return err.response.data.status_message;
@@ -114,9 +120,20 @@ export type GetToken = {
 }
 
 //add favorite
+export type AddFavoriteBodyType = {
+    media_type: string
+    media_id: number
+    favorite: boolean
+}
 export type AddFavoriteRespType = {
     status_code: number
     status_message: string
+}
+//add Watchlist
+export type AddWatchlistBodyType = {
+    media_type: string
+    media_id: number
+    watchlist: boolean
 }
 
 //GetMovieDetailsResp
