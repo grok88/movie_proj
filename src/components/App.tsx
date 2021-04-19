@@ -69,6 +69,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                 <Switch>
                     <Route exact path={'/'} render={() => <MoviesPage/>}/>
                     <Route exact path={'/movie/:id?'} render={() => <MoviePage/>}/>
+                    <Route exact path={'/movie/:id?/:movietype?'} render={() =><MoviePage/>}/>
                     <Route exact path={'/404'} render={() => <PageNotFound/>}/>
                     <Route exact path={'*'} render={() => <Redirect to={'/404'}/>}/>
                 </Switch>

@@ -1,11 +1,16 @@
 import React, {Component} from 'react';
-import {Col, Nav, NavItem, NavLink, Row, TabContent, TabPane} from 'reactstrap';
+import {Col, Nav, NavItem, NavLink as Link, Row, TabContent, TabPane} from 'reactstrap';
+import {NavLink, Route, Switch} from 'react-router-dom'
+import ActingPage from './ActingPage/ActingPage';
 
-type TabMoviePagePropsType = {}
+type TabMoviePagePropsType = {
+    movie_id: string
+    movieType:string
+}
 
 class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string }> {
     state = {
-        activeTab: '1'
+        activeTab: this.props.movieType
     }
 
     toggle = (tab: string) => {
@@ -20,34 +25,38 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
         return <div>
             <Nav tabs>
                 <NavItem>
-                    <NavLink
+                    <Link
                         className={this.state.activeTab === '1' ? 'active' : ''}
                         onClick={() => {
                             this.toggle('1');
                         }}
                     >
                         Detail
-                    </NavLink>
+                    </Link>
                 </NavItem>
                 <NavItem>
-                    <NavLink
+                    <Link
                         className={this.state.activeTab === '2' ? 'active' : ''}
                         onClick={() => {
                             this.toggle('2');
                         }}
                     >
                         Videos
-                    </NavLink>
+                    </Link>
                 </NavItem>
                 <NavItem>
-                    <NavLink
+                    <Link
+                        // to={`movie/${this.props.movie_id}/credits`}
                         className={this.state.activeTab === '3' ? 'active' : ''}
                         onClick={() => {
                             this.toggle('3');
                         }}
                     >
-                        Credits
-                    </NavLink>
+                        <NavLink to={`${this.props.movie_id}/credits`}>
+                            Credits
+                        </NavLink>
+                    </Link
+                      >
                 </NavItem>
             </Nav>
             <TabContent activeTab={this.state.activeTab}>
@@ -68,7 +77,8 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
                 <TabPane tabId="3">
                     <Row>
                         <Col sm="12">
-                            <h4>Tab 3 Contents</h4>
+                            {/*<Route exact path={'/movie/:id/credits'} render={() =><h1>CREDITS</h1>}/>*/}
+                           <ActingPage movie_id={this.props.movie_id}/>
                         </Col>
                     </Row>
                 </TabPane>

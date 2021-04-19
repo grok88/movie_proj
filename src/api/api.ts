@@ -61,6 +61,12 @@ export const API = {
                 return err.response.data.status_message;
             })
     },
+    getActing(link: string) {
+        return axiosInstance.get<ActingRespType>(link).then(res => res.data)
+            .catch((err) => {
+                return err.response.data.status_message;
+            })
+    },
 }
 
 export const fetchApi = (url: string, options: any = {}) => {
@@ -216,4 +222,40 @@ export type GetMovieDetailsResp = {
     video: string
     vote_average: number
     vote_count: number
+}
+
+//Acting
+
+export type CastType = {
+    adult:boolean
+    gender:null | number
+    id:number
+    known_for_department:string
+    name:string
+    original_name:string
+    popularity:number
+    profile_path:string | null
+    cast_id:number
+    character:string
+    credit_id:string
+    order:number
+}
+
+type CrewType = {
+    adult:boolean
+    gender:null | number
+    id:number
+    known_for_department:string
+    name:string
+    original_name:string
+    popularity:number
+    profile_path:string | null
+    credit_id:string
+    department:string
+    job:string
+}
+export type ActingRespType = {
+    id:number
+    cast:Array<CastType>
+    crew:Array<CrewType>
 }
