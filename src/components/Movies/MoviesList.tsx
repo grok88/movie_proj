@@ -4,7 +4,7 @@ import {AddFavoriteBodyType, AddWatchlistBodyType, MovieType} from '../../api/ap
 import MoviesHOC from './MoviesHOC';
 import {AppRootStateType} from '../../Store/store';
 import {connect} from 'react-redux';
-import {addFavorite,addWatchlist} from '../../Store/movieReducer';
+import {addFavorite, addWatchlist} from '../../Store/movieReducer';
 
 type MoviesListPropsType = {
     movies: Array<MovieType>
@@ -12,7 +12,7 @@ type MoviesListPropsType = {
     changeWatchlist: (media_type: string, watchlist: boolean, media_id: number) => void
 }
 
-const MoviesList: React.FC<MoviesListPropsType> = ({movies, changeFavorite,changeWatchlist}) => {
+const MoviesList: React.FC<MoviesListPropsType> = ({movies, changeFavorite, changeWatchlist}) => {
     return <div className="row">
         {movies.map(movie => {
             return (
@@ -24,14 +24,18 @@ const MoviesList: React.FC<MoviesListPropsType> = ({movies, changeFavorite,chang
     </div>
 }
 
-type MapStateToProps = {}
+type MapStateToProps = {
+    account_id: number | null
+}
 const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
-    return {}
+    return {
+        account_id: state.app.user && state.app.user.id
+    }
 }
 
 type MapDispatchToProps = {
     addFavorite: (link: string, body: AddFavoriteBodyType) => void
-    addWatchlist : (link: string, body: AddWatchlistBodyType) => void
+    addWatchlist: (link: string, body: AddWatchlistBodyType) => void
 }
 
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {

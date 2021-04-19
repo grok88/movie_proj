@@ -31,6 +31,12 @@ export const API = {
                 return err.response.data.status_message;
             })
     },
+    getMovieDetails(link: string) {
+        return axios.get<GetMovieDetailsResp>(link).then(res => res.data)
+            .catch((err) => {
+                return err.response.data.status_message;
+            })
+    },
     addFavorite(link: string, body: AddFavoriteBodyType) {
         return axiosInstance.post<AddFavoriteRespType>(link, body).then(res => res.data)
             .catch((err) => {
@@ -43,8 +49,14 @@ export const API = {
                 return err.response.data.status_message;
             })
     },
-    getMovieDetails(link: string) {
-        return axios.get<GetMovieDetailsResp>(link).then(res => res.data)
+    getFavoriteList(link: string) {
+        return axiosInstance.get<GetFavoriteListType>(link).then(res => res.data)
+            .catch((err) => {
+                return err.response.data.status_message;
+            })
+    },
+    getWatchList(link: string) {
+        return axiosInstance.get<GetFavoriteListType>(link).then(res => res.data)
             .catch((err) => {
                 return err.response.data.status_message;
             })
@@ -136,45 +148,72 @@ export type AddWatchlistBodyType = {
     watchlist: boolean
 }
 
+//GetFavoriteListType
+
+
+export type ResultType = {
+    poster_path: string | null
+    adult: boolean
+    overview: string
+    release_date: string
+    genre_ids: Array<number>
+    id: number
+    original_language: string
+    original_title: string
+    title: string
+    backdrop_path: string | null
+    popularity: number
+    video: string
+    vote_average: number
+    vote_count: number
+}
+
+export type GetFavoriteListType = {
+    page: number
+    total_pages: number
+    total_results: number
+    results: Array<ResultType>
+}
+
 //GetMovieDetailsResp
 type ProductionCompaniesType = {
-    name:string
-    id:number
-    logo_path:string  |null
-    origin_country:string
+    name: string
+    id: number
+    logo_path: string | null
+    origin_country: string
 }
 type ProductionCountriesType = {
-    name:string
-    iso_3166_1:string
+    name: string
+    iso_3166_1: string
 }
 type SpokenLanguagesType = {
-    iso_639_1:string
-    name:string
+    iso_639_1: string
+    name: string
 }
 export type GetMovieDetailsResp = {
     adult: boolean
     backdrop_path: string | null
     belongs_to_collection: null
     budget: number
-    genres:Array<{id:number, name:string}>
-    homepage:string | null
-    id:number
-    imdb_id:string | null
-    original_language:string
-    original_title:string
-    overview:string | null
-    popularity:number
-    poster_path:string | null
-    production_companies:Array<ProductionCompaniesType>
-    production_countries:Array<ProductionCountriesType>
-    release_date:string
-    revenue:number
-    runtime:string | null
-    spoken_languages:Array<SpokenLanguagesType>
-    status:string
-    tagline:string | null
-    title:string
-    video:string
-    vote_average:number
-    vote_count:number
+    genres: Array<{ id: number, name: string }>
+    homepage: string | null
+    id: number
+    imdb_id: string | null
+    original_language: string
+    original_title: string
+    overview: string | null
+    popularity: number
+    poster_path: string | null
+    production_companies: Array<ProductionCompaniesType>
+    production_countries: Array<ProductionCountriesType>
+    release_date: string
+    revenue: number
+    runtime: string | null
+    spoken_languages: Array<SpokenLanguagesType>
+    status: string
+    tagline: string | null
+    title: string
+    video: string
+    vote_average: number
+    vote_count: number
 }

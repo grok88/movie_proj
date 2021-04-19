@@ -1,5 +1,5 @@
 import React from 'react';
-import {MovieType} from '../../api/api';
+import {API, API_KEY_3, API_URL, MovieType} from '../../api/api';
 import {NavLink} from 'react-router-dom';
 
 
@@ -32,6 +32,23 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
         })
     }
 
+    onShowFav = () => {
+        const onShowFavUrl = `${API_URL}/account/10303391/favorite/movies?api_key=${API_KEY_3}&session_id=8a0f2e0d8b9017e414a643dc24886f4dd5ba0529&language=ru-RU`;
+        API.getFavoriteList(onShowFavUrl)
+            .then(res => {
+                debugger
+                console.log(res)
+            });
+    }
+    onShowWatch = () => {
+        const onShowFavUrl = `${API_URL}/account/10303391/watchlist/movies?api_key=${API_KEY_3}&session_id=8a0f2e0d8b9017e414a643dc24886f4dd5ba0529&language=ru-RU`;
+        API.getWatchList(onShowFavUrl)
+            .then(res => {
+                debugger
+                console.log(res)
+            });
+    }
+
     render() {
         const {item} = this.props;
         return (
@@ -49,6 +66,10 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
                     <h6 className="card-title">{item.title}</h6>
                     {/*<div className="card-text"><b>Описание</b>: {item.overview}</div>*/}
                     <div className="card-text"><b>Рейтинг</b>: {item.vote_average}</div>
+                    <div className="card-text">
+                        <button onClick={this.onShowFav} className={'btn btn-success'}>Show favoriteList</button>
+                        <button onClick={this.onShowWatch} className={'btn btn-success'}>Show WatchList</button>
+                    </div>
                     <div className="card-text"><b>Favorite </b>
                         {this.state.favorite
                             ? <svg onClick={this.changeFavoriteHandler} style={{cursor: 'pointer'}}

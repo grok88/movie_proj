@@ -12,6 +12,7 @@ type MoviesContainerType = {
     session_id: null | string
     addFavorite: (link: string, body: AddFavoriteBodyType) => void
     addWatchlist: (link: string, body: AddWatchlistBodyType) => void
+    account_id: number | null
 }
 
 
@@ -24,7 +25,8 @@ function MoviesHOC<T>(WrappedComponent: React.ComponentType<T>) {
         }
 
         changeFavorite = (media_type: string, favorite: boolean, media_id: number) => {
-            const addFavoriteUrl = `${API_URL}/account/10303391/favorite?api_key=${API_KEY_3}&session_id=${this.props.session_id}`;
+
+            const addFavoriteUrl = `${API_URL}/account/${this.props.account_id}/favorite?api_key=${API_KEY_3}&session_id=${this.props.session_id}`;
             const body = {
                 media_type: 'movie',
                 media_id: media_id,
@@ -34,7 +36,7 @@ function MoviesHOC<T>(WrappedComponent: React.ComponentType<T>) {
         }
         changeWatchlist = (media_type: string, watchlist: boolean, media_id: number) => {
             console.log(media_type, watchlist, media_id)
-            const addFavoriteUrl = `${API_URL}/account/10303391/watchlist?api_key=${API_KEY_3}&session_id=${this.props.session_id}`;
+            const addFavoriteUrl = `${API_URL}/account/${this.props.account_id}/watchlist?api_key=${API_KEY_3}&session_id=${this.props.session_id}`;
             const body = {
                 media_type: 'movie',
                 media_id: media_id,
