@@ -14,7 +14,7 @@ body {
     background-size: cover;
     background-repeat: no-repeat;
     /*background-image: url('https://image.tmdb.org/t/p/original/pcDc2WJAYGJTTvRSEIpRZwM3Ola.jpg');*/
-
+    margin-bottom: 18px;
 }
 
 .movie_page_container {

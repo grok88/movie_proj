@@ -5,6 +5,7 @@ import {AppRootStateType} from '../../../Store/store';
 import {connect} from 'react-redux';
 import {getMovieDetails} from '../../../Store/movieReducer';
 import Poster from './Poster/Poster';
+import TabMoviePage from './TabMoviePage/TabMoviePage';
 
 type PathParamsType = {
     id: string
@@ -24,6 +25,7 @@ class MoviePage extends Component<MoviePagePropsType> {
         return (
             <div className={'container'}>
                 <Poster movieDetails={movieDetails}/>
+                <TabMoviePage/>
             </div>
         );
     }
