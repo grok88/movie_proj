@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {API, API_KEY_3, API_URL, MovieType} from '../../api/api';
+import {API_KEY_3, API_URL, MovieType} from '../../api/api';
 import {FilterType} from '../App';
+import {AddFavoriteBodyType} from '../../Store/movieReducer';
 
 type MoviesContainerType = {
     filters: FilterType
@@ -9,6 +10,7 @@ type MoviesContainerType = {
     movies: Array<MovieType>
     getMovies: (link: string) => void
     session_id: null | string
+    addFavorite: (link: string, body: AddFavoriteBodyType) => void
 }
 
 
@@ -21,21 +23,21 @@ function MoviesHOC<T>(WrappedComponent: React.ComponentType<T>) {
         }
 
         changeFavorite = (media_type: string, favorite: boolean, media_id: number) => {
-            debugger
             const addFavoriteUrl = `${API_URL}/account/10303391/favorite?api_key=${API_KEY_3}&session_id=${this.props.session_id}`;
             const body = {
                 media_type: 'movie',
                 media_id: media_id,
                 favorite: favorite
             }
-            API.addFavorite(addFavoriteUrl, body)
-                .then(res => {
-                    console.log(res)
-                })
-                .catch(err => {
-                    console.log(err);
-                })
-            console.log(media_type, favorite)
+            this.props.addFavorite(addFavoriteUrl, body);
+            // API.addFavorite(addFavoriteUrl, body)
+            //     .then(res => {
+            //         console.log(res)
+            //     })
+            //     .catch(err => {
+            //         console.log(err);
+            //     })
+            // console.log(media_type, favorite)
         }
 
         componentDidMount() {

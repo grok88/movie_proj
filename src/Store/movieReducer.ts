@@ -32,10 +32,24 @@ export const setMovie = (movie: GetMovieDetailsResp) => {
 
 //thunks
 export const getMovieDetails = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
-
     try {
         let data = await API.getMovieDetails(link);
         dispatch(setMovie(data));
+        console.log(data)
+    } catch (e) {
+        console.log(e.message);
+    }
+}
+
+export type AddFavoriteBodyType = {
+    media_type: string
+    media_id: number
+    favorite: boolean
+}
+export const addFavorite = (link: string, body: AddFavoriteBodyType) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
+    debugger
+    try {
+        let data = await API.addFavorite(link, body);
         console.log(data)
     } catch (e) {
         console.log(e.message);

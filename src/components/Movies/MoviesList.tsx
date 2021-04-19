@@ -2,14 +2,16 @@ import React from 'react';
 import MovieItem from './MovieItem';
 import {MovieType} from '../../api/api';
 import MoviesHOC from './MoviesHOC';
-
+import {AppRootStateType} from '../../Store/store';
+import {connect} from 'react-redux';
+import {addFavorite, AddFavoriteBodyType} from '../../Store/movieReducer';
 
 type MoviesListPropsType = {
     movies: Array<MovieType>
-    changeFavorite: (media_type: string, favorite: boolean,media_id:number) => void
+    changeFavorite: (media_type: string, favorite: boolean, media_id: number) => void
 }
 
-const MoviesList: React.FC<MoviesListPropsType> = ({movies,changeFavorite}) => {
+const MoviesList: React.FC<MoviesListPropsType> = ({movies, changeFavorite}) => {
     return <div className="row">
         {movies.map(movie => {
             return (
@@ -21,4 +23,15 @@ const MoviesList: React.FC<MoviesListPropsType> = ({movies,changeFavorite}) => {
     </div>
 }
 
-export default MoviesHOC(MoviesList);
+type MapStateToProps = {}
+const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
+    return {}
+}
+
+type MapDispatchToProps = {
+    addFavorite: (link: string, body: AddFavoriteBodyType) => void
+}
+
+export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
+    addFavorite
+})(MoviesHOC(MoviesList));
