@@ -67,6 +67,12 @@ export const API = {
                 return err.response.data.status_message;
             })
     },
+    getSimilarMovie(link: string) {
+        return axiosInstance.get<ActingRespType>(link).then(res => res.data)
+            .catch((err) => {
+                return err.response.data.status_message;
+            })
+    },
 }
 
 export const fetchApi = (url: string, options: any = {}) => {

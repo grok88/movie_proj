@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import {ActingRespType, API, API_KEY_3, API_URL} from '../../../../../api/api';
 
 type ActingPagePropsType = {
     movie_id: string
 }
 
-class ActingPage extends Component<ActingPagePropsType, { acting: null | ActingRespType }> {
+class ActingPage extends PureComponent<ActingPagePropsType, { acting: null | ActingRespType }> {
     state = {
         acting: null as ActingRespType | null
     }
@@ -21,12 +21,12 @@ class ActingPage extends Component<ActingPagePropsType, { acting: null | ActingR
     }
 
     render() {
+        console.log('ActingPage')
         return (
             <div className={'mt-3 actingPage container'}>
                 <h3>В главных ролях</h3>
                 <div className="row">
                     {this.state.acting && this.state.acting.cast.map(p => <div key={p.cast_id} className="col">
-
                         <div className={'actingPage_card'}>
                             <div className={'actingPage_card__img'}>
                                 <img
@@ -36,7 +36,6 @@ class ActingPage extends Component<ActingPagePropsType, { acting: null | ActingR
                             <p>{p.name}</p>
                             <p>{p.character}</p>
                         </div>
-
                     </div>)}
                 </div>
             </div>

@@ -9,7 +9,7 @@ import TabMoviePage from './TabMoviePage/TabMoviePage';
 
 type PathParamsType = {
     id: string
-    movietype:string
+    movietype: string
 }
 type MoviePagePropsType = RouteComponentProps<PathParamsType> & MapStateToProps & MapDispatchToProps ;
 
@@ -26,20 +26,20 @@ class MoviePage extends Component<MoviePagePropsType> {
         const movie_id = this.props.match.params.id;
         let movietype = this.props.match.params.movietype;
 
-        if (movietype === undefined){
-            movietype ='1';
-        } else if (movietype === 'detail '){
-            movietype ='1';
-        } else if (movietype === 'videos '){
-            movietype ='2';
-        }else if (movietype === 'credits '){
-            movietype ='3';
+        if (movietype === undefined) {
+            movietype = '1';
+        } else if (movietype === 'detail') {
+            movietype = '1';
+        } else if (movietype === 'videos') {
+            movietype = '2';
+        } else if (movietype === 'credits') {
+            movietype = '3';
         }
 
         return (
             <div className={'container'}>
                 <Poster movieDetails={movieDetails}/>
-                <TabMoviePage movie_id={movie_id}  movieType={movietype}/>
+                <TabMoviePage movie_id={movie_id} movieType={movietype}/>
             </div>
         );
     }
