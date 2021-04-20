@@ -1,11 +1,11 @@
 import React, {Component} from 'react';
-import {Col, Nav, NavItem, NavLink as Link, Row, TabContent, TabPane} from 'reactstrap';
-import {NavLink, Route, Switch} from 'react-router-dom'
+import {Col, Nav, NavItem, NavLink, Row, TabContent, TabPane} from 'reactstrap';
+import {Link} from 'react-router-dom'
 import ActingPage from './ActingPage/ActingPage';
 
 type TabMoviePagePropsType = {
     movie_id: string
-    movieType:string
+    movieType: string
 }
 
 class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string }> {
@@ -25,38 +25,48 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
         return <div>
             <Nav tabs>
                 <NavItem>
-                    <Link
+                    <NavLink
+                        to={`${this.props.movie_id}/detail`}
+                        tag={Link}
                         className={this.state.activeTab === '1' ? 'active' : ''}
                         onClick={() => {
                             this.toggle('1');
                         }}
+
                     >
-                        Detail
-                    </Link>
+                        {/*<NavLink to={`${this.props.movie_id}/detail`}>*/}
+                        Детали
+                        {/*</NavLink>*/}
+                    </NavLink>
                 </NavItem>
                 <NavItem>
-                    <Link
+                    <NavLink
+                        to={`${this.props.movie_id}/videos`}
+                        tag={Link}
                         className={this.state.activeTab === '2' ? 'active' : ''}
                         onClick={() => {
                             this.toggle('2');
                         }}
                     >
-                        Videos
-                    </Link>
+                        {/*<NavLink to={`${this.props.movie_id}/videos`}>*/}
+                        Похожие фильмы
+                        {/*</NavLink>*/}
+                    </NavLink>
                 </NavItem>
                 <NavItem>
-                    <Link
-                        // to={`movie/${this.props.movie_id}/credits`}
+                    <NavLink
+                        to={`${this.props.movie_id}/credits`}
+                        tag={Link}
                         className={this.state.activeTab === '3' ? 'active' : ''}
                         onClick={() => {
                             this.toggle('3');
                         }}
                     >
-                        <NavLink to={`${this.props.movie_id}/credits`}>
-                            Credits
-                        </NavLink>
-                    </Link
-                      >
+                        {/*<NavLink to={`${this.props.movie_id}/credits`}>*/}
+                        Актеры
+                        {/*</NavLink>*/}
+                    </NavLink
+                    >
                 </NavItem>
             </Nav>
             <TabContent activeTab={this.state.activeTab}>
@@ -78,7 +88,7 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
                     <Row>
                         <Col sm="12">
                             {/*<Route exact path={'/movie/:id/credits'} render={() =><h1>CREDITS</h1>}/>*/}
-                           <ActingPage movie_id={this.props.movie_id}/>
+                            <ActingPage movie_id={this.props.movie_id}/>
                         </Col>
                     </Row>
                 </TabPane>
