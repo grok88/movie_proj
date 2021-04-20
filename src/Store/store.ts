@@ -11,7 +11,7 @@ const rootReducer = combineReducers({
     movies: moviesReducer,
     genresFilter: genresFilterReducer,
     moviePage: movieReducer,
-    tabMovie: tabMovieReducer
+    tabMoviePage: tabMovieReducer
 });
 
 export type AppRootStateType = ReturnType<typeof rootReducer>

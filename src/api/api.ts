@@ -68,7 +68,7 @@ export const API = {
             })
     },
     getSimilarMovie(link: string) {
-        return axiosInstance.get<ActingRespType>(link).then(res => res.data)
+        return axiosInstance.get<GetFavoriteListType>(link).then(res => res.data)
             .catch((err) => {
                 return err.response.data.status_message;
             })
@@ -247,6 +247,7 @@ export type CastType = {
     order:number
 }
 
+
 type CrewType = {
     adult:boolean
     gender:null | number
@@ -265,3 +266,27 @@ export type ActingRespType = {
     cast:Array<CastType>
     crew:Array<CrewType>
 }
+
+//GetSimilarMovieType
+// type SimilarMovieType = {
+//     poster_path: string | null
+//     adult: boolean
+//     overview: string
+//     release_date: string
+//     genre_ids:number[]
+//     id:number
+//     original_language: string
+//     original_title: string
+//     title: string
+//     backdrop_path: string | null
+//     popularity: number
+//     video: string
+//     vote_average: number
+//     vote_count: number
+// }
+// export type GetSimilarMovieType = {
+//     page:number
+//     results:Array<SimilarMovieType>
+//     total_pages:number
+//     total_results:number
+// }

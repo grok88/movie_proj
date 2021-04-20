@@ -3,10 +3,9 @@ import {Col, Nav, NavItem, NavLink, Row, TabContent, TabPane} from 'reactstrap';
 import {Link} from 'react-router-dom'
 import ActingPage from './ActingPage/ActingPage';
 import SimilarMoviePage from './SimilarMoviePage/SimilarMoviePage';
-import {ActingRespType} from '../../../../api/api';
 import {AppRootStateType} from '../../../../Store/store';
 import {connect} from 'react-redux';
-import {getActorsDetails} from '../../../../Store/tabMovieReducer';
+import {getActorsDetails, getSimilarMovies, InitialTabMovieReducerType} from '../../../../Store/tabMovieReducer';
 
 type TabMoviePagePropsType = {
     movie_id: string
@@ -27,7 +26,7 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
     }
 
     render() {
-        const {actorsDetails,getActorsDetails} = this.props
+        const {tabMoviePage: {actorsDetails, similarMovies}, getActorsDetails, getSimilarMovies} = this.props
         return <div>
             <Nav tabs>
                 <NavItem>
@@ -69,14 +68,16 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
                 {this.state.activeTab === '2' && <TabPane tabId="2">
                     <Row>
                         <Col sm="12">
-                            <SimilarMoviePage movie_id={this.props.movie_id}/>
+                            <SimilarMoviePage movie_id={this.props.movie_id} similarMovies={similarMovies}
+                                              getSimilarMovies={getSimilarMovies}/>
                         </Col>
                     </Row>
                 </TabPane>}
                 {this.state.activeTab === '3' && <TabPane tabId="3">
                     <Row>
                         <Col sm="12">
-                            <ActingPage movie_id={this.props.movie_id} actorsDetails={actorsDetails} getActorsDetails={getActorsDetails}/>
+                            <ActingPage movie_id={this.props.movie_id} actorsDetails={actorsDetails}
+                                        getActorsDetails={getActorsDetails}/>
                         </Col>
                     </Row>
                 </TabPane>}
@@ -86,16 +87,20 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
 }
 
 type MapStateToProps = {
-    actorsDetails: ActingRespType | null
+    tabMoviePage: InitialTabMovieReducerType
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
     return {
-        actorsDetails: state.tabMovie.actorsDetails,
+        tabMoviePage: state.tabMoviePage
     }
 }
 
 type MapDispatchToProps = {
     getActorsDetails: (link: string) => void
+    getSimilarMovies: (link: string) => void
 }
 
-export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {getActorsDetails})(TabMoviePage);
+export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
+    getActorsDetails,
+    getSimilarMovies
+})(TabMoviePage);
