@@ -3,11 +3,15 @@ import {Col, Nav, NavItem, NavLink, Row, TabContent, TabPane} from 'reactstrap';
 import {Link} from 'react-router-dom'
 import ActingPage from './ActingPage/ActingPage';
 import SimilarMoviePage from './SimilarMoviePage/SimilarMoviePage';
+import {ActingRespType} from '../../../../api/api';
+import {AppRootStateType} from '../../../../Store/store';
+import {connect} from 'react-redux';
+import {getActorsDetails} from '../../../../Store/tabMovieReducer';
 
 type TabMoviePagePropsType = {
     movie_id: string
     movieType: string
-}
+} & MapStateToProps & MapDispatchToProps;
 
 class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string }> {
     state = {
@@ -23,6 +27,7 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
     }
 
     render() {
+        const {actorsDetails,getActorsDetails} = this.props
         return <div>
             <Nav tabs>
                 <NavItem>
@@ -71,7 +76,7 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
                 {this.state.activeTab === '3' && <TabPane tabId="3">
                     <Row>
                         <Col sm="12">
-                            <ActingPage movie_id={this.props.movie_id}/>
+                            <ActingPage movie_id={this.props.movie_id} actorsDetails={actorsDetails} getActorsDetails={getActorsDetails}/>
                         </Col>
                     </Row>
                 </TabPane>}
@@ -80,4 +85,17 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
     }
 }
 
-export default TabMoviePage;
+type MapStateToProps = {
+    actorsDetails: ActingRespType | null
+}
+const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
+    return {
+        actorsDetails: state.tabMovie.actorsDetails,
+    }
+}
+
+type MapDispatchToProps = {
+    getActorsDetails: (link: string) => void
+}
+
+export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {getActorsDetails})(TabMoviePage);

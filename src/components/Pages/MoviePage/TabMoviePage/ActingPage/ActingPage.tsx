@@ -1,32 +1,26 @@
 import React, {PureComponent} from 'react';
-import {ActingRespType, API, API_KEY_3, API_URL} from '../../../../../api/api';
+import {ActingRespType, API_KEY_3, API_URL} from '../../../../../api/api';
 
 type ActingPagePropsType = {
     movie_id: string
+    actorsDetails: ActingRespType | null
+    getActorsDetails: (link: string) => void
 }
 
 class ActingPage extends PureComponent<ActingPagePropsType, { acting: null | ActingRespType }> {
-    state = {
-        acting: null as ActingRespType | null
-    }
-
     componentDidMount() {
         const actingUrl = `${API_URL}/movie/${this.props.movie_id}/credits?api_key=${API_KEY_3}&language=ru-RU`;
-        API.getActing(actingUrl)
-            .then(res => {
-                this.setState({
-                    acting: res
-                })
-            });
+        this.props.getActorsDetails(actingUrl);
     }
 
     render() {
+        const {actorsDetails} = this.props;
         console.log('ActingPage')
         return (
             <div className={'mt-3 actingPage container'}>
                 <h3>В главных ролях</h3>
                 <div className="row">
-                    {this.state.acting && this.state.acting.cast.map(p => <div key={p.cast_id} className="col">
+                    {actorsDetails && actorsDetails.cast.map(p => <div key={p.cast_id} className="col">
                         <div className={'actingPage_card'}>
                             <div className={'actingPage_card__img'}>
                                 <img
