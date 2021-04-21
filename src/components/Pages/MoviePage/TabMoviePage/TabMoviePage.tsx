@@ -11,6 +11,8 @@ import {
     getSimilarMovies,
     InitialTabMovieReducerType
 } from '../../../../Store/tabMovieReducer';
+import {AddFavoriteBodyType, AddWatchlistBodyType, API_KEY_3, API_URL} from '../../../../api/api';
+import {addFavorite, addWatchlist} from '../../../../Store/movieReducer';
 
 type TabMoviePagePropsType = {
     movie_id: string
@@ -31,9 +33,28 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
         }
     }
     //for SimilarMoviePage
+    changeFavorite = (media_type: string, favorite: boolean, media_id: number) => {
+        const addFavoriteUrl = `${API_URL}/account/${this.props.account_id}/favorite?api_key=${API_KEY_3}&session_id=${this.props.session_id}`;
+        const body = {
+            media_type: 'movie',
+            media_id: media_id,
+            favorite
+        }
+        this.props.addFavorite(addFavoriteUrl, body);
+    }
+    changeWatchlist = (media_type: string, watchlist: boolean, media_id: number) => {
+        console.log(media_type, watchlist, media_id)
+        const addFavoriteUrl = `${API_URL}/account/${this.props.account_id}/watchlist?api_key=${API_KEY_3}&session_id=${this.props.session_id}`;
+        const body = {
+            media_type: 'movie',
+            media_id: media_id,
+            watchlist
+        }
+        this.props.addWatchlist(addFavoriteUrl, body);
+    }
 
     render() {
-        const {tabMoviePage: {actorsDetails, similarMovies}, getActorsDetails, getSimilarMovies,changeSimilarMoviePage,session_id} = this.props
+        const {tabMoviePage: {actorsDetails, similarMovies}, getActorsDetails, getSimilarMovies, changeSimilarMoviePage, session_id, addFavorite, addWatchlist} = this.props
         return <div>
             <Nav tabs>
                 <NavItem>
@@ -79,6 +100,8 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
                                               getSimilarMovies={getSimilarMovies}
                                               changeSimilarMoviePage={changeSimilarMoviePage}
                                               session_id={session_id}
+                                              changeWatchlist={this.changeWatchlist}
+                                              changeFavorite={this.changeFavorite}
                             />
                         </Col>
                     </Row>
@@ -87,7 +110,8 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
                     <Row>
                         <Col sm="12">
                             <ActingPage movie_id={this.props.movie_id} actorsDetails={actorsDetails}
-                                        getActorsDetails={getActorsDetails}/>
+                                        getActorsDetails={getActorsDetails}
+                            />
                         </Col>
                     </Row>
                 </TabPane>}
@@ -99,22 +123,28 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
 type MapStateToProps = {
     tabMoviePage: InitialTabMovieReducerType
     session_id: string | null
+    account_id: number | null
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
     return {
         tabMoviePage: state.tabMoviePage,
-        session_id: state.app.session_id
+        session_id: state.app.session_id,
+        account_id: state.app.user && state.app.user.id
     }
 }
 
 type MapDispatchToProps = {
     getActorsDetails: (link: string) => void
     getSimilarMovies: (link: string) => void
-    changeSimilarMoviePage : (page: number) => void
+    changeSimilarMoviePage: (page: number) => void
+    addFavorite: (link: string, body: AddFavoriteBodyType) => void
+    addWatchlist: (link: string, body: AddWatchlistBodyType) => void
 }
 
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
     getActorsDetails,
     getSimilarMovies,
-    changeSimilarMoviePage
+    changeSimilarMoviePage,
+    addWatchlist,
+    addFavorite
 })(TabMoviePage);

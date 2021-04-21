@@ -9,6 +9,8 @@ type SimilarMoviePagePropsType = {
     getSimilarMovies: (link: string) => void
     changeSimilarMoviePage: (page: number) => void
     session_id: string | null
+    changeFavorite: (media_type: string, favorite: boolean, media_id: number) => void
+    changeWatchlist: (media_type: string, watchlist: boolean, media_id: number) => void
 }
 
 class SimilarMoviePage extends PureComponent<SimilarMoviePagePropsType> {
@@ -25,19 +27,18 @@ class SimilarMoviePage extends PureComponent<SimilarMoviePagePropsType> {
     }
 
     render() {
-        const {similarMovies, changeSimilarMoviePage, session_id} = this.props;
-        // console.log(similarMovies)
+        const {similarMovies, changeSimilarMoviePage, session_id,changeFavorite,changeWatchlist } = this.props;
+
         return (
-            <div className={'mt-3 container'}>
+            <div className={'mt-3  container'}>
                 <FilterPagination page={similarMovies.page} onChangePage={changeSimilarMoviePage}
                                   totalPages={similarMovies && similarMovies.total_pages}/>
                 <SimilarMoviesList
-                    // filters={filters}
                     page={similarMovies.page}
-                    // onChangePage={this.onChangePage}
                     movies={similarMovies.results}
                     session_id={session_id}
-                    // getMovies={this.props.getMovies}
+                    changeFavorite={changeFavorite}
+                    changeWatchlist={changeWatchlist}
                 />
             </div>
         );

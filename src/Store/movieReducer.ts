@@ -45,6 +45,7 @@ export const getMovieDetails = (link: string) => async (dispatch: ThunkDispatch<
 export const addFavorite = (link: string, body: AddFavoriteBodyType) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
     try {
         let data = await API.addFavorite(link, body);
+        debugger
         console.log(data)
     } catch (e) {
         console.log(e.message);
@@ -53,6 +54,7 @@ export const addFavorite = (link: string, body: AddFavoriteBodyType) => async (d
 export const addWatchlist = (link: string, body: AddWatchlistBodyType) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
     try {
         let data = await API.addWatchlist(link, body);
+        debugger
         console.log(data)
     } catch (e) {
         console.log(e.message);
