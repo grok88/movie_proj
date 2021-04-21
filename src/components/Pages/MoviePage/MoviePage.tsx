@@ -21,6 +21,7 @@ class MoviePage extends Component<MoviePagePropsType> {
         this.props.getMovieDetails(getMovieDetailsUrl);
     }
 
+
     render() {
         const {movieDetails} = this.props;
         const movie_id = this.props.match.params.id;

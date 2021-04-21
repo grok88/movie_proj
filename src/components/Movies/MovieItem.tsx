@@ -53,7 +53,7 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
         const {item} = this.props;
         return (
             <div className="card" style={{width: '100%'}}>
-                <NavLink to={`movie/${item.id}`}>
+                <NavLink to={`/movie/${item.id}`}>
                     <img
                         className="card-img-top card-img--height"
                         src={item.poster_path ||

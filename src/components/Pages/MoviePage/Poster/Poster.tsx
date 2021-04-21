@@ -1,11 +1,11 @@
-import React, {Component} from 'react';
+import React, {Component, PureComponent} from 'react';
 import {GetMovieDetailsResp} from '../../../../api/api';
 
 type PosterPropsType = {
     movieDetails: null | GetMovieDetailsResp
 }
 
-class Poster extends Component<PosterPropsType, { favorite: boolean, bookmark: boolean }> {
+class Poster extends PureComponent<PosterPropsType, { favorite: boolean, bookmark: boolean }> {
     state = {
         favorite: false,
         bookmark: false
@@ -28,7 +28,8 @@ class Poster extends Component<PosterPropsType, { favorite: boolean, bookmark: b
 
     render() {
         const {movieDetails} = this.props;
-        const backdrop_url = `https://image.tmdb.org/t/p/w500/${movieDetails && movieDetails.backdrop_path}`
+        const backdrop_url = `https://image.tmdb.org/t/p/w500/${movieDetails && movieDetails.backdrop_path}`;
+        console.log('Poster')
         return <div className="movie_page_main"
                     style={{backgroundImage: `url(${backdrop_url})`}}>
             <div className={'pt-3 pb-3 pl-4 pr-4 movie_page_container'}>

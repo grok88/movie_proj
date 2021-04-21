@@ -26,7 +26,7 @@ export const tabMovieReducer = (state: InitialTabMovieReducerType = initialState
                 ...state,
                 similarMovies: {
                     ...state.similarMovies,
-                    page:action.payload
+                    page: action.payload
                 }
             }
         default:

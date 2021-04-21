@@ -25,7 +25,6 @@ function MoviesHOC<T>(WrappedComponent: React.ComponentType<T>) {
         }
 
         changeFavorite = (media_type: string, favorite: boolean, media_id: number) => {
-
             const addFavoriteUrl = `${API_URL}/account/${this.props.account_id}/favorite?api_key=${API_KEY_3}&session_id=${this.props.session_id}`;
             const body = {
                 media_type: 'movie',

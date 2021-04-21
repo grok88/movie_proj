@@ -33,7 +33,7 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
     //for SimilarMoviePage
 
     render() {
-        const {tabMoviePage: {actorsDetails, similarMovies}, getActorsDetails, getSimilarMovies,changeSimilarMoviePage} = this.props
+        const {tabMoviePage: {actorsDetails, similarMovies}, getActorsDetails, getSimilarMovies,changeSimilarMoviePage,session_id} = this.props
         return <div>
             <Nav tabs>
                 <NavItem>
@@ -76,7 +76,10 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
                     <Row>
                         <Col sm="12">
                             <SimilarMoviePage movie_id={this.props.movie_id} similarMovies={similarMovies}
-                                              getSimilarMovies={getSimilarMovies} changeSimilarMoviePage={changeSimilarMoviePage}/>
+                                              getSimilarMovies={getSimilarMovies}
+                                              changeSimilarMoviePage={changeSimilarMoviePage}
+                                              session_id={session_id}
+                            />
                         </Col>
                     </Row>
                 </TabPane>}
@@ -95,10 +98,12 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
 
 type MapStateToProps = {
     tabMoviePage: InitialTabMovieReducerType
+    session_id: string | null
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
     return {
-        tabMoviePage: state.tabMoviePage
+        tabMoviePage: state.tabMoviePage,
+        session_id: state.app.session_id
     }
 }
 
