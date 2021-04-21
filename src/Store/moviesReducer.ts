@@ -10,7 +10,7 @@ const initialState = {
         with_genres: []
     } as FilterType,
     page: 1,
-    total_pages: null as null | number,
+    total_pages: 0 ,
     movies: [] as Array<MovieType>
 }
 

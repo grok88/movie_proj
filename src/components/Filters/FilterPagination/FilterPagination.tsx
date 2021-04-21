@@ -4,7 +4,7 @@ import TotalPages from '../TotalPages/TotalPages';
 type FilterPaginationPropsType = {
     page: number
     onChangePage: (value: number) => void
-    totalPages:null | number
+    totalPages:number
 }
 
 class FilterPagination extends Component<FilterPaginationPropsType, {}> {
@@ -14,7 +14,8 @@ class FilterPagination extends Component<FilterPaginationPropsType, {}> {
             <button type="button" className="btn btn-dark mr-2" onClick={() => onChangePage(page - 1)}
                     disabled={page === 1}>Назад
             </button>
-            <button type="button" className="btn btn-dark" onClick={() => onChangePage(page + 1)}>Вперед
+            <button type="button" className="btn btn-dark" onClick={() => onChangePage(page + 1)}
+                    disabled={page >= totalPages}>Вперед
             </button>
             <TotalPages page={page} totalPages={totalPages}/>
         </div>

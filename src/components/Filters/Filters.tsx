@@ -10,7 +10,7 @@ type FiltersType = {
     changeFilters: (value: string, name: string) => void;
     page: number
     onChangePage: (value: number) => void
-    totalPages: null | number
+    totalPages:  number
     resetAllFilters: () => void
     onGenresChange : (genreId: string) => void
     onGenresReset : () => void

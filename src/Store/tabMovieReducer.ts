@@ -4,7 +4,8 @@ import {AppRootStateType, TMDBActionType} from './store';
 
 const initialState = {
     actorsDetails: null as ActingRespType | null,
-    similarMovies: null as GetMovies | null
+    // similarMovies: null as GetMovies | null
+    similarMovies: {} as GetMovies
 }
 
 export type InitialTabMovieReducerType = typeof initialState;
@@ -19,6 +20,14 @@ export const tabMovieReducer = (state: InitialTabMovieReducerType = initialState
             return {
                 ...state,
                 similarMovies: action.payload
+            }
+        case 'TAB-MOVIE/CHANGE-SIMILAR-PAGE':
+            return {
+                ...state,
+                similarMovies: {
+                    ...state.similarMovies,
+                    page:action.payload
+                }
             }
         default:
             return state;
@@ -40,6 +49,12 @@ export const setSimilarMovies = (similarMovies: GetMovies) => {
         payload: similarMovies
     } as const;
 }
+export const changeSimilarMoviePage = (page: number) => {
+    return {
+        type: 'TAB-MOVIE/CHANGE-SIMILAR-PAGE',
+        payload: page
+    } as const
+}
 
 //thunks
 export const getActorsDetails = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
@@ -54,7 +69,6 @@ export const getActorsDetails = (link: string) => async (dispatch: ThunkDispatch
 export const getSimilarMovies = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
     try {
         let data = await API.getSimilarMovie(link);
-        debugger
         dispatch(setSimilarMovies(data))
         console.log(data)
     } catch (e) {
@@ -64,9 +78,11 @@ export const getSimilarMovies = (link: string) => async (dispatch: ThunkDispatch
 
 //types
 type SetActorsDetailsAC = ReturnType<typeof setActorsDetails>
-type sSetSimilarMoviesAC = ReturnType<typeof setSimilarMovies>
+type SetSimilarMoviesAC = ReturnType<typeof setSimilarMovies>
+type ChangeSimilarMoviePageAC = ReturnType<typeof changeSimilarMoviePage>
 
 
 export type TabMovieActionsType =
     SetActorsDetailsAC
-    | sSetSimilarMoviesAC
+    | SetSimilarMoviesAC
+    | ChangeSimilarMoviePageAC;

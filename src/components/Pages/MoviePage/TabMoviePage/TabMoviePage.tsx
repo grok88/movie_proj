@@ -5,7 +5,12 @@ import ActingPage from './ActingPage/ActingPage';
 import SimilarMoviePage from './SimilarMoviePage/SimilarMoviePage';
 import {AppRootStateType} from '../../../../Store/store';
 import {connect} from 'react-redux';
-import {getActorsDetails, getSimilarMovies, InitialTabMovieReducerType} from '../../../../Store/tabMovieReducer';
+import {
+    changeSimilarMoviePage,
+    getActorsDetails,
+    getSimilarMovies,
+    InitialTabMovieReducerType
+} from '../../../../Store/tabMovieReducer';
 
 type TabMoviePagePropsType = {
     movie_id: string
@@ -13,6 +18,7 @@ type TabMoviePagePropsType = {
 } & MapStateToProps & MapDispatchToProps;
 
 class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string }> {
+    // for tabs
     state = {
         activeTab: this.props.movieType
     }
@@ -24,9 +30,10 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
             })
         }
     }
+    //for SimilarMoviePage
 
     render() {
-        const {tabMoviePage: {actorsDetails, similarMovies}, getActorsDetails, getSimilarMovies} = this.props
+        const {tabMoviePage: {actorsDetails, similarMovies}, getActorsDetails, getSimilarMovies,changeSimilarMoviePage} = this.props
         return <div>
             <Nav tabs>
                 <NavItem>
@@ -69,7 +76,7 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
                     <Row>
                         <Col sm="12">
                             <SimilarMoviePage movie_id={this.props.movie_id} similarMovies={similarMovies}
-                                              getSimilarMovies={getSimilarMovies}/>
+                                              getSimilarMovies={getSimilarMovies} changeSimilarMoviePage={changeSimilarMoviePage}/>
                         </Col>
                     </Row>
                 </TabPane>}
@@ -98,9 +105,11 @@ const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
 type MapDispatchToProps = {
     getActorsDetails: (link: string) => void
     getSimilarMovies: (link: string) => void
+    changeSimilarMoviePage : (page: number) => void
 }
 
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
     getActorsDetails,
-    getSimilarMovies
+    getSimilarMovies,
+    changeSimilarMoviePage
 })(TabMoviePage);
