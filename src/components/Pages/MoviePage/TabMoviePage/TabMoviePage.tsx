@@ -11,8 +11,9 @@ import {
     getSimilarMovies,
     InitialTabMovieReducerType
 } from '../../../../Store/tabMovieReducer';
-import {AddFavoriteBodyType, AddWatchlistBodyType, API_KEY_3, API_URL} from '../../../../api/api';
+import {AddFavoriteBodyType, AddWatchlistBodyType, API_KEY_3, API_URL, GetMovieDetailsResp} from '../../../../api/api';
 import {addFavorite, addWatchlist} from '../../../../Store/movieReducer';
+import MoviePageInfo from './MoviePageInfo/MoviePageInfo';
 
 type TabMoviePagePropsType = {
     movie_id: string
@@ -43,7 +44,6 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
         this.props.addFavorite(addFavoriteUrl, body);
     }
     changeWatchlist = (media_type: string, watchlist: boolean, media_id: number) => {
-        console.log(media_type, watchlist, media_id)
         const addFavoriteUrl = `${API_URL}/account/${this.props.account_id}/watchlist?api_key=${API_KEY_3}&session_id=${this.props.session_id}`;
         const body = {
             media_type: 'movie',
@@ -54,7 +54,7 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
     }
 
     render() {
-        const {tabMoviePage: {actorsDetails, similarMovies}, getActorsDetails, getSimilarMovies, changeSimilarMoviePage, session_id, addFavorite, addWatchlist} = this.props
+        const {tabMoviePage: {actorsDetails, similarMovies}, getActorsDetails, getSimilarMovies, changeSimilarMoviePage, session_id} = this.props;
         return <div>
             <Nav tabs>
                 <NavItem>
@@ -89,7 +89,7 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
                 {this.state.activeTab === '1' && <TabPane tabId="1">
                     <Row>
                         <Col sm="12">
-                            <h4>Tab 1 Contents</h4>
+                           <MoviePageInfo movieDetails={this.props.movieDetails}/>
                         </Col>
                     </Row>
                 </TabPane>}
@@ -124,12 +124,14 @@ type MapStateToProps = {
     tabMoviePage: InitialTabMovieReducerType
     session_id: string | null
     account_id: number | null
+    movieDetails: null | GetMovieDetailsResp
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
     return {
         tabMoviePage: state.tabMoviePage,
         session_id: state.app.session_id,
-        account_id: state.app.user && state.app.user.id
+        account_id: state.app.user && state.app.user.id,
+        movieDetails: state.moviePage.movieDetails,
     }
 }
 

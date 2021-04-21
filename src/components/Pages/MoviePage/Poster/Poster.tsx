@@ -1,4 +1,4 @@
-import React, {Component, PureComponent} from 'react';
+import React, {PureComponent} from 'react';
 import {GetMovieDetailsResp} from '../../../../api/api';
 
 type PosterPropsType = {
