@@ -1,7 +1,14 @@
 import React from 'react';
 import Header from './Header/Header';
 import {AppRootStateType} from '../Store/store';
-import {getAccountDetails, InitialAppStateType, logoutUser, setSessionId, setUser} from '../Store/appReducer';
+import {
+    changeIsAuth,
+    getAccountDetails,
+    InitialAppStateType,
+    logoutUser,
+    setSessionId,
+    setUser
+} from '../Store/appReducer';
 import {connect} from 'react-redux';
 import {API_KEY_3, API_URL} from '../api/api';
 import {GetAccountDetailsResponse} from './Header/Login/LoginForm/LoginForm';
@@ -28,6 +35,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
     updateUser = (user: GetAccountDetailsResponse) => {
         console.log(user);
         this.props.setUser(user);
+        this.props.changeIsAuth(true);
     }
     //update SessionId and cookie
     updateSessionId = (session_id: string) => {
@@ -69,7 +77,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                 <Switch>
                     <Route exact path={'/'} render={() => <MoviesPage/>}/>
                     <Route exact path={'/movie/:id'} render={() => <MoviePage/>}/>
-                    <Route exact path={'/movie/:id/:movietype?'} render={() =><MoviePage/>}/>
+                    <Route exact path={'/movie/:id/:movietype?'} render={() => <MoviePage/>}/>
                     <Route exact path={'/404'} render={() => <PageNotFound/>}/>
                     <Route exact path={'*'} render={() => <Redirect to={'/404'}/>}/>
                 </Switch>
@@ -92,10 +100,12 @@ type MapDispatchToProps = {
     setSessionId: (session_id: string) => void
     logoutUser: (link: string) => void
     getAccountDetails: (link: string, session_id: string) => void;
+    changeIsAuth: (isAuth: boolean) => void
 }
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
     setUser,
     setSessionId,
     logoutUser,
-    getAccountDetails
+    getAccountDetails,
+    changeIsAuth
 })(App);
