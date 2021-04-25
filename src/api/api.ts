@@ -32,12 +32,14 @@ export const API = {
         })
     },
     createSessionWithLogin(loginUrl: string, body:CreateSessionWithLoginBody) {
-        return axios.post<CreateSessionWithLoginResp>(loginUrl, body).then(res => res.data).catch((err) => {
-            return err.response.data.status_message;
-        })
+        return axios.post<CreateSessionWithLoginResp>(loginUrl, body).then(res => res.data)
+        //     .catch((err) => {
+        //     return err.response.data.status_message;
+        // })
     },
     createSessionId(sessionUrl: string, body:{request_token:string}) {
-        return axios.post<{success:boolean, session_id:string}>(sessionUrl, body).then(res => res.data).catch((err) => {
+        return axios.post<{success:boolean, session_id:string}>(sessionUrl, body).then(res => res.data)
+            .catch((err) => {
             return err.response.data.status_message;
         })
     },

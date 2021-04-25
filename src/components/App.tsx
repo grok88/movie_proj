@@ -71,12 +71,9 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
     render() {
         return (
             <>
-                <Header
-                    // updateUser={this.updateUser}
-                        user={this.props.appReducer.user}
+                <Header user={this.props.appReducer.user}
                         error={this.props.appReducer.error}
                         disabled={this.props.appReducer.disabled}
-                        // updateSessionId={this.updateSessionId}
                         onDeleteSession={this.onDeleteSession}
                         userAuthFlow={this.props.userAuthFlow}
                 />

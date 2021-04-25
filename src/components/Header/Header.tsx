@@ -5,9 +5,7 @@ import UserDropDownMenu from './UserDropDownMenu/UserDropDownMenu';
 import {NavLink} from 'react-router-dom';
 
 type HeaderPropsType = {
-    // updateUser: (user: GetAccountDetailsResponse) => void
     user: GetAccountDetailsResponse | null
-    // updateSessionId: (session_id: string) => void
     onDeleteSession: () => void
     userAuthFlow:(username: string, password: string) => void
     disabled:boolean
@@ -31,8 +29,6 @@ class Header extends Component<HeaderPropsType> {
                     {user ?
                         <UserDropDownMenu user={user} onDeleteSession={onDeleteSession}/>
                         : <Login
-                            // updateUser={updateUser}
-                            // updateSessionId={updateSessionId}
                             error={error}
                             disabled={disabled}
                             userAuthFlow={this.props.userAuthFlow}/>

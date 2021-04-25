@@ -10,8 +10,6 @@ type ResponseWithLoginType = {
 }
 
 type LoginPropsType = {
-    // updateUser: (user: GetAccountDetailsResponse) => void
-    // updateSessionId: (session_id: string) => void
     userAuthFlow:(username: string, password: string) => void
     disabled:boolean
     error:null | string
@@ -42,9 +40,7 @@ class Login extends PureComponent<LoginPropsType, { showModal: boolean }> {
                 </button>
                 <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
                     <ModalBody>
-                        <LoginForm
-                            // updateUser={updateUser} updateSessionId={updateSessionId}
-                            userAuthFlow={userAuthFlow}
+                        <LoginForm userAuthFlow={userAuthFlow}
                             error={error}
                             disabled={disabled}
                         />

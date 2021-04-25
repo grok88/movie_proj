@@ -113,7 +113,7 @@ export const getAccountDetails = (link: string, session_id: string) => async (di
         dispatch(changeIsAuth(true));
         // return data;
     } catch (e) {
-        console.log(e.message);
+        console.log(e)
     }
 }
 
@@ -124,44 +124,56 @@ export const userAuthFlow = (username: string, password: string) => async (dispa
     // 1 за токеном
     // 2 логин + пасс + этот токен
     // 3 на session
-    debugger
+
     //1
-    try {
-        dispatch(changeDisabled(true));
-        let tokenUrl = `${API_URL}/authentication/token/new?api_key=${API_KEY_3}`;
-        let data = await API.getRequestToken(tokenUrl);
-        //2
-        const loginUrl = `${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`;
-        const body = {
-            username,
-            password,
-            request_token: data.request_token
-        }
-        let res = await API.createSessionWithLogin(loginUrl, body);
-        // 3 session url
-        const sessionUrl = `${API_URL}/authentication/session/new?api_key=${API_KEY_3}`;
-        let session = await API.createSessionId(sessionUrl, {request_token: data.request_token});
-        //cookie
-        cookies.set('session_id', session.session_id, {
-            path: '/',
-            maxAge: 2592000
+    dispatch(changeDisabled(true));
+    let tokenUrl = `${API_URL}/authentication/token/new?api_key=${API_KEY_3}`;
+    API.getRequestToken(tokenUrl)
+        .then(data => {
+            //2
+            const loginUrl = `${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`;
+            const body = {
+                username,
+                password,
+                request_token: data.request_token
+            }
+            API.createSessionWithLogin(loginUrl, body)
+                .then(() => {
+                    // 3 session url
+                    const sessionUrl = `${API_URL}/authentication/session/new?api_key=${API_KEY_3}`;
+                    API.createSessionId(sessionUrl, {request_token: data.request_token})
+                        .then(session => {
+                            //cookie
+                            cookies.set('session_id', session.session_id, {
+                                path: '/',
+                                maxAge: 2592000
+                            });
+                            dispatch(setSessionId(session.session_id));
+                            const accountUrl = `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session.session_id}`;
+                            dispatch(getAccountDetails(accountUrl, session.session_id));
+                        })
+                })
+                .catch(e => {
+                    //disabled btn
+                    dispatch(changeDisabled(false));
+                    //ser LoginForm serverError
+                    dispatch(setError(e.response.data.status_message));
+
+                    setTimeout(() => {
+                        dispatch(setError(null));
+                    }, 3000);
+                });
+        })
+        .catch(e => {
+            //disabled btn
+            dispatch(changeDisabled(false));
+            //ser LoginForm serverError
+            dispatch(setError(e.response.data.status_message));
+
+            setTimeout(() => {
+                dispatch(setError(null));
+            }, 3000);
         });
-        dispatch(setSessionId(session.session_id));
-
-        const accountUrl = `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session.session_id}`;
-        dispatch(getAccountDetails(accountUrl, session.session_id));
-    } catch (e) {
-        debugger
-        //disabled btn
-        dispatch(changeDisabled(true));
-        //ser LoginForm serverError
-        dispatch(setError(e.status_message));
-
-        setTimeout(() => {
-            dispatch(setError(null));
-        }, 3000);
-    }
-
 }
 
 //types
