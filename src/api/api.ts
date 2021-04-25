@@ -25,6 +25,23 @@ export const API = {
         const data = {session_id};
         return axios.delete<{ success: boolean }>(link, {data}).then(res => res.data)
     },
+    //auth logic
+    getRequestToken(tokenUrl: string) {
+        return axios.get<GetToken>(tokenUrl).then(res => res.data).catch((err) => {
+            return err.response.data.status_message;
+        })
+    },
+    createSessionWithLogin(loginUrl: string, body:CreateSessionWithLoginBody) {
+        return axios.post<CreateSessionWithLoginResp>(loginUrl, body).then(res => res.data).catch((err) => {
+            return err.response.data.status_message;
+        })
+    },
+    createSessionId(sessionUrl: string, body:{request_token:string}) {
+        return axios.post<{success:boolean, session_id:string}>(sessionUrl, body).then(res => res.data).catch((err) => {
+            return err.response.data.status_message;
+        })
+    },
+
     getAccountDetails(link: string) {
         return axios.get<GetAccountDetailsResponse>(link).then(res => res.data)
             .catch((err) => {
@@ -114,7 +131,6 @@ export type MovieType = {
     vote_average: number
     vote_count: number
 }
-
 export type GetMovies = {
     page: number
     results: Array<MovieType>
@@ -142,7 +158,6 @@ export type GetToken = {
     request_token: string
     success: boolean
 }
-
 //add favorite
 export type AddFavoriteBodyType = {
     media_type: string
@@ -161,8 +176,6 @@ export type AddWatchlistBodyType = {
 }
 
 //GetFavoriteListType
-
-
 export type ResultType = {
     poster_path: string | null
     adult: boolean
@@ -179,14 +192,12 @@ export type ResultType = {
     vote_average: number
     vote_count: number
 }
-
 export type GetFavoriteListType = {
     page: number
     total_pages: number
     total_results: number
     results: Array<ResultType>
 }
-
 //GetMovieDetailsResp
 type ProductionCompaniesType = {
     name: string
@@ -231,42 +242,50 @@ export type GetMovieDetailsResp = {
 }
 
 //Acting
-
 export type CastType = {
-    adult:boolean
-    gender:null | number
-    id:number
-    known_for_department:string
-    name:string
-    original_name:string
-    popularity:number
-    profile_path:string | null
-    cast_id:number
-    character:string
-    credit_id:string
-    order:number
+    adult: boolean
+    gender: null | number
+    id: number
+    known_for_department: string
+    name: string
+    original_name: string
+    popularity: number
+    profile_path: string | null
+    cast_id: number
+    character: string
+    credit_id: string
+    order: number
 }
-
-
 type CrewType = {
-    adult:boolean
-    gender:null | number
-    id:number
-    known_for_department:string
-    name:string
-    original_name:string
-    popularity:number
-    profile_path:string | null
-    credit_id:string
-    department:string
-    job:string
+    adult: boolean
+    gender: null | number
+    id: number
+    known_for_department: string
+    name: string
+    original_name: string
+    popularity: number
+    profile_path: string | null
+    credit_id: string
+    department: string
+    job: string
 }
 export type ActingRespType = {
-    id:number
-    cast:Array<CastType>
-    crew:Array<CrewType>
+    id: number
+    cast: Array<CastType>
+    crew: Array<CrewType>
 }
 
+// Auth USer
+export type CreateSessionWithLoginResp = {
+    success:boolean
+    expires_at:string
+    request_token:string
+}
+export type CreateSessionWithLoginBody = {
+    request_token:string
+    username:string
+    password:string
+}
 //GetSimilarMovieType
 // type SimilarMovieType = {
 //     poster_path: string | null
@@ -290,3 +309,4 @@ export type ActingRespType = {
 //     total_pages:number
 //     total_results:number
 // }
+

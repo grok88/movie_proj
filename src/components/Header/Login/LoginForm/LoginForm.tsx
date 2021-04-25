@@ -1,8 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Form, FormGroup, Input, Label} from 'reactstrap';
 import {useFormik} from 'formik';
-import {API_KEY_3, API_URL, fetchApi, GetToken} from '../../../../api/api';
-import axios from 'axios';
 
 export type GetAccountDetailsResponse = {
     avatar: {
@@ -50,14 +48,18 @@ const validate = (values: LoginFormValues) => {
     return errors;
 };
 
-// FUNCTIONAL COMPONENT USE  FOR
+// FUNCTIONAL COMPONENT USE  FORM
 type LoginFormPropsType = {
-    updateUser: (user: GetAccountDetailsResponse) => void
-    updateSessionId: (session_id: string) => void
+    // updateUser: (user: GetAccountDetailsResponse) => void
+    // updateSessionId: (session_id: string) => void
+    userAuthFlow: (username: string, password: string) => void
+    disabled: boolean
+    error: null | string
+
 }
-const LoginForm: React.FC<LoginFormPropsType> = ({updateUser, updateSessionId}) => {
-    const [serverError, setServerError] = useState<null | string>(null);
-    const [submit, setSubmit] = useState<boolean>(false);
+const LoginForm: React.FC<LoginFormPropsType> = ({userAuthFlow, error, disabled}) => {
+    // const [serverError, setServerError] = useState<null | string>(null);
+    // const [submit, setSubmit] = useState<boolean>(false);
 
 //Formik
     const formik = useFormik({
@@ -68,91 +70,113 @@ const LoginForm: React.FC<LoginFormPropsType> = ({updateUser, updateSessionId}) 
         },
         validate,
         onSubmit: values => {
-            onSendAuth(values.username, values.password);
-            // console.log(values.username, values.password)
+            userAuthFlow(values.username, values.password)
+            // onSendAuth(values.username, values.password);
         },
     });
 
     // 3 request
-    const onSendAuth = async (username: string, password: string) => {
-        let tokenUrl = `${API_URL}/authentication/token/new?api_key=${API_KEY_3}`;
-
-        const getRequestToken = () => {
-            return axios.get<GetToken>(tokenUrl).then(res => res.data)
-                .catch((err) => {
-                    return err.response.data.status_message;
-                })
-        }
-
-
-        // Цепочка из 3 запросов на сервер
-        // 1 за токеном
-        // 2 логин + пасс + этот токен
-        // 3 на session id
-
-        //1
-        try {
-            setSubmit(true);
-            const data = await getRequestToken();
-            //2
-            const loginUrl = `${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`;
-            await fetchApi(loginUrl,
-                {
-                    method: 'Post',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    mode: 'cors',
-                    body: JSON.stringify({
-                        username,
-                        password,
-                        request_token: data.request_token
-                    })
-                }
-            );
-            //3
-            //session url
-            const sessionUrl = `${API_URL}/authentication/session/new?api_key=${API_KEY_3}`;
-            const session = await
-                fetchApi(sessionUrl,
-                    {
-                        method: 'Post',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        mode: 'cors',
-                        body: JSON.stringify({
-                            request_token: data.request_token
-                        })
-                    }
-                )
-            // @ts-ignore
-            //add session_id to AppReducer state
-            updateSessionId(session.session_id);
-            // @ts-ignore
-            const accountUrl = `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session.session_id}`;
-            const getAccountDetails = () => {
-                return axios.get<GetAccountDetailsResponse>(accountUrl).then(res => res.data)
-                    .catch((err) => {
-                        return err.response.data.status_message;
-                    })
-            }
-            let user = await getAccountDetails();
-            //disabled btn
-            setSubmit(false);
-            //add user to AppReducer state
-            updateUser(user);
-        } catch (e) {
-            //disabled btn
-            setSubmit(false);
-            console.log(e)
-            //ser LoginForm serverError
-            setServerError(e.status_message);
-            setTimeout(() => {
-                setServerError(null);
-            }, 3000);
-        }
+    {/*const onSendAuth = async (username: string, password: string) => {*/
     }
+    {/*    let tokenUrl = `${API_URL}/authentication/token/new?api_key=${API_KEY_3}`;*/
+    }
+
+    {/*    const getRequestToken = () => {*/
+    }
+    {/*        return axios.get<GetToken>(tokenUrl).then(res => res.data)*/
+    }
+    {/*            .catch((err) => {*/
+    }
+    {/*                return err.response.data.status_message;*/
+    }
+    {/*            })*/
+    }
+    //     }
+    //
+    //
+    //     // Цепочка из 3 запросов на сервер
+    //     // 1 за токеном
+    //     // 2 логин + пасс + этот токен
+    {/*    // 3 на session id*/
+    }
+
+    {/*    //1*/
+    }
+    {/*    try {*/
+    }
+    {/*        setSubmit(true);*/
+    }
+    //         const data = await getRequestToken();
+    //         //2
+    //         const loginUrl = `${API_URL}/authentication/token/validate_with_login?api_key=${API_KEY_3}`;
+    //         await fetchApi(loginUrl,
+    //             {
+    //                 method: 'Post',
+    //                 headers: {
+    //                     'Content-Type': 'application/json'
+    //                 },
+    //                 mode: 'cors',
+    //                 body: JSON.stringify({
+    //                     username,
+    //                     password,
+    //                     request_token: data.request_token
+    //                 })
+    //             }
+    //         );
+    //         //3
+    //         //session url
+    {/*        const sessionUrl = `${API_URL}/authentication/session/new?api_key=${API_KEY_3}`;*/
+    }
+    {/*        const session = await*/
+    }
+    {/*            fetchApi(sessionUrl,*/
+    }
+    {/*                {*/
+    }
+    {/*                    method: 'Post',*/
+    }
+    {/*                    headers: {*/
+    }
+    //                         'Content-Type': 'application/json'
+    //                     },
+    //                     mode: 'cors',
+    //                     body: JSON.stringify({
+    //                         request_token: data.request_token
+    //                     })
+    //                 }
+    //             )
+    //         // @ts-ignore
+    //         //add session_id to AppReducer state
+    //         updateSessionId(session.session_id);
+    {/*        // @ts-ignore*/
+    }
+    {/*        const accountUrl = `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session.session_id}`;*/
+    }
+    {/*        const getAccountDetails = () => {*/
+    }
+    //             return axios.get<GetAccountDetailsResponse>(accountUrl).then(res => res.data)
+    //                 .catch((err) => {
+    //                     return err.response.data.status_message;
+    //                 })
+    //         }
+    //         let user = await getAccountDetails();
+    {/*        //disabled btn*/
+    }
+    //         setSubmit(false);
+    //         //add user to AppReducer state
+    {/*        updateUser(user);*/
+    }
+    //     } catch (e) {
+    //         //disabled btn
+    //         setSubmit(false);
+    //         console.log(e)
+    //         //ser LoginForm serverError
+    //         setServerError(e.status_message);
+    //         setTimeout(() => {
+    //             setServerError(null);
+    //         }, 3000);
+    //     }
+    // }
     return (
         <div className={'form-login-container'}>
             <h1 className={'h3 mb-3 text-center'}>Авторизация</h1>
@@ -183,8 +207,8 @@ const LoginForm: React.FC<LoginFormPropsType> = ({updateUser, updateSessionId}) 
                     {formik.touched.repeatPassword && formik.errors.repeatPassword ?
                         <div style={{color: 'red'}}>{formik.errors.repeatPassword}</div> : null}
                 </FormGroup>
-                <button type="submit" className={'btn btn-ld btn-primary btn-block'} disabled={submit}>Submit</button>
-                {serverError ? <div style={{color: 'red'}} className={'mt-3 text-center'}>{serverError}</div> : null}
+                <button type="submit" className={'btn btn-ld btn-primary btn-block'} disabled={disabled}>Submit</button>
+                {error ? <div style={{color: 'red'}} className={'mt-3 text-center'}>{error}</div> : null}
             </Form>
         </div>
     );

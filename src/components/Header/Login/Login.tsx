@@ -1,6 +1,7 @@
 import React, {PureComponent} from 'react';
 import {Modal, ModalBody,} from 'reactstrap';
 import LoginForm, {GetAccountDetailsResponse} from './LoginForm/LoginForm';
+import Header from '../Header';
 
 type ResponseWithLoginType = {
     success: boolean,
@@ -9,9 +10,13 @@ type ResponseWithLoginType = {
 }
 
 type LoginPropsType = {
-    updateUser: (user: GetAccountDetailsResponse) => void
-    updateSessionId: (session_id: string) => void
+    // updateUser: (user: GetAccountDetailsResponse) => void
+    // updateSessionId: (session_id: string) => void
+    userAuthFlow:(username: string, password: string) => void
+    disabled:boolean
+    error:null | string
 }
+
 
 class Login extends PureComponent<LoginPropsType, { showModal: boolean }> {
     constructor(props: LoginPropsType) {
@@ -30,14 +35,19 @@ class Login extends PureComponent<LoginPropsType, { showModal: boolean }> {
 
     render() {
         console.log('Login')
-        const {updateSessionId, updateUser} = this.props;
+        const {disabled,error,userAuthFlow} = this.props;
         return (
             <div>
                 <button className="btn btn-outline-success my-2 my-sm-0" type="button" onClick={this.toggleModal}>Login
                 </button>
                 <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
                     <ModalBody>
-                        <LoginForm updateUser={updateUser} updateSessionId={updateSessionId}/>
+                        <LoginForm
+                            // updateUser={updateUser} updateSessionId={updateSessionId}
+                            userAuthFlow={userAuthFlow}
+                            error={error}
+                            disabled={disabled}
+                        />
                     </ModalBody>
                 </Modal>
             </div>

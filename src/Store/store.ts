@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers, createStore} from 'redux';
+import {applyMiddleware, combineReducers, compose, createStore} from 'redux';
 import {AppActionsType, appReducer} from './appReducer';
 import {MoviesActionsType, moviesReducer} from './moviesReducer';
 import {GenresFilterActionsType, genresFilterReducer} from './genresFilterReducer';
@@ -23,4 +23,9 @@ export type TMDBActionType =
     | MoviesActionsType
     | MovieActionsType
     | TabMovieActionsType;
-export const store = createStore(rootReducer, applyMiddleware(thunk));
+
+//@ts-ignore
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+export const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk)));
+

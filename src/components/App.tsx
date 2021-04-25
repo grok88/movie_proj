@@ -7,7 +7,8 @@ import {
     InitialAppStateType,
     logoutUser,
     setSessionId,
-    setUser
+    setUser,
+    userAuthFlow
 } from '../Store/appReducer';
 import {connect} from 'react-redux';
 import {API_KEY_3, API_URL} from '../api/api';
@@ -63,16 +64,21 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
         if (session_id) {
             const accountUrl = `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session_id}`;
             this.props.getAccountDetails(accountUrl, session_id);
+            // запрос для избранных
         }
     }
 
     render() {
         return (
             <>
-                <Header updateUser={this.updateUser}
+                <Header
+                    // updateUser={this.updateUser}
                         user={this.props.appReducer.user}
-                        updateSessionId={this.updateSessionId}
+                        error={this.props.appReducer.error}
+                        disabled={this.props.appReducer.disabled}
+                        // updateSessionId={this.updateSessionId}
                         onDeleteSession={this.onDeleteSession}
+                        userAuthFlow={this.props.userAuthFlow}
                 />
                 <Switch>
                     <Route exact path={'/'} render={() => <MoviesPage/>}/>
@@ -101,11 +107,13 @@ type MapDispatchToProps = {
     logoutUser: (link: string) => void
     getAccountDetails: (link: string, session_id: string) => void;
     changeIsAuth: (isAuth: boolean) => void
+    userAuthFlow: (username: string, password: string) => void
 }
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
     setUser,
     setSessionId,
     logoutUser,
     getAccountDetails,
-    changeIsAuth
+    changeIsAuth,
+    userAuthFlow
 })(App);
