@@ -8,18 +8,22 @@ type SimilarMoviesListPropsType = {
     session_id:string | null
     changeFavorite: (media_type: string, favorite: boolean, media_id: number) => void
     changeWatchlist: (media_type: string, watchlist: boolean, media_id: number) => void
+    account_id:number | null
 }
 class SimilarMoviesList extends Component<SimilarMoviesListPropsType> {
 
     render() {
-        const {movies =[],changeWatchlist,changeFavorite} = this.props;
-        console.log(movies)
+        const {movies =[],changeWatchlist,changeFavorite,session_id,account_id} = this.props;
         return (
             <div className="row mt-3">
                 {movies.map(movie => {
                     return (
                         <div key={movie.id} className="col-6   col-md-4 col-lg-3 mb-4">
-                            <MovieItem item={movie} changeFavorite={changeFavorite} changeWatchlist={changeWatchlist}/>
+                            <MovieItem item={movie} changeFavorite={changeFavorite}
+                                       changeWatchlist={changeWatchlist}
+                                       account_id={account_id}
+                                       session_id={session_id}
+                            />
                         </div>
                     );
                 })}

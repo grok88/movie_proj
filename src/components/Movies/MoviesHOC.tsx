@@ -68,13 +68,17 @@ function MoviesHOC<T>(WrappedComponent: React.ComponentType<T>) {
         }
 
         render() {
-            const {movies} = this.props;
+            const {movies,account_id ,session_id} = this.props;
+
             if (!movies.length) {
                 return <h1>Movies aren't found</h1>
             }
             // @ts-ignore
             return <WrappedComponent movies={movies} changeFavorite={this.changeFavorite}
-                                     changeWatchlist={this.changeWatchlist}/>
+                                     changeWatchlist={this.changeWatchlist}
+                                     account_id={account_id}
+                                     session_id={session_id}
+            />
         }
     }
 }

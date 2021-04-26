@@ -10,14 +10,16 @@ type MoviesListPropsType = {
     movies: Array<MovieType>
     changeFavorite: (media_type: string, favorite: boolean, media_id: number) => void
     changeWatchlist: (media_type: string, watchlist: boolean, media_id: number) => void
+    account_id:number | null
+    session_id: null | string
 }
 
-const MoviesList: React.FC<MoviesListPropsType> = ({movies, changeFavorite, changeWatchlist}) => {
+const MoviesList: React.FC<MoviesListPropsType> = ({movies, changeFavorite, changeWatchlist,account_id,session_id}) => {
     return <div className="row">
         {movies.map(movie => {
             return (
                 <div key={movie.id} className="col-6 mb-4">
-                    <MovieItem item={movie} changeFavorite={changeFavorite} changeWatchlist={changeWatchlist}/>
+                    <MovieItem item={movie} changeFavorite={changeFavorite} changeWatchlist={changeWatchlist} account_id={account_id} session_id={session_id}/>
                 </div>
             );
         })}

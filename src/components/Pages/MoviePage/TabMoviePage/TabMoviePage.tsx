@@ -54,7 +54,7 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
     }
 
     render() {
-        const {tabMoviePage: {actorsDetails, similarMovies}, getActorsDetails, getSimilarMovies, changeSimilarMoviePage, session_id} = this.props;
+        const {tabMoviePage: {actorsDetails, similarMovies}, getActorsDetails, getSimilarMovies, changeSimilarMoviePage, session_id,account_id} = this.props;
         return <div>
             <Nav tabs>
                 <NavItem>
@@ -102,6 +102,7 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
                                               session_id={session_id}
                                               changeWatchlist={this.changeWatchlist}
                                               changeFavorite={this.changeFavorite}
+                                              account_id={account_id}
                             />
                         </Col>
                     </Row>

@@ -123,11 +123,11 @@ export const logoutUser = (link: string) => async (dispatch: ThunkDispatch<AppRo
         setTimeout(() => {
             dispatch(setError(null));
         }, 3000);
-    };
+    }
+    ;
 }
 export const getAccountDetails = (link: string, session_id: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>, getState: () => AppRootStateType) => {
     dispatch(changeStatus('loading'));
-    debugger
     try {
         let data = await API.getAccountDetails(link);
         dispatch(changeStatus('succeeded'));
@@ -144,7 +144,8 @@ export const getAccountDetails = (link: string, session_id: string) => async (di
         setTimeout(() => {
             dispatch(setError(null));
         }, 3000);
-    };
+    }
+    ;
 }
 
 // auth user

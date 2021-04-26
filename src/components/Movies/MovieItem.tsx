@@ -7,6 +7,8 @@ type MovieItemPropsType = {
     item: MovieType
     changeFavorite: (media_type: string, favorite: boolean, media_id: number) => void
     changeWatchlist: (media_type: string, watchlist: boolean, media_id: number) => void
+    account_id: number | null
+    session_id: string | null
 }
 
 export default class MovieItem extends React.Component<MovieItemPropsType, { favorite: boolean, bookmark: boolean }> {
@@ -33,24 +35,30 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
     }
 
     onShowFav = () => {
-        const onShowFavUrl = `${API_URL}/account/10303391/favorite/movies?api_key=${API_KEY_3}&session_id=8a0f2e0d8b9017e414a643dc24886f4dd5ba0529&language=ru-RU`;
+        debugger
+        const onShowFavUrl = `${API_URL}/account/${this.props.account_id}/favorite/movies?api_key=${API_KEY_3}&session_id=${this.props.session_id}&language=ru-RU`;
         API.getFavoriteList(onShowFavUrl)
             .then(res => {
                 debugger
                 console.log(res)
+            })
+            .catch(e => {
+                console.log(e)
             });
     }
     onShowWatch = () => {
-        const onShowFavUrl = `${API_URL}/account/10303391/watchlist/movies?api_key=${API_KEY_3}&session_id=8a0f2e0d8b9017e414a643dc24886f4dd5ba0529&language=ru-RU`;
+        const onShowFavUrl = `${API_URL}/account/${this.props.account_id}/watchlist/movies?api_key=${API_KEY_3}&session_id=${this.props.session_id}&language=ru-RU`;
         API.getWatchList(onShowFavUrl)
             .then(res => {
                 debugger
                 console.log(res)
-            });
+            }).catch(e => {
+            console.log(e)
+        });
     }
 
     render() {
-        const {item} = this.props;
+        const {item, account_id} = this.props;
         return (
             <div className="card" style={{width: '100%'}}>
                 <NavLink to={`/movie/${item.id}`}>
