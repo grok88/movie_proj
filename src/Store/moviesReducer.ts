@@ -2,7 +2,7 @@ import {API, MovieType} from '../api/api';
 import {ThunkDispatch} from 'redux-thunk';
 import {AppRootStateType, TMDBActionType} from './store';
 import {FilterType} from '../components/App';
-import {setError} from './appReducer';
+import {changeStatus, setError} from './appReducer';
 
 const initialState = {
     filters: {
@@ -130,13 +130,16 @@ export const setMovies = (movies: Array<MovieType>) => {
 
 //thunks
 export const getMovies = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
+    dispatch(changeStatus('loading'));
     try {
-        let data = await API.getMovies(link);
+        let data = await API.getMovies(link)
+        dispatch(changeStatus('succeeded'));
         dispatch(setTotalPages(data.total_pages));
         dispatch(setMovies(data.results));
         console.log(data)
     } catch (e) {
         //ser LoginForm serverError
+        dispatch(changeStatus('failed'));
         dispatch(setError(e.response.data.status_message));
         //
         // setTimeout(() => {

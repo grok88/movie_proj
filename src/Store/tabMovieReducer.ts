@@ -1,6 +1,7 @@
 import {ActingRespType, API, GetMovies} from '../api/api';
 import {ThunkDispatch} from 'redux-thunk';
 import {AppRootStateType, TMDBActionType} from './store';
+import {changeStatus} from './appReducer';
 
 const initialState = {
     actorsDetails: null as ActingRespType | null,
@@ -58,20 +59,26 @@ export const changeSimilarMoviePage = (page: number) => {
 
 //thunks
 export const getActorsDetails = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
+    dispatch(changeStatus('loading'));
     try {
         let data = await API.getActing(link);
+        dispatch(changeStatus('succeeded'));
         dispatch(setActorsDetails(data))
         console.log(data)
     } catch (e) {
+        dispatch(changeStatus('failed'));
         console.log(e.message);
     }
 }
 export const getSimilarMovies = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
+    dispatch(changeStatus('loading'));
     try {
         let data = await API.getSimilarMovie(link);
+        dispatch(changeStatus('succeeded'));
         dispatch(setSimilarMovies(data))
         console.log(data)
     } catch (e) {
+        dispatch(changeStatus('failed'));
         console.log(e.message);
     }
 }

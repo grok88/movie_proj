@@ -1,6 +1,7 @@
 import {AddFavoriteBodyType, AddWatchlistBodyType, API, GetMovieDetailsResp} from '../api/api';
 import {ThunkDispatch} from 'redux-thunk';
 import {AppRootStateType, TMDBActionType} from './store';
+import {changeStatus} from './appReducer';
 
 const initialState = {
     movieDetails: null as GetMovieDetailsResp | null
@@ -32,31 +33,38 @@ export const setMovie = (movie: GetMovieDetailsResp) => {
 
 //thunks
 export const getMovieDetails = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
+    dispatch(changeStatus('loading'));
     try {
         let data = await API.getMovieDetails(link);
+        dispatch(changeStatus('succeeded'));
         dispatch(setMovie(data));
         console.log(data)
     } catch (e) {
+        dispatch(changeStatus('failed'));
         console.log(e.message);
     }
 }
 
 
 export const addFavorite = (link: string, body: AddFavoriteBodyType) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
+    dispatch(changeStatus('loading'));
     try {
         let data = await API.addFavorite(link, body);
-        debugger
+        dispatch(changeStatus('succeeded'));
         console.log(data)
     } catch (e) {
+        dispatch(changeStatus('failed'));
         console.log(e.message);
     }
 }
 export const addWatchlist = (link: string, body: AddWatchlistBodyType) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
+    dispatch(changeStatus('loading'));
     try {
         let data = await API.addWatchlist(link, body);
-        debugger
+        dispatch(changeStatus('succeeded'));
         console.log(data)
     } catch (e) {
+        dispatch(changeStatus('failed'));
         console.log(e.message);
     }
 }

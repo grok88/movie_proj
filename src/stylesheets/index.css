@@ -181,3 +181,14 @@ body {
     color: #fff;
     background-color: #17a2b8;
 }
+
+
+
+/* ----------------------------- LOADING ----------------------*/
+
+.loading {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

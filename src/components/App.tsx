@@ -21,6 +21,7 @@ import MoviePage from './Pages/MoviePage/MoviePage';
 import {Redirect, Route, Switch} from 'react-router-dom';
 import PageNotFound from './Pages/PageNotFound/PageNotFound';
 import {Alert} from 'reactstrap';
+import {Loader} from './Common/Loader/Loader';
 
 const cookies = new Cookies();
 
@@ -81,7 +82,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
     }
 
     render() {
-        const {appReducer: {error}} = this.props;
+        const {appReducer: {error, status}} = this.props;
         return (
             <>
                 <Header user={this.props.appReducer.user}
@@ -90,9 +91,12 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                         onDeleteSession={this.onDeleteSession}
                         userAuthFlow={this.props.userAuthFlow}
                 />
+                {/*error Alerts*/}
                 {error ? <Alert color="danger" isOpen={this.state.visible} toggle={this.onDismiss} className={'mt-3'}>
                     {error}
                 </Alert> : ''}
+                {/*Loader*/}
+                {status === 'loading' ? <Loader/> : ''}
                 <Switch>
                     <Route exact path={'/'} render={() => <MoviesPage/>}/>
                     <Route exact path={'/movie/:id'} render={() => <MoviePage/>}/>

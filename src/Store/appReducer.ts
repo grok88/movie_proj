@@ -6,12 +6,15 @@ import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
+
 const initialState = {
     user: null as null | GetAccountDetailsResponse,
     session_id: null as null | string,
     isAuth: false,
     disabled: false,
-    error: null as null | string
+    error: null as null | string,
+    status: 'idle' as RequestStatusType,
 }
 
 export type InitialAppStateType = typeof initialState;
@@ -48,6 +51,11 @@ export const appReducer = (state: InitialAppStateType = initialState, action: Ap
                 ...state,
                 error: action.payload
             }
+        case 'APP/CHANGE-STATUS':
+            return {
+                ...state,
+                status: action.payload
+            }
         default:
             return state;
     }
@@ -58,6 +66,12 @@ export const setUser = (user: GetAccountDetailsResponse | null) => {
     return {
         type: 'APP/SET-USER',
         payload: user
+    } as const
+}
+export const changeStatus = (status: RequestStatusType) => {
+    return {
+        type: 'APP/CHANGE-STATUS',
+        payload: status
     } as const
 }
 export const setSessionId = (session_id: string) => {
@@ -94,33 +108,42 @@ export const deleteSessionId = () => {
 //thunks
 export const logoutUser = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>, getState: () => AppRootStateType) => {
     const session_id = getState().app.session_id;
+    dispatch(changeStatus('loading'));
     try {
-        // dispatch(changeDisabled(true));
         await API.logout(link, session_id);
+        dispatch(changeStatus('succeeded'));
         dispatch(deleteSessionId());
         dispatch(setUser(null));
         dispatch(changeIsAuth(false));
     } catch (e) {
-        console.log(e.message);
-    }
-}
-export const getAccountDetails = (link: string, session_id: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>, getState: () => AppRootStateType) => {
-    try {
-        let data = await API.getAccountDetails(link);
-        console.log(data);
-        dispatch(setUser(data));
-        dispatch(setSessionId(session_id));
-        dispatch(changeIsAuth(true));
-        // return data;
-    } catch (e) {
+        dispatch(changeStatus('failed'));
         //ser LoginForm serverError
         dispatch(setError(e.response.data.status_message));
 
         setTimeout(() => {
             dispatch(setError(null));
         }, 3000);
-    }
-    ;
+    };
+}
+export const getAccountDetails = (link: string, session_id: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>, getState: () => AppRootStateType) => {
+    dispatch(changeStatus('loading'));
+    try {
+        let data = await API.getAccountDetails(link);
+        dispatch(changeStatus('succeeded'));
+        console.log(data);
+        dispatch(setUser(data));
+        dispatch(setSessionId(session_id));
+        dispatch(changeIsAuth(true));
+        // return data;
+    } catch (e) {
+        dispatch(changeStatus('failed'));
+        //ser LoginForm serverError
+        dispatch(setError(e.response.data.status_message));
+
+        setTimeout(() => {
+            dispatch(setError(null));
+        }, 3000);
+    };
 }
 
 // auth user
@@ -133,6 +156,7 @@ export const userAuthFlow = (username: string, password: string) => async (dispa
 
     //1
     dispatch(changeDisabled(true));
+    dispatch(changeStatus('loading'));
     let tokenUrl = `${API_URL}/authentication/token/new?api_key=${API_KEY_3}`;
     API.getRequestToken(tokenUrl)
         .then(data => {
@@ -189,6 +213,9 @@ export const userAuthFlow = (username: string, password: string) => async (dispa
             setTimeout(() => {
                 dispatch(setError(null));
             }, 3000);
+        })
+        .finally(() => {
+            dispatch(changeStatus('succeeded'));
         });
 }
 
@@ -199,6 +226,7 @@ type DeleteSessionIdAC = ReturnType<typeof deleteSessionId>
 type ChangeIsAuthAC = ReturnType<typeof changeIsAuth>
 type ChangeDisabledAC = ReturnType<typeof changeDisabled>
 type SetErrorAC = ReturnType<typeof setError>
+type ChangeStatusAC = ReturnType<typeof changeStatus>
 
 export type AppActionsType =
     SetUserAC
@@ -206,4 +234,5 @@ export type AppActionsType =
     | DeleteSessionIdAC
     | ChangeIsAuthAC
     | ChangeDisabledAC
-    | SetErrorAC;
+    | SetErrorAC
+    | ChangeStatusAC;
