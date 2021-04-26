@@ -21,8 +21,8 @@ class ActingPage extends PureComponent<ActingPagePropsType, { acting: null | Act
                 <h3>В главных ролях</h3>
                 <div className="row">
                     {actorsDetails && actorsDetails.cast.map(p => <div key={p.cast_id} className="col">
-                        <div className={'actingPage_card'}>
-                            <div className={'actingPage_card__img'}>
+                        <div className={'actingPage__card'}>
+                            <div className={'actingPage__img'}>
                                 <img
                                     src={p.profile_path ? `https://image.tmdb.org/t/p/w500/${p.profile_path}` : 'https://static.wikia.nocookie.net/nopixel/images/b/b4/Not-found-image-15383864787lu.jpg/revision/latest?cb=20200910062142'}
                                     alt={`${p.name}`} title={`${p.name}`}/>

@@ -1,7 +1,7 @@
 import {AddFavoriteBodyType, AddWatchlistBodyType, API, GetMovieDetailsResp} from '../api/api';
 import {ThunkDispatch} from 'redux-thunk';
 import {AppRootStateType, TMDBActionType} from './store';
-import {changeStatus} from './appReducer';
+import {changeStatus, setError} from './appReducer';
 
 const initialState = {
     movieDetails: null as GetMovieDetailsResp | null
@@ -54,7 +54,11 @@ export const addFavorite = (link: string, body: AddFavoriteBodyType) => async (d
         console.log(data)
     } catch (e) {
         dispatch(changeStatus('failed'));
-        console.log(e.message);
+        dispatch(setError(e.response.data.status_message));
+
+        setTimeout(() => {
+            dispatch(setError(null));
+        }, 3000);
     }
 }
 export const addWatchlist = (link: string, body: AddWatchlistBodyType) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
@@ -65,7 +69,11 @@ export const addWatchlist = (link: string, body: AddWatchlistBodyType) => async 
         console.log(data)
     } catch (e) {
         dispatch(changeStatus('failed'));
-        console.log(e.message);
+        dispatch(setError(e.response.data.status_message));
+
+        setTimeout(() => {
+            dispatch(setError(null));
+        }, 3000);
     }
 }
 

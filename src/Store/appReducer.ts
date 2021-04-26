@@ -127,6 +127,7 @@ export const logoutUser = (link: string) => async (dispatch: ThunkDispatch<AppRo
 }
 export const getAccountDetails = (link: string, session_id: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>, getState: () => AppRootStateType) => {
     dispatch(changeStatus('loading'));
+    debugger
     try {
         let data = await API.getAccountDetails(link);
         dispatch(changeStatus('succeeded'));
@@ -173,6 +174,7 @@ export const userAuthFlow = (username: string, password: string) => async (dispa
                     const sessionUrl = `${API_URL}/authentication/session/new?api_key=${API_KEY_3}`;
                     API.createSessionId(sessionUrl, {request_token: data.request_token})
                         .then(session => {
+
                             //cookie
                             cookies.set('session_id', session.session_id, {
                                 path: '/',

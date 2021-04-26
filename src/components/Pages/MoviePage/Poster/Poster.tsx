@@ -30,33 +30,32 @@ class Poster extends PureComponent<PosterPropsType, { favorite: boolean, bookmar
         const {movieDetails} = this.props;
         const backdrop_url = `https://image.tmdb.org/t/p/w500/${movieDetails && movieDetails.backdrop_path}`;
         console.log('Poster')
-        return <div className="movie_page_main"
+        return <div className="moviePage"
                     style={{backgroundImage: `url(${backdrop_url})`}}>
-            <div className={'pt-3 pb-3 pl-4 pr-4 movie_page_container'}>
-                <section className={'movie_page_section '}>
+            <div className={'pt-3 pb-3 pl-4 pr-4 moviePage__container'}>
+                <section className={'moviePage__section '}>
                     <div className="row mt-4">
-                        <div className="col-3 movie_page_poster_block">
-                            <div className="movie_page_poster_img">
+                        <div className="col-3 moviePage__poster-block">
+                            <div className="moviePage__poster-block-img">
                                 <img
                                     src={`https://image.tmdb.org/t/p/w500/${movieDetails && movieDetails.poster_path}`}
                                     alt=""/>
                             </div>
                         </div>
                         <div className="col-md ">
-                            <section className="movie_page_section_info">
-                                <div className="movie_page_title">
+                            <section className="moviePage__section-info">
+                                <div className="moviePage__title">
                                     <h2>{movieDetails && movieDetails.title}</h2>
-                                    <div className="movie_page_facts">
-                                        {/*<span className="movie_page_certification">1</span>*/}
+                                    <div className="moviePage__facts">
                                         <span
-                                            className="movie_page_release">{movieDetails && movieDetails.release_date.replaceAll('-', '/')}</span>
+                                            className="moviePage__release">{movieDetails && movieDetails.release_date.replaceAll('-', '/')}</span>
                                         <span
-                                            className="movie_page_genres">{movieDetails && movieDetails.genres.map(g =>
+                                            className="moviePage__genres">{movieDetails && movieDetails.genres.map(g =>
                                             <b key={g.id}>{g.name} </b>)}</span>
                                         <span
-                                            className="movie_page_runtime">{movieDetails && movieDetails.runtime} m</span>
+                                            className="moviePage__runtime">{movieDetails && movieDetails.runtime} m</span>
                                     </div>
-                                    <div className="movie_page_favorite"><b>Favorite </b>
+                                    <div className="favorite"><b>Favorite </b>
                                         {this.state.favorite
                                             ? <svg onClick={this.changeFavoriteHandler}
                                                    style={{cursor: 'pointer'}}
@@ -76,7 +75,7 @@ class Poster extends PureComponent<PosterPropsType, { favorite: boolean, bookmar
                                             </svg>
                                         }
                                     </div>
-                                    <div className="movie_page_watchlist"><b>Watchlist </b>
+                                    <div className="watchlist"><b>Watchlist </b>
                                         {this.state.bookmark
                                             ? <svg onClick={this.changeBookmarkHandler}
                                                    style={{cursor: 'pointer'}}
@@ -96,13 +95,13 @@ class Poster extends PureComponent<PosterPropsType, { favorite: boolean, bookmar
                                             </svg>
                                         }
                                     </div>
-                                    <div className="movie_page_info">
-                                        <h3 className={'movie_page_info_tagline'}>{movieDetails && movieDetails.tagline}</h3>
-                                        <h3 className={'movie_page_info_review'}>Обзор</h3>
-                                        <div className="movie_page_info_overview">
+                                    <div className="moviePage__info">
+                                        <h3 className={'moviePage__tagline'}>{movieDetails && movieDetails.tagline}</h3>
+                                        <h3 className={'moviePage__review'}>Обзор</h3>
+                                        <div className="moviePage__overview">
                                             <p>{movieDetails && movieDetails.overview}</p>
                                         </div>
-                                        <div className={'movie_page_info_vote'}>
+                                        <div className={'moviePage__vote'}>
                                             Рейтинг пользователей: {movieDetails && movieDetails.vote_average}
                                         </div>
                                     </div>
