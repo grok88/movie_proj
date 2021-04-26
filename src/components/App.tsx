@@ -6,6 +6,7 @@ import {
     getAccountDetails,
     InitialAppStateType,
     logoutUser,
+    setError,
     setSessionId,
     setUser,
     userAuthFlow
@@ -19,6 +20,7 @@ import MoviesPage from './Pages/MoviesPage/MoviesPage';
 import MoviePage from './Pages/MoviePage/MoviePage';
 import {Redirect, Route, Switch} from 'react-router-dom';
 import PageNotFound from './Pages/PageNotFound/PageNotFound';
+import {Alert} from 'reactstrap';
 
 const cookies = new Cookies();
 
@@ -32,6 +34,9 @@ export type FilterType = {
 
 
 class App extends React.Component<MapStateToProps & MapDispatchToProps> {
+    state = {
+        visible: true
+    }
     //updateUser
     updateUser = (user: GetAccountDetailsResponse) => {
         console.log(user);
@@ -58,6 +63,13 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
         cookies.remove('session_id');
         console.log('delete');
     }
+    // error alert
+    onDismiss = () => {
+        this.setState({
+            visible: false
+        });
+        this.props.setError(null);
+    }
 
     componentDidMount() {
         const session_id = cookies.get('session_id');
@@ -69,6 +81,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
     }
 
     render() {
+        const {appReducer: {error}} = this.props;
         return (
             <>
                 <Header user={this.props.appReducer.user}
@@ -77,6 +90,9 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                         onDeleteSession={this.onDeleteSession}
                         userAuthFlow={this.props.userAuthFlow}
                 />
+                {error ? <Alert color="danger" isOpen={this.state.visible} toggle={this.onDismiss} className={'mt-3'}>
+                    {error}
+                </Alert> : ''}
                 <Switch>
                     <Route exact path={'/'} render={() => <MoviesPage/>}/>
                     <Route exact path={'/movie/:id'} render={() => <MoviePage/>}/>
@@ -105,6 +121,7 @@ type MapDispatchToProps = {
     getAccountDetails: (link: string, session_id: string) => void;
     changeIsAuth: (isAuth: boolean) => void
     userAuthFlow: (username: string, password: string) => void
+    setError: (error: null | string) => void
 }
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
     setUser,
@@ -112,5 +129,6 @@ export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType
     logoutUser,
     getAccountDetails,
     changeIsAuth,
-    userAuthFlow
+    userAuthFlow,
+    setError
 })(App);

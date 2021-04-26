@@ -1,6 +1,7 @@
 import {API, GenreResponseType, GenreType} from '../api/api';
 import {ThunkDispatch} from 'redux-thunk';
 import {AppRootStateType, TMDBActionType} from './store';
+import {setError} from './appReducer';
 
 const initialState = {
     genres: [] as Array<GenreType>
@@ -62,8 +63,13 @@ export const getGenres = (link: string) => async (dispatch: ThunkDispatch<AppRoo
         const res = await API.getGenres(link)
         dispatch(setGenres(res.genres));
     } catch (e) {
-        console.log(e.message)
-    }
+        //ser LoginForm serverError
+        dispatch(setError(e.response.data.status_message));
+
+        // setTimeout(() => {
+        //     dispatch(setError(null));
+        // }, 3000);
+    };
 }
 
 

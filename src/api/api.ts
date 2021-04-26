@@ -27,94 +27,74 @@ export const API = {
     },
     //auth logic
     getRequestToken(tokenUrl: string) {
-        return axios.get<GetToken>(tokenUrl).then(res => res.data).catch((err) => {
-            return err.response.data.status_message;
-        })
+        return axios.get<GetToken>(tokenUrl).then(res => res.data)
+        // .catch((err) => {
+        //     return err.response.data.status_message;
+        // })
     },
-    createSessionWithLogin(loginUrl: string, body:CreateSessionWithLoginBody) {
+    createSessionWithLogin(loginUrl: string, body: CreateSessionWithLoginBody) {
         return axios.post<CreateSessionWithLoginResp>(loginUrl, body).then(res => res.data)
         //     .catch((err) => {
         //     return err.response.data.status_message;
         // })
     },
-    createSessionId(sessionUrl: string, body:{request_token:string}) {
-        return axios.post<{success:boolean, session_id:string}>(sessionUrl, body).then(res => res.data)
-            .catch((err) => {
-            return err.response.data.status_message;
-        })
+    createSessionId(sessionUrl: string, body: { request_token: string }) {
+        return axios.post<{ success: boolean, session_id: string }>(sessionUrl, body).then(res => res.data)
+        //     .catch((err) => {
+        //     return err.response.data.status_message;
+        // })
     },
 
     getAccountDetails(link: string) {
         return axios.get<GetAccountDetailsResponse>(link).then(res => res.data)
-            .catch((err) => {
-                return err.response.data.status_message;
-            })
     },
     getMovieDetails(link: string) {
         return axios.get<GetMovieDetailsResp>(link).then(res => res.data)
-            .catch((err) => {
-                return err.response.data.status_message;
-            })
     },
     addFavorite(link: string, body: AddFavoriteBodyType) {
         return axiosInstance.post<AddFavoriteRespType>(link, body).then(res => res.data)
-            .catch((err) => {
-                return err.response.data.status_message;
-            })
     },
     addWatchlist(link: string, body: AddWatchlistBodyType) {
         return axiosInstance.post<AddFavoriteRespType>(link, body).then(res => res.data)
-            .catch((err) => {
-                return err.response.data.status_message;
-            })
     },
     getFavoriteList(link: string) {
         return axiosInstance.get<GetFavoriteListType>(link).then(res => res.data)
-            .catch((err) => {
-                return err.response.data.status_message;
-            })
     },
     getWatchList(link: string) {
         return axiosInstance.get<GetFavoriteListType>(link).then(res => res.data)
-            .catch((err) => {
-                return err.response.data.status_message;
-            })
     },
     getActing(link: string) {
         return axiosInstance.get<ActingRespType>(link).then(res => res.data)
-            .catch((err) => {
-                return err.response.data.status_message;
-            })
     },
     getSimilarMovie(link: string) {
-        return axiosInstance.get<GetFavoriteListType>(link).then(res => res.data)
-            .catch((err) => {
-                return err.response.data.status_message;
-            })
+        return axiosInstance.get<GetMovies>(link).then(res => res.data)
+        // .catch((err) => {
+        //     return err.response.data.status_message;
+        // })
     },
 }
 
-export const fetchApi = (url: string, options: any = {}) => {
-    return new Promise((res, rej) => {
-        fetch(url, options)
-            .then(res => {
-                    if (res.status < 400) {
-                        return res.json();
-                    } else {
-                        throw res
-                    }
-                }
-            ).then(data => {
-            res(data);
-        })
-            .catch(response => {
-                response.json()
-                    .then((err: any) => {
-                        rej(err)
-                    })
-            })
-    })
-}
+// export const fetchApi = (url: string, options: any = {}) => {
+//     return new Promise((res, rej) => {
+//         fetch(url, options)
+//             .then(res => {
+//                     if (res.status < 400) {
+//                         return res.json();
+//                     } else {
+//                         throw res
+//                     }
+//                 }
+//             ).then(data => {
+//             res(data);
+//         })
+//             .catch(response => {
+//                 response.json()
+//                     .then((err: any) => {
+//                         rej(err)
+//                     })
+//             })
+//     })
+// }
 
 //TYPES
 export type MovieType = {
@@ -279,14 +259,14 @@ export type ActingRespType = {
 
 // Auth USer
 export type CreateSessionWithLoginResp = {
-    success:boolean
-    expires_at:string
-    request_token:string
+    success: boolean
+    expires_at: string
+    request_token: string
 }
 export type CreateSessionWithLoginBody = {
-    request_token:string
-    username:string
-    password:string
+    request_token: string
+    username: string
+    password: string
 }
 //GetSimilarMovieType
 // type SimilarMovieType = {

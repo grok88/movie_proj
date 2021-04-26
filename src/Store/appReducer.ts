@@ -113,8 +113,14 @@ export const getAccountDetails = (link: string, session_id: string) => async (di
         dispatch(changeIsAuth(true));
         // return data;
     } catch (e) {
-        console.log(e)
+        //ser LoginForm serverError
+        dispatch(setError(e.response.data.status_message));
+
+        setTimeout(() => {
+            dispatch(setError(null));
+        }, 3000);
     }
+    ;
 }
 
 // auth user
@@ -152,6 +158,16 @@ export const userAuthFlow = (username: string, password: string) => async (dispa
                             const accountUrl = `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session.session_id}`;
                             dispatch(getAccountDetails(accountUrl, session.session_id));
                         })
+                        .catch(e => {
+                            //disabled btn
+                            dispatch(changeDisabled(false));
+                            //ser LoginForm serverError
+                            dispatch(setError(e.response.data.status_message));
+
+                            setTimeout(() => {
+                                dispatch(setError(null));
+                            }, 3000);
+                        });
                 })
                 .catch(e => {
                     //disabled btn
@@ -168,7 +184,7 @@ export const userAuthFlow = (username: string, password: string) => async (dispa
             //disabled btn
             dispatch(changeDisabled(false));
             //ser LoginForm serverError
-            dispatch(setError(e.response.data.status_message));
+            dispatch(setError(e.message));
 
             setTimeout(() => {
                 dispatch(setError(null));

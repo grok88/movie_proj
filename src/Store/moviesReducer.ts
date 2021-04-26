@@ -2,6 +2,7 @@ import {API, MovieType} from '../api/api';
 import {ThunkDispatch} from 'redux-thunk';
 import {AppRootStateType, TMDBActionType} from './store';
 import {FilterType} from '../components/App';
+import {setError} from './appReducer';
 
 const initialState = {
     filters: {
@@ -135,8 +136,13 @@ export const getMovies = (link: string) => async (dispatch: ThunkDispatch<AppRoo
         dispatch(setMovies(data.results));
         console.log(data)
     } catch (e) {
-        console.log(e.message);
-    }
+        //ser LoginForm serverError
+        dispatch(setError(e.response.data.status_message));
+        //
+        // setTimeout(() => {
+        //     dispatch(setError(null));
+        // }, 3000);
+    };
 }
 
 
