@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {AddFavoriteBodyType, AddWatchlistBodyType, API_KEY_3, API_URL, MovieType} from '../../api/api';
 import {FilterType} from '../App';
+import MovieItem from './MovieItem';
 
 
 type MoviesContainerType = {
@@ -13,6 +14,7 @@ type MoviesContainerType = {
     addFavorite: (link: string, body: AddFavoriteBodyType) => void
     addWatchlist: (link: string, body: AddWatchlistBodyType) => void
     account_id: number | null
+    isAuth:boolean
 }
 
 
@@ -68,7 +70,7 @@ function MoviesHOC<T>(WrappedComponent: React.ComponentType<T>) {
         }
 
         render() {
-            const {movies,account_id ,session_id} = this.props;
+            const {movies,account_id ,session_id,isAuth} = this.props;
 
             if (!movies.length) {
                 return <h1>Movies aren't found</h1>
@@ -78,6 +80,7 @@ function MoviesHOC<T>(WrappedComponent: React.ComponentType<T>) {
                                      changeWatchlist={this.changeWatchlist}
                                      account_id={account_id}
                                      session_id={session_id}
+                                     isAuth={isAuth}
             />
         }
     }

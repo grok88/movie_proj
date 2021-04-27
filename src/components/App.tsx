@@ -86,10 +86,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
         return (
             <>
                 <Header user={this.props.appReducer.user}
-                        error={this.props.appReducer.error}
-                        disabled={this.props.appReducer.disabled}
                         onDeleteSession={this.onDeleteSession}
-                        userAuthFlow={this.props.userAuthFlow}
                 />
                 {/*error Alerts*/}
                 {error ? <Alert color="danger" isOpen={this.state.visible} toggle={this.onDismiss} className={'mt-3'}>

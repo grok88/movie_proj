@@ -10,16 +10,23 @@ type MoviesListPropsType = {
     movies: Array<MovieType>
     changeFavorite: (media_type: string, favorite: boolean, media_id: number) => void
     changeWatchlist: (media_type: string, watchlist: boolean, media_id: number) => void
-    account_id:number | null
+    account_id: number | null
     session_id: null | string
+    isAuth: boolean
 }
 
-const MoviesList: React.FC<MoviesListPropsType> = ({movies, changeFavorite, changeWatchlist,account_id,session_id}) => {
+const MoviesList: React.FC<MoviesListPropsType> = ({movies, changeFavorite, changeWatchlist, account_id, isAuth, session_id}) => {
     return <div className="row">
         {movies.map(movie => {
             return (
                 <div key={movie.id} className="col-6 mb-4">
-                    <MovieItem item={movie} changeFavorite={changeFavorite} changeWatchlist={changeWatchlist} account_id={account_id} session_id={session_id}/>
+                    <MovieItem item={movie}
+                               changeFavorite={changeFavorite}
+                               changeWatchlist={changeWatchlist}
+                               account_id={account_id}
+                               session_id={session_id}
+                               isAuth={isAuth}
+                    />
                 </div>
             );
         })}
@@ -27,11 +34,13 @@ const MoviesList: React.FC<MoviesListPropsType> = ({movies, changeFavorite, chan
 }
 
 type MapStateToProps = {
-    account_id: number | null
+    account_id: number | null,
+    isAuth:boolean
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
     return {
-        account_id: state.app.user && state.app.user.id
+        account_id: state.app.user && state.app.user.id,
+        isAuth:state.app.isAuth
     }
 }
 

@@ -1,6 +1,9 @@
 import React from 'react';
 import {Form, FormGroup, Input, Label} from 'reactstrap';
 import {useFormik} from 'formik';
+import {useDispatch, useSelector} from 'react-redux';
+import {AppRootStateType} from '../../../../Store/store';
+import {userAuthFlow} from '../../../../Store/appReducer';
 
 export type GetAccountDetailsResponse = {
     avatar: {
@@ -50,12 +53,16 @@ const validate = (values: LoginFormValues) => {
 
 // FUNCTIONAL COMPONENT USE  FORM
 type LoginFormPropsType = {
-    userAuthFlow: (username: string, password: string) => void
-    disabled: boolean
-    error: null | string
+    // userAuthFlow?: (username: string, password: string) => void
+    // disabled?: boolean
+    // error?: null | string
+    toggleModal?: () => void
 
 }
-const LoginForm: React.FC<LoginFormPropsType> = ({userAuthFlow, error, disabled}) => {
+const LoginForm: React.FC<LoginFormPropsType> = ({toggleModal}) => {
+    const dispatch = useDispatch();
+    const error = useSelector<AppRootStateType, string | null>(state => state.app.error);
+    const disabled = useSelector<AppRootStateType, boolean>(state => state.app.disabled);
 
 //Formik
     const formik = useFormik({
@@ -66,7 +73,9 @@ const LoginForm: React.FC<LoginFormPropsType> = ({userAuthFlow, error, disabled}
         },
         validate,
         onSubmit: values => {
-            userAuthFlow(values.username, values.password)
+            dispatch(userAuthFlow(values.username, values.password));
+            toggleModal && toggleModal();
+            // userAuthFlow && userAuthFlow(values.username, values.password)
         },
     });
 

@@ -14,6 +14,7 @@ import {
 import {AddFavoriteBodyType, AddWatchlistBodyType, API_KEY_3, API_URL, GetMovieDetailsResp} from '../../../../api/api';
 import {addFavorite, addWatchlist} from '../../../../Store/movieReducer';
 import MoviePageInfo from './MoviePageInfo/MoviePageInfo';
+import MovieItem from '../../../Movies/MovieItem';
 
 type TabMoviePagePropsType = {
     movie_id: string
@@ -54,7 +55,7 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
     }
 
     render() {
-        const {tabMoviePage: {actorsDetails, similarMovies}, getActorsDetails, getSimilarMovies, changeSimilarMoviePage, session_id,account_id} = this.props;
+        const {tabMoviePage: {actorsDetails, similarMovies}, getActorsDetails, getSimilarMovies, changeSimilarMoviePage, session_id,account_id,isAuth} = this.props;
         return <div>
             <Nav tabs>
                 <NavItem>
@@ -103,6 +104,7 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
                                               changeWatchlist={this.changeWatchlist}
                                               changeFavorite={this.changeFavorite}
                                               account_id={account_id}
+                                              isAuth={isAuth}
                             />
                         </Col>
                     </Row>
@@ -125,7 +127,8 @@ type MapStateToProps = {
     tabMoviePage: InitialTabMovieReducerType
     session_id: string | null
     account_id: number | null
-    movieDetails: null | GetMovieDetailsResp
+    movieDetails: null | GetMovieDetailsResp,
+    isAuth:boolean
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
     return {
@@ -133,6 +136,7 @@ const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
         session_id: state.app.session_id,
         account_id: state.app.user && state.app.user.id,
         movieDetails: state.moviePage.movieDetails,
+        isAuth:state.app.isAuth
     }
 }
 

@@ -115,6 +115,7 @@ export const logoutUser = (link: string) => async (dispatch: ThunkDispatch<AppRo
         dispatch(deleteSessionId());
         dispatch(setUser(null));
         dispatch(changeIsAuth(false));
+        dispatch(changeDisabled(false));
     } catch (e) {
         dispatch(changeStatus('failed'));
         //ser LoginForm serverError
@@ -175,7 +176,6 @@ export const userAuthFlow = (username: string, password: string) => async (dispa
                     const sessionUrl = `${API_URL}/authentication/session/new?api_key=${API_KEY_3}`;
                     API.createSessionId(sessionUrl, {request_token: data.request_token})
                         .then(session => {
-
                             //cookie
                             cookies.set('session_id', session.session_id, {
                                 path: '/',
