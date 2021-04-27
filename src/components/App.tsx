@@ -22,6 +22,7 @@ import {Redirect, Route, Switch} from 'react-router-dom';
 import PageNotFound from './Pages/PageNotFound/PageNotFound';
 import {Alert} from 'reactstrap';
 import {Loader} from './Common/Loader/Loader';
+import Favorite from './Pages/Favorite/Favorite';
 
 const cookies = new Cookies();
 
@@ -98,6 +99,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                     <Route exact path={'/'} render={() => <MoviesPage/>}/>
                     <Route exact path={'/movie/:id'} render={() => <MoviePage/>}/>
                     <Route exact path={'/movie/:id/:movietype?'} render={() => <MoviePage/>}/>
+                    <Route exact path={'/favorite'} render={() => <Favorite/>}/>
                     <Route exact path={'/404'} render={() => <PageNotFound/>}/>
                     <Route exact path={'*'} render={() => <Redirect to={'/404'}/>}/>
                 </Switch>

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {GetAccountDetailsResponse} from '../Login/LoginForm/LoginForm';
 import {Dropdown, DropdownItem, DropdownMenu, DropdownToggle} from 'reactstrap';
 import UserHeaderAvatar from '../UserHeaderAvatar/UserHeaderAvatar';
+import {NavLink} from 'react-router-dom';
 
 type UserDropDownMenuProps = {
     user: GetAccountDetailsResponse | null
@@ -31,6 +32,12 @@ class UserDropDownMenu extends Component<UserDropDownMenuProps, { dropdownOpen: 
             </DropdownToggle>
             <DropdownMenu right={true}>
                 <DropdownItem onClick={onDeleteSession}>Logout</DropdownItem>
+                <DropdownItem onClick={() => {
+                }}>
+                    <NavLink to={'/favorite'}>
+                        Favorite
+                    </NavLink>
+                </DropdownItem>
             </DropdownMenu>
         </Dropdown>
     }
