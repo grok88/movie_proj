@@ -1,9 +1,16 @@
 import React, {Component} from 'react';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
-import {API_KEY_3, API_URL, GetMovieDetailsResp} from '../../../api/api';
+import {
+    AddFavoriteBodyType,
+    AddWatchlistBodyType,
+    API_KEY_3,
+    API_URL,
+    GetMovieDetailsResp,
+    MovieType
+} from '../../../api/api';
 import {AppRootStateType} from '../../../Store/store';
 import {connect} from 'react-redux';
-import {getMovieDetails} from '../../../Store/movieReducer';
+import {addFavorite, addWatchlist, getMovieDetails,} from '../../../Store/movieReducer';
 import Poster from './Poster/Poster';
 import TabMoviePage from './TabMoviePage/TabMoviePage';
 
@@ -21,9 +28,28 @@ class MoviePage extends Component<MoviePagePropsType> {
         this.props.getMovieDetails(getMovieDetailsUrl);
     }
 
+    changeFavorite = (media_type: string, favorite: boolean, media_id: number) => {
+        const addFavoriteUrl = `${API_URL}/account/${this.props.account_id}/favorite?api_key=${API_KEY_3}&session_id=${this.props.session_id}`;
+        const body = {
+            media_type: 'movie',
+            media_id: media_id,
+            favorite
+        }
+        this.props.addFavorite(addFavoriteUrl, body);
+    }
+    changeWatchlist = (media_type: string, watchlist: boolean, media_id: number) => {
+        console.log(media_type, watchlist, media_id)
+        const addFavoriteUrl = `${API_URL}/account/${this.props.account_id}/watchlist?api_key=${API_KEY_3}&session_id=${this.props.session_id}`;
+        const body = {
+            media_type: 'movie',
+            media_id: media_id,
+            watchlist
+        }
+        this.props.addWatchlist(addFavoriteUrl, body);
+    }
 
     render() {
-        const {movieDetails} = this.props;
+        const {movieDetails,isAuth,} = this.props;
         const movie_id = this.props.match.params.id;
         let movietype = this.props.match.params.movietype;
 
@@ -39,7 +65,7 @@ class MoviePage extends Component<MoviePagePropsType> {
 
         return (
             <div className={'container'}>
-                <Poster movieDetails={movieDetails}/>
+                <Poster movieDetails={movieDetails} isAuth={isAuth} changeFavorite={this.changeFavorite} changeWatchlist={this.changeWatchlist}/>
                 <TabMoviePage movie_id={movie_id} movieType={movietype}/>
             </div>
         );
@@ -49,18 +75,30 @@ class MoviePage extends Component<MoviePagePropsType> {
 
 type MapStateToProps = {
     movieDetails: null | GetMovieDetailsResp
+    isAuth:boolean
+    account_id: number | null
+    session_id: string | null
+
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
     return {
         movieDetails: state.moviePage.movieDetails,
+        isAuth:state.app.isAuth,
+        account_id: state.app.user && state.app.user.id,
+        session_id:state.app.session_id,
+
     }
 }
 
 type MapDispatchToProps = {
     getMovieDetails: (link: string) => void;
+    addFavorite: (link: string, body: AddFavoriteBodyType) => void
+    addWatchlist: (link: string, body: AddWatchlistBodyType) => void
 }
 
 
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
-    getMovieDetails
+    getMovieDetails,
+    addFavorite,
+    addWatchlist
 })(withRouter(MoviePage));

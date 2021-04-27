@@ -11,8 +11,7 @@ type MovieItemPropsType = {
     changeWatchlist: (media_type: string, watchlist: boolean, media_id: number) => void
     account_id: number | null
     session_id: string | null,
-    isAuth:boolean
-
+    isAuth: boolean
 }
 
 export default class MovieItem extends React.Component<MovieItemPropsType, { favorite: boolean, bookmark: boolean, showModal: boolean }> {
@@ -28,7 +27,7 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
         }))
     }
     changeFavoriteHandler = () => {
-        if(!this.props.isAuth){
+        if (!this.props.isAuth) {
             this.toggleModal();
         } else {
             this.setState(prevState => ({
@@ -40,7 +39,7 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
     }
 
     changeBookmarkHandler = () => {
-        if(!this.props.isAuth){
+        if (!this.props.isAuth) {
             this.toggleModal();
         } else {
             this.setState(prevState => ({
@@ -80,11 +79,11 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
             <>
                 {
                     this.state.showModal && !this.props.isAuth
-                        ?  <Modal isOpen={this.state.showModal} toggle={this.changeFavoriteHandler}>
-                        <ModalBody>
-                            <LoginForm />
-                        </ModalBody>
-                    </Modal>
+                        ? <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
+                            <ModalBody>
+                                <LoginForm/>
+                            </ModalBody>
+                        </Modal>
                         : ''
                 }
                 <div className="card" style={{width: '100%'}}>

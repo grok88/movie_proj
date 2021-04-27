@@ -13,6 +13,7 @@ type MoviesListPropsType = {
     account_id: number | null
     session_id: null | string
     isAuth: boolean
+
 }
 
 const MoviesList: React.FC<MoviesListPropsType> = ({movies, changeFavorite, changeWatchlist, account_id, isAuth, session_id}) => {
