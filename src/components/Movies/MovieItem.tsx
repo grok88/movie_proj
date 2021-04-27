@@ -40,11 +40,15 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
     }
 
     changeBookmarkHandler = () => {
-        this.setState(prevState => ({
-            bookmark: !prevState.bookmark
-        }), () => {
-            this.props.changeWatchlist('movie', this.state.bookmark, this.props.item.id);
-        })
+        if(!this.props.isAuth){
+            this.toggleModal();
+        } else {
+            this.setState(prevState => ({
+                bookmark: !prevState.bookmark
+            }), () => {
+                this.props.changeWatchlist('movie', this.state.bookmark, this.props.item.id);
+            })
+        }
     }
 
     onShowFav = () => {
