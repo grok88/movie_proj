@@ -58,6 +58,7 @@ class Favorite extends PureComponent<FavoritePropsType> {
     }
 
     render() {
+        console.log('Favorite')
         const {favoriteMovies, isAuth, session_id, account_id} = this.props;
         if (!isAuth) {
             return (

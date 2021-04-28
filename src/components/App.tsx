@@ -83,6 +83,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
     }
 
     render() {
+        // console.log('APP')
         const {appReducer: {error, status,session_id,user,isAuth},getFavoriteList,favoriteMovies,addWatchlist,addFavorite,statusCode} = this.props;
         return (
             <>
