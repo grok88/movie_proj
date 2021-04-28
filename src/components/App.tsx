@@ -14,8 +14,7 @@ import {
 import {connect} from 'react-redux';
 import {AddFavoriteBodyType, AddWatchlistBodyType, API_KEY_3, API_URL, GetMovies} from '../api/api';
 import {GetAccountDetailsResponse} from './Header/Login/LoginForm/LoginForm';
-//work with cookie
-import Cookies from 'universal-cookie';
+
 import MoviesPage from './Pages/MoviesPage/MoviesPage';
 import MoviePage from './Pages/MoviePage/MoviePage';
 import {Redirect, Route, Switch} from 'react-router-dom';
@@ -24,6 +23,8 @@ import {Alert} from 'reactstrap';
 import {Loader} from './Common/Loader/Loader';
 import Favorite from './Pages/Favorite/Favorite';
 import {addFavorite, addWatchlist, getFavoriteList} from '../Store/movieReducer';
+//work with cookie
+import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
@@ -40,31 +41,10 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
     state = {
         visible: true
     }
-    //updateUser
-    updateUser = (user: GetAccountDetailsResponse) => {
-        console.log(user);
-        this.props.setUser(user);
-        this.props.changeIsAuth(true);
-    }
-    //update SessionId and cookie
-    updateSessionId = (session_id: string) => {
-        //cookie
-        cookies.set('session_id', session_id, {
-            path: '/',
-            maxAge: 2592000
-        });
-        console.log(cookies.get('session_id'));
-        //update SessionId
-        this.props.setSessionId(session_id);
-    }
-
-    // logout USer
+    // logout User
     onDeleteSession = () => {
-        // cookies.remove('session_id');
         const link = `${API_URL}/authentication/session?api_key=${API_KEY_3}`;
         this.props.logoutUser(link);
-        cookies.remove('session_id');
-        console.log('delete');
     }
     // error alert
     onDismiss = () => {
@@ -84,7 +64,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
 
     render() {
         // console.log('APP')
-        const {appReducer: {error, status,session_id,user,isAuth},getFavoriteList,favoriteMovies,addWatchlist,addFavorite,statusCode} = this.props;
+        const {appReducer: {error, status, session_id, user, isAuth}, getFavoriteList, favoriteMovies, addWatchlist, addFavorite, statusCode} = this.props;
         return (
             <>
                 <Header user={user} onDeleteSession={this.onDeleteSession}/>
@@ -117,15 +97,15 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
 
 type MapStateToProps = {
     appReducer: InitialAppStateType
-    favoriteMovies:  GetMovies | null
-    statusCode:  number | null
+    favoriteMovies: GetMovies | null
+    statusCode: number | null
 }
 
 const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
     return {
         appReducer: state.app,
-        favoriteMovies:state.moviePage.favoriteMovies,
-        statusCode:state.moviePage.statusCode
+        favoriteMovies: state.moviePage.favoriteMovies,
+        statusCode: state.moviePage.statusCode
     }
 }
 

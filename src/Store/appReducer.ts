@@ -6,7 +6,7 @@ import Cookies from 'universal-cookie';
 
 const cookies = new Cookies();
 
-export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
+export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed';
 
 const initialState = {
     user: null as null | GetAccountDetailsResponse,
@@ -111,6 +111,7 @@ export const logoutUser = (link: string) => async (dispatch: ThunkDispatch<AppRo
     dispatch(changeStatus('loading'));
     try {
         await API.logout(link, session_id);
+        cookies.remove('session_id');
         dispatch(changeStatus('succeeded'));
         dispatch(deleteSessionId());
         dispatch(setUser(null));

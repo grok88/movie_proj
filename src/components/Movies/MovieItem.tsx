@@ -1,5 +1,5 @@
 import React from 'react';
-import {API, API_KEY_3, API_URL, MovieType} from '../../api/api';
+import {MovieType} from '../../api/api';
 import {NavLink} from 'react-router-dom';
 import {Modal, ModalBody} from 'reactstrap';
 import LoginForm from '../Header/Login/LoginForm/LoginForm';
@@ -49,8 +49,9 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
             })
         }
     }
+
     render() {
-        const {item, account_id} = this.props;
+        const {item} = this.props;
 
         return (
             <>
