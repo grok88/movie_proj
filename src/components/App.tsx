@@ -12,7 +12,7 @@ import {
     userAuthFlow
 } from '../Store/appReducer';
 import {connect} from 'react-redux';
-import {API_KEY_3, API_URL} from '../api/api';
+import {AddFavoriteBodyType, AddWatchlistBodyType, API_KEY_3, API_URL, GetMovies} from '../api/api';
 import {GetAccountDetailsResponse} from './Header/Login/LoginForm/LoginForm';
 //work with cookie
 import Cookies from 'universal-cookie';
@@ -23,6 +23,7 @@ import PageNotFound from './Pages/PageNotFound/PageNotFound';
 import {Alert} from 'reactstrap';
 import {Loader} from './Common/Loader/Loader';
 import Favorite from './Pages/Favorite/Favorite';
+import {addFavorite, addWatchlist, getFavoriteList} from '../Store/movieReducer';
 
 const cookies = new Cookies();
 
@@ -78,17 +79,14 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
         if (session_id) {
             const accountUrl = `${API_URL}/account?api_key=${API_KEY_3}&session_id=${session_id}`;
             this.props.getAccountDetails(accountUrl, session_id);
-            // запрос для избранных
         }
     }
 
     render() {
-        const {appReducer: {error, status}} = this.props;
+        const {appReducer: {error, status,session_id,user,isAuth},getFavoriteList,favoriteMovies,addWatchlist,addFavorite,statusCode} = this.props;
         return (
             <>
-                <Header user={this.props.appReducer.user}
-                        onDeleteSession={this.onDeleteSession}
-                />
+                <Header user={user} onDeleteSession={this.onDeleteSession}/>
                 {/*error Alerts*/}
                 {error ? <Alert color="danger" isOpen={this.state.visible} toggle={this.onDismiss} className={'mt-3'}>
                     {error}
@@ -99,7 +97,15 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                     <Route exact path={'/'} render={() => <MoviesPage/>}/>
                     <Route exact path={'/movie/:id'} render={() => <MoviePage/>}/>
                     <Route exact path={'/movie/:id/:movietype?'} render={() => <MoviePage/>}/>
-                    <Route exact path={'/favorite'} render={() => <Favorite/>}/>
+                    <Route exact path={'/favorite'} render={() => <Favorite session_id={session_id}
+                                                                            account_id={user && user.id}
+                                                                            isAuth={isAuth}
+                                                                            getFavoriteList={getFavoriteList}
+                                                                            favoriteMovies={favoriteMovies}
+                                                                            addFavorite={addFavorite}
+                                                                            addWatchlist={addWatchlist}
+                                                                            statusCode={statusCode}
+                    />}/>
                     <Route exact path={'/404'} render={() => <PageNotFound/>}/>
                     <Route exact path={'*'} render={() => <Redirect to={'/404'}/>}/>
                 </Switch>
@@ -110,10 +116,15 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
 
 type MapStateToProps = {
     appReducer: InitialAppStateType
+    favoriteMovies:  GetMovies | null
+    statusCode:  number | null
 }
+
 const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
     return {
         appReducer: state.app,
+        favoriteMovies:state.moviePage.favoriteMovies,
+        statusCode:state.moviePage.statusCode
     }
 }
 
@@ -125,6 +136,9 @@ type MapDispatchToProps = {
     changeIsAuth: (isAuth: boolean) => void
     userAuthFlow: (username: string, password: string) => void
     setError: (error: null | string) => void
+    getFavoriteList: (link: string) => void
+    addFavorite: (link: string, body: AddFavoriteBodyType) => void
+    addWatchlist: (link: string, body: AddWatchlistBodyType) => void
 }
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
     setUser,
@@ -133,5 +147,8 @@ export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType
     getAccountDetails,
     changeIsAuth,
     userAuthFlow,
-    setError
+    setError,
+    getFavoriteList,
+    addWatchlist,
+    addFavorite
 })(App);

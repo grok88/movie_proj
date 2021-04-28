@@ -1,10 +1,12 @@
-import {AddFavoriteBodyType, AddWatchlistBodyType, API, GetMovieDetailsResp} from '../api/api';
+import {AddFavoriteBodyType, AddWatchlistBodyType, API, GetMovieDetailsResp, GetMovies} from '../api/api';
 import {ThunkDispatch} from 'redux-thunk';
 import {AppRootStateType, TMDBActionType} from './store';
 import {changeStatus, setError} from './appReducer';
 
 const initialState = {
-    movieDetails: null as GetMovieDetailsResp | null
+    movieDetails: null as GetMovieDetailsResp | null,
+    favoriteMovies: null as GetMovies | null,
+    statusCode: null as number | null
 }
 
 export type InitialMovieStateType = typeof initialState;
@@ -16,18 +18,38 @@ export const movieReducer = (state: InitialMovieStateType = initialState, action
                 ...state,
                 movieDetails: {...action.payload}
             }
+        case 'MOVIE/SET-FAVORITE-MOVIES':
+            return {
+                ...state,
+                favoriteMovies: action.payload
+            }
+        case 'MOVIE/SET-FAVORITE-STATUS-CODE':
+            return {
+                ...state,
+                statusCode: action.payload
+            }
         default:
             return state;
     }
-
 }
+
 //actions
-
-
 export const setMovie = (movie: GetMovieDetailsResp) => {
     return {
         type: 'MOVIE/SET-MOVIE',
         payload: movie
+    } as const;
+}
+export const setFavoriteMovies = (movies: GetMovies) => {
+    return {
+        type: 'MOVIE/SET-FAVORITE-MOVIES',
+        payload: movies
+    } as const;
+}
+export const setFavoriteStatusCode = (statusCode: number) => {
+    return {
+        type: 'MOVIE/SET-FAVORITE-STATUS-CODE',
+        payload: statusCode
     } as const;
 }
 
@@ -44,6 +66,18 @@ export const getMovieDetails = (link: string) => async (dispatch: ThunkDispatch<
         console.log(e.message);
     }
 }
+export const getFavoriteList = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
+    dispatch(changeStatus('loading'));
+    try {
+        let data = await API.getFavoriteList(link);
+        dispatch(changeStatus('succeeded'));
+        dispatch(setFavoriteMovies(data));
+        console.log(data)
+    } catch (e) {
+        dispatch(changeStatus('failed'));
+        console.log(e.message);
+    }
+}
 
 
 export const addFavorite = (link: string, body: AddFavoriteBodyType) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
@@ -51,6 +85,7 @@ export const addFavorite = (link: string, body: AddFavoriteBodyType) => async (d
     try {
         let data = await API.addFavorite(link, body);
         dispatch(changeStatus('succeeded'));
+        dispatch(setFavoriteStatusCode(data.status_code));
         console.log(data)
     } catch (e) {
         dispatch(changeStatus('failed'));
@@ -79,8 +114,12 @@ export const addWatchlist = (link: string, body: AddWatchlistBodyType) => async 
 
 
 //types
-type SetMovieAC = ReturnType<typeof setMovie>
+type SetMovieAC = ReturnType<typeof setMovie>;
+type SetFavoriteMoviesAC = ReturnType<typeof setFavoriteMovies>;
+type SetFavoriteStatusCodeAC = ReturnType<typeof setFavoriteStatusCode>;
 
 
 export type MovieActionsType =
     SetMovieAC
+    | SetFavoriteMoviesAC
+    | SetFavoriteStatusCodeAC;

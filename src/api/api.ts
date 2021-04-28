@@ -58,7 +58,7 @@ export const API = {
         return axiosInstance.post<AddFavoriteRespType>(link, body).then(res => res.data)
     },
     getFavoriteList(link: string) {
-        return axiosInstance.get<GetFavoriteListType>(link).then(res => res.data)
+        return axiosInstance.get<GetMovies>(link).then(res => res.data)
     },
     getWatchList(link: string) {
         return axiosInstance.get<GetFavoriteListType>(link).then(res => res.data)
