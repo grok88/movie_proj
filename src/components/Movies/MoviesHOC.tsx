@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {AddFavoriteBodyType, AddWatchlistBodyType, API_KEY_3, API_URL, MovieType} from '../../api/api';
 import {FilterType} from '../App';
-import MovieItem from './MovieItem';
 
 
 type MoviesContainerType = {

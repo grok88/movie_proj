@@ -1,13 +1,8 @@
 import React, {PureComponent} from 'react';
 import {Modal, ModalBody,} from 'reactstrap';
-import LoginForm, {GetAccountDetailsResponse} from './LoginForm/LoginForm';
-import Header from '../Header';
+import LoginForm from './LoginForm/LoginForm';
 
-type LoginPropsType = {
-    // userAuthFlow:(username: string, password: string) => void
-    // disabled:boolean
-    // error:null | string
-}
+type LoginPropsType = {}
 
 
 class Login extends PureComponent<LoginPropsType, { showModal: boolean }> {
@@ -33,7 +28,7 @@ class Login extends PureComponent<LoginPropsType, { showModal: boolean }> {
                 </button>
                 <Modal isOpen={this.state.showModal} toggle={this.toggleModal}>
                     <ModalBody>
-                        <LoginForm />
+                        <LoginForm/>
                     </ModalBody>
                 </Modal>
             </div>

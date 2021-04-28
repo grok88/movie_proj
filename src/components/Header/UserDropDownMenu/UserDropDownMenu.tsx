@@ -32,9 +32,9 @@ class UserDropDownMenu extends Component<UserDropDownMenuProps, { dropdownOpen: 
             </DropdownToggle>
             <DropdownMenu right={true}>
                 <DropdownItem onClick={onDeleteSession}>Logout</DropdownItem>
-                <DropdownItem onClick={() => {
+                <DropdownItem  onClick={() => {
                 }}>
-                    <NavLink to={'/favorite'}>
+                    <NavLink to={'/favorite'} style={{textDecoration:'none', color:'black'}}>
                         Favorite
                     </NavLink>
                 </DropdownItem>

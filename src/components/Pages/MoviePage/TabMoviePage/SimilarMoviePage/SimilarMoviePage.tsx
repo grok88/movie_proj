@@ -2,7 +2,6 @@ import React, {PureComponent} from 'react';
 import {API_KEY_3, API_URL, GetMovies} from '../../../../../api/api';
 import FilterPagination from '../../../../Filters/FilterPagination/FilterPagination';
 import SimilarMoviesList from './SimilarMoviesList/SimilarMoviesList';
-import MovieItem from '../../../../Movies/MovieItem';
 
 type SimilarMoviePagePropsType = {
     movie_id: string
@@ -12,8 +11,8 @@ type SimilarMoviePagePropsType = {
     session_id: string | null
     changeFavorite: (media_type: string, favorite: boolean, media_id: number) => void
     changeWatchlist: (media_type: string, watchlist: boolean, media_id: number) => void
-    account_id:number | null
-    isAuth:boolean
+    account_id: number | null
+    isAuth: boolean
 }
 
 class SimilarMoviePage extends PureComponent<SimilarMoviePagePropsType> {
@@ -30,7 +29,7 @@ class SimilarMoviePage extends PureComponent<SimilarMoviePagePropsType> {
     }
 
     render() {
-        const {similarMovies, changeSimilarMoviePage, session_id,changeFavorite,changeWatchlist,account_id ,isAuth} = this.props;
+        const {similarMovies, changeSimilarMoviePage, session_id, changeFavorite, changeWatchlist, account_id, isAuth} = this.props;
 
         return (
             <div className={'mt-3  container'}>
