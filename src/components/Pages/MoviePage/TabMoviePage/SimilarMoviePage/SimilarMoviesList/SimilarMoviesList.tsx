@@ -10,11 +10,12 @@ type SimilarMoviesListPropsType = {
     changeWatchlist: (media_type: string, watchlist: boolean, media_id: number) => void
     account_id:number | null
     isAuth:boolean
+    setRatingThunk: (link: string, body: { value: number }) => void
 }
 class SimilarMoviesList extends Component<SimilarMoviesListPropsType> {
 
     render() {
-        const {movies =[],changeWatchlist,changeFavorite,session_id,account_id,isAuth} = this.props;
+        const {movies =[],changeWatchlist,changeFavorite,session_id,account_id,isAuth,setRatingThunk} = this.props;
         return (
             <div className="row mt-3">
                 {movies.map(movie => {
@@ -26,6 +27,7 @@ class SimilarMoviesList extends Component<SimilarMoviesListPropsType> {
                                        account_id={account_id}
                                        session_id={session_id}
                                        isAuth={isAuth}
+                                       setRatingThunk={setRatingThunk}
                             />
                         </div>
                     );

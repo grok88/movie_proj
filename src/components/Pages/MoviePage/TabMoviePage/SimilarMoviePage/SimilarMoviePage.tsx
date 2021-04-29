@@ -13,6 +13,7 @@ type SimilarMoviePagePropsType = {
     changeWatchlist: (media_type: string, watchlist: boolean, media_id: number) => void
     account_id: number | null
     isAuth: boolean
+    setRatingThunk: (link: string, body: { value: number }) => void
 }
 
 class SimilarMoviePage extends PureComponent<SimilarMoviePagePropsType> {
@@ -29,7 +30,7 @@ class SimilarMoviePage extends PureComponent<SimilarMoviePagePropsType> {
     }
 
     render() {
-        const {similarMovies, changeSimilarMoviePage, session_id, changeFavorite, changeWatchlist, account_id, isAuth} = this.props;
+        const {similarMovies, changeSimilarMoviePage, session_id, changeFavorite, changeWatchlist, account_id, isAuth, setRatingThunk} = this.props;
 
         return (
             <div className={'mt-3  container'}>
@@ -43,6 +44,7 @@ class SimilarMoviePage extends PureComponent<SimilarMoviePagePropsType> {
                     changeWatchlist={changeWatchlist}
                     account_id={account_id}
                     isAuth={isAuth}
+                    setRatingThunk={setRatingThunk}
                 />
             </div>
         );

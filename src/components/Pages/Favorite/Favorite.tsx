@@ -14,6 +14,7 @@ type FavoritePropsType = {
     addFavorite: (link: string, body: AddFavoriteBodyType) => void
     addWatchlist: (link: string, body: AddWatchlistBodyType) => void
     statusCode: number | null
+    setRatingThunk: (link: string, body: { value: number }) => void
 }
 
 
@@ -59,7 +60,7 @@ class Favorite extends PureComponent<FavoritePropsType> {
 
     render() {
         console.log('Favorite')
-        const {favoriteMovies, isAuth, session_id, account_id} = this.props;
+        const {favoriteMovies, isAuth, session_id, account_id,setRatingThunk} = this.props;
         if (!isAuth) {
             return (
                 <div className={'container mt-3'}>
@@ -81,6 +82,7 @@ class Favorite extends PureComponent<FavoritePropsType> {
                                                account_id={account_id}
                                                session_id={session_id}
                                                isAuth={isAuth}
+                                               setRatingThunk={setRatingThunk}
                                     />
                                 </div>
                             })

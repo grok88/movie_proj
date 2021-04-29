@@ -12,7 +12,7 @@ import {
     InitialTabMovieReducerType
 } from '../../../../Store/tabMovieReducer';
 import {AddFavoriteBodyType, AddWatchlistBodyType, API_KEY_3, API_URL, GetMovieDetailsResp} from '../../../../api/api';
-import {addFavorite, addWatchlist} from '../../../../Store/movieReducer';
+import {addFavorite, addWatchlist,setRatingThunk} from '../../../../Store/movieReducer';
 import MoviePageInfo from './MoviePageInfo/MoviePageInfo';
 
 type TabMoviePagePropsType = {
@@ -54,7 +54,7 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
     }
 
     render() {
-        const {tabMoviePage: {actorsDetails, similarMovies}, getActorsDetails, getSimilarMovies, changeSimilarMoviePage, session_id, account_id, isAuth} = this.props;
+        const {tabMoviePage: {actorsDetails, similarMovies}, getActorsDetails, setRatingThunk, getSimilarMovies, changeSimilarMoviePage, session_id, account_id, isAuth} = this.props;
         return <div>
             <Nav tabs>
                 <NavItem>
@@ -104,6 +104,7 @@ class TabMoviePage extends Component<TabMoviePagePropsType, { activeTab: string 
                                               changeFavorite={this.changeFavorite}
                                               account_id={account_id}
                                               isAuth={isAuth}
+                                              setRatingThunk={setRatingThunk}
                             />
                         </Col>
                     </Row>
@@ -145,6 +146,7 @@ type MapDispatchToProps = {
     changeSimilarMoviePage: (page: number) => void
     addFavorite: (link: string, body: AddFavoriteBodyType) => void
     addWatchlist: (link: string, body: AddWatchlistBodyType) => void
+    setRatingThunk: (link: string, body: { value: number }) => void
 }
 
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
@@ -152,5 +154,6 @@ export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType
     getSimilarMovies,
     changeSimilarMoviePage,
     addWatchlist,
-    addFavorite
+    addFavorite,
+    setRatingThunk
 })(TabMoviePage);

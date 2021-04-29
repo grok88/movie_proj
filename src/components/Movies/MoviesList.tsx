@@ -4,7 +4,7 @@ import {AddFavoriteBodyType, AddWatchlistBodyType, MovieType} from '../../api/ap
 import MoviesHOC from './MoviesHOC';
 import {AppRootStateType} from '../../Store/store';
 import {connect} from 'react-redux';
-import {addFavorite, addWatchlist} from '../../Store/movieReducer';
+import {addFavorite, addWatchlist,setRatingThunk} from '../../Store/movieReducer';
 
 type MoviesListPropsType = {
     movies: Array<MovieType>
@@ -13,10 +13,10 @@ type MoviesListPropsType = {
     account_id: number | null
     session_id: null | string
     isAuth: boolean
-
+    setRatingThunk: (link: string, body: { value: number }) => void
 }
 
-const MoviesList: React.FC<MoviesListPropsType> = ({movies, changeFavorite, changeWatchlist, account_id, isAuth, session_id}) => {
+const MoviesList: React.FC<MoviesListPropsType> = ({movies, changeFavorite, setRatingThunk, changeWatchlist, account_id, isAuth, session_id}) => {
 
     return <div className="row">
         {movies.map(movie => {
@@ -28,6 +28,7 @@ const MoviesList: React.FC<MoviesListPropsType> = ({movies, changeFavorite, chan
                                account_id={account_id}
                                session_id={session_id}
                                isAuth={isAuth}
+                               setRatingThunk={setRatingThunk}
                     />
                 </div>
             );
@@ -37,21 +38,23 @@ const MoviesList: React.FC<MoviesListPropsType> = ({movies, changeFavorite, chan
 
 type MapStateToProps = {
     account_id: number | null,
-    isAuth:boolean
+    isAuth: boolean
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
     return {
         account_id: state.app.user && state.app.user.id,
-        isAuth:state.app.isAuth
+        isAuth: state.app.isAuth
     }
 }
 
 type MapDispatchToProps = {
     addFavorite: (link: string, body: AddFavoriteBodyType) => void
     addWatchlist: (link: string, body: AddWatchlistBodyType) => void
+    setRatingThunk: (link: string, body: { value: number }) => void
 }
 
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
     addFavorite,
-    addWatchlist
+    addWatchlist,
+    setRatingThunk
 })(MoviesHOC(MoviesList));

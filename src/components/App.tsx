@@ -22,7 +22,7 @@ import PageNotFound from './Pages/PageNotFound/PageNotFound';
 import {Alert} from 'reactstrap';
 import {Loader} from './Common/Loader/Loader';
 import Favorite from './Pages/Favorite/Favorite';
-import {addFavorite, addWatchlist, getFavoriteList} from '../Store/movieReducer';
+import {addFavorite, addWatchlist, getFavoriteList,setRatingThunk} from '../Store/movieReducer';
 //work with cookie
 import Cookies from 'universal-cookie';
 
@@ -64,7 +64,8 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
 
     render() {
         // console.log('APP')
-        const {appReducer: {error, status, session_id, user, isAuth}, getFavoriteList, favoriteMovies, addWatchlist, addFavorite, statusCode} = this.props;
+        const {appReducer: {error, status, session_id, user, isAuth}, getFavoriteList, favoriteMovies, addWatchlist,setRatingThunk, addFavorite, statusCode} = this.props;
+
         return (
             <>
                 <Header user={user} onDeleteSession={this.onDeleteSession}/>
@@ -86,6 +87,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                                                                             addFavorite={addFavorite}
                                                                             addWatchlist={addWatchlist}
                                                                             statusCode={statusCode}
+                                                                            setRatingThunk={setRatingThunk}
                     />}/>
                     <Route exact path={'/404'} render={() => <PageNotFound/>}/>
                     <Route exact path={'*'} render={() => <Redirect to={'/404'}/>}/>
@@ -120,6 +122,7 @@ type MapDispatchToProps = {
     getFavoriteList: (link: string) => void
     addFavorite: (link: string, body: AddFavoriteBodyType) => void
     addWatchlist: (link: string, body: AddWatchlistBodyType) => void
+    setRatingThunk: (link: string, body: { value: number }) => void
 }
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
     setUser,
@@ -131,5 +134,6 @@ export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType
     setError,
     getFavoriteList,
     addWatchlist,
-    addFavorite
+    addFavorite,
+    setRatingThunk
 })(App);

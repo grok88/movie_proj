@@ -13,7 +13,8 @@ type MoviesContainerType = {
     addFavorite: (link: string, body: AddFavoriteBodyType) => void
     addWatchlist: (link: string, body: AddWatchlistBodyType) => void
     account_id: number | null
-    isAuth:boolean
+    isAuth: boolean
+    setRatingThunk: (link: string, body: { value: number }) => void
 }
 
 
@@ -69,7 +70,7 @@ function MoviesHOC<T>(WrappedComponent: React.ComponentType<T>) {
         }
 
         render() {
-            const {movies,account_id ,session_id,isAuth} = this.props;
+            const {movies, account_id, session_id, isAuth, setRatingThunk} = this.props;
 
             if (!movies.length) {
                 return <h1>Movies aren't found</h1>
@@ -80,6 +81,7 @@ function MoviesHOC<T>(WrappedComponent: React.ComponentType<T>) {
                                      account_id={account_id}
                                      session_id={session_id}
                                      isAuth={isAuth}
+                                     setRatingThunk={setRatingThunk}
             />
         }
     }

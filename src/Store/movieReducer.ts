@@ -6,7 +6,8 @@ import {changeStatus, setError} from './appReducer';
 const initialState = {
     movieDetails: null as GetMovieDetailsResp | null,
     favoriteMovies: null as GetMovies | null,
-    statusCode: null as number | null
+    statusCode: null as number | null,
+    rating: null as null | number
 }
 
 export type InitialMovieStateType = typeof initialState;
@@ -28,6 +29,11 @@ export const movieReducer = (state: InitialMovieStateType = initialState, action
                 ...state,
                 statusCode: action.payload
             }
+        case 'MOVIE/SET-RATING':
+            return {
+                ...state,
+                rating: action.payload
+            }
         default:
             return state;
     }
@@ -38,6 +44,12 @@ export const setMovie = (movie: GetMovieDetailsResp) => {
     return {
         type: 'MOVIE/SET-MOVIE',
         payload: movie
+    } as const;
+}
+export const setRating = (value: number) => {
+    return {
+        type: 'MOVIE/SET-RATING',
+        payload: value
     } as const;
 }
 export const setFavoriteMovies = (movies: GetMovies) => {
@@ -111,15 +123,31 @@ export const addWatchlist = (link: string, body: AddWatchlistBodyType) => async 
         }, 3000);
     }
 }
+export const setRatingThunk = (link: string, body: { value: number }) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
+    dispatch(changeStatus('loading'));
+    try {
+        let data = await API.setRating(link, body);
+        dispatch(changeStatus('succeeded'));
+    } catch (e) {
+        dispatch(changeStatus('failed'));
+        dispatch(setError(e.response.data.status_message));
+
+        setTimeout(() => {
+            dispatch(setError(null));
+        }, 3000);
+    }
+}
 
 
 //types
 type SetMovieAC = ReturnType<typeof setMovie>;
 type SetFavoriteMoviesAC = ReturnType<typeof setFavoriteMovies>;
 type SetFavoriteStatusCodeAC = ReturnType<typeof setFavoriteStatusCode>;
+type SetRatingAC = ReturnType<typeof setRating>;
 
 
 export type MovieActionsType =
     SetMovieAC
     | SetFavoriteMoviesAC
-    | SetFavoriteStatusCodeAC;
+    | SetFavoriteStatusCodeAC
+    | SetRatingAC;

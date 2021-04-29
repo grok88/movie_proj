@@ -12,8 +12,9 @@ type MovieItemPropsType = {
     changeFavorite: (media_type: string, favorite: boolean, media_id: number) => void
     changeWatchlist: (media_type: string, watchlist: boolean, media_id: number) => void
     account_id: number | null
-    session_id: string | null,
+    session_id: string | null
     isAuth: boolean
+    setRatingThunk: (link: string, body: { value: number }) => void
 }
 
 
@@ -53,16 +54,13 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
         }
     }
 
-    rating = (newRating: any, name: any) => {
+    setRating = (newRating: number, name: any) => {
+        console.log(this.props.setRatingThunk)
         if (!this.props.isAuth) {
             this.toggleModal();
         } else {
             const ratingUrl = `${API_URL}/movie/${this.props.item.id}/rating?api_key=${API_KEY_3}&session_id=${this.props.session_id}`;
-            API.setRating(ratingUrl, {value: newRating})
-                .then(res => {
-                    debugger
-                    console.log(res);
-                })
+            this.props.setRatingThunk(ratingUrl,{value: newRating});
         }
     }
 
@@ -97,7 +95,7 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
                             <StarRatings
                                 rating={item.vote_average}
                                 starRatedColor="blue"
-                                changeRating={this.rating}
+                                changeRating={this.setRating}
                                 numberOfStars={10}
                                 name='rating'
                                 starSpacing="1px"
