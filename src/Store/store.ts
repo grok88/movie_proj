@@ -5,13 +5,15 @@ import {GenresFilterActionsType, genresFilterReducer} from './genresFilterReduce
 import thunk from 'redux-thunk';
 import {MovieActionsType, movieReducer} from './movieReducer';
 import {TabMovieActionsType, tabMovieReducer} from './tabMovieReducer';
+import {personReducer} from './personReducer';
 
 const rootReducer = combineReducers({
     app: appReducer,
     movies: moviesReducer,
     genresFilter: genresFilterReducer,
     moviePage: movieReducer,
-    tabMoviePage: tabMovieReducer
+    tabMoviePage: tabMovieReducer,
+    personPage: personReducer
 });
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
