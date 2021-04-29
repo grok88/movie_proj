@@ -1,7 +1,8 @@
 import React, {PureComponent} from 'react';
-import {GetMovieDetailsResp} from '../../../../api/api';
+import {API, API_KEY_3, API_URL, GetMovieDetailsResp} from '../../../../api/api';
 import {Modal, ModalBody} from 'reactstrap';
 import LoginForm from '../../../Header/Login/LoginForm/LoginForm';
+
 
 type PosterPropsType = {
     movieDetails: null | GetMovieDetailsResp
@@ -47,6 +48,16 @@ class Poster extends PureComponent<PosterPropsType, { favorite: boolean, bookmar
             })
         }
     }
+
+    // rating = () => {
+    //     console.log('RATING');
+    //     const ratingUrl = `${API_URL}/movie/460465/rating?api_key=${API_KEY_3}&session_id=5a5edbb684cd739ff78297edd969d5306cf99afd`;
+    //     API.setRating(ratingUrl, {value: 9})
+    //         .then(res => {
+    //             debugger
+    //             console.log(res);
+    //         })
+    // }
 
     render() {
         const {movieDetails} = this.props;
@@ -135,6 +146,11 @@ class Poster extends PureComponent<PosterPropsType, { favorite: boolean, bookmar
                                             </div>
                                             <div className={'moviePage__vote'}>
                                                 Рейтинг пользователей: {movieDetails && movieDetails.vote_average}
+                                            </div>
+                                            <div className={'moviePage__vote'}>
+                                                {/*<div className="card-text"><b>Оценить фильм</b>*/}
+                                                {/*    <button onClick={this.rating}>оценка</button>*/}
+                                                {/*</div>*/}
                                             </div>
                                         </div>
                                     </div>

@@ -66,6 +66,9 @@ export const API = {
     getActing(link: string) {
         return axiosInstance.get<ActingRespType>(link).then(res => res.data)
     },
+    setRating(link: string, body: { value: number }) {
+        return axiosInstance.post<{ status_code: number, status_message: string }>(link, body).then(res => res.data)
+    },
     getSimilarMovie(link: string) {
         return axiosInstance.get<GetMovies>(link).then(res => res.data)
         // .catch((err) => {

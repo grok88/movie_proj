@@ -1,8 +1,10 @@
 import React from 'react';
-import {MovieType} from '../../api/api';
+import {API, API_KEY_3, API_URL, MovieType} from '../../api/api';
 import {NavLink} from 'react-router-dom';
 import {Modal, ModalBody} from 'reactstrap';
 import LoginForm from '../Header/Login/LoginForm/LoginForm';
+// @ts-ignore
+import StarRatings from 'react-star-ratings';
 
 
 type MovieItemPropsType = {
@@ -13,6 +15,7 @@ type MovieItemPropsType = {
     session_id: string | null,
     isAuth: boolean
 }
+
 
 export default class MovieItem extends React.Component<MovieItemPropsType, { favorite: boolean, bookmark: boolean, showModal: boolean }> {
 
@@ -50,9 +53,24 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
         }
     }
 
+    rating = ( newRating:any, name:any) => {
+        console.log('rating', newRating, name);
+        if (!this.props.isAuth) {
+            this.toggleModal();
+        } else {
+            console.log('RATING');
+            const ratingUrl = `${API_URL}/movie/460465/rating?api_key=${API_KEY_3}&session_id=5a5edbb684cd739ff78297edd969d5306cf99afd`;
+            API.setRating(ratingUrl, {value: 9})
+                .then(res => {
+                    debugger
+                    console.log(res);
+                })
+        }
+    }
+
     render() {
         const {item} = this.props;
-
+        // console.log(item);
         return (
             <>
                 {
@@ -78,7 +96,18 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
                         <h6 className="card-title">{item.title}</h6>
                         {/*<div className="card-text"><b>Описание</b>: {item.overview}</div>*/}
                         <div className="card-text"><b>Рейтинг</b>: {item.vote_average}</div>
-
+                        <div className="card-text">
+                            {/*<button onClick={this.rating}>оценка</button>*/}
+                            <StarRatings
+                                rating={item.vote_average}
+                                starRatedColor="blue"
+                                changeRating={this.rating}
+                                numberOfStars={10}
+                                name='rating'
+                                starSpacing="1px"
+                                starDimension='20px'
+                            />
+                        </div>
                         <div className="card-text d-inline-block float-right pl-1">
                             {/*<b>Watchlist </b>*/}
                             {this.state.bookmark
