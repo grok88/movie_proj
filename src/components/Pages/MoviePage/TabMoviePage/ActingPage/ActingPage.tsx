@@ -1,5 +1,6 @@
 import React, {PureComponent} from 'react';
 import {ActingRespType, API_KEY_3, API_URL} from '../../../../../api/api';
+import {NavLink} from 'react-router-dom';
 
 type ActingPagePropsType = {
     movie_id: string
@@ -23,9 +24,12 @@ class ActingPage extends PureComponent<ActingPagePropsType, { acting: null | Act
                     {actorsDetails && actorsDetails.cast.map(p => <div key={p.cast_id} className="col">
                         <div className={'actingPage__card'}>
                             <div className={'actingPage__img'}>
-                                <img
-                                    src={p.profile_path ? `https://image.tmdb.org/t/p/w500/${p.profile_path}` : 'https://static.wikia.nocookie.net/nopixel/images/b/b4/Not-found-image-15383864787lu.jpg/revision/latest?cb=20200910062142'}
-                                    alt={`${p.name}`} title={`${p.name}`}/>
+                                <NavLink to={`/person/${p.id}`}>
+                                    <img
+                                        src={p.profile_path ? `https://image.tmdb.org/t/p/w500/${p.profile_path}` : 'https://static.wikia.nocookie.net/nopixel/images/b/b4/Not-found-image-15383864787lu.jpg/revision/latest?cb=20200910062142'}
+                                        alt={`${p.name}`} title={`${p.name}`}/>
+                                </NavLink>
+
                             </div>
                             <p>{p.name}</p>
                             <p>{p.character}</p>

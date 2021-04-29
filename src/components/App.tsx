@@ -22,9 +22,10 @@ import PageNotFound from './Pages/PageNotFound/PageNotFound';
 import {Alert} from 'reactstrap';
 import {Loader} from './Common/Loader/Loader';
 import Favorite from './Pages/Favorite/Favorite';
-import {addFavorite, addWatchlist, getFavoriteList,setRatingThunk} from '../Store/movieReducer';
+import {addFavorite, addWatchlist, getFavoriteList, setRatingThunk} from '../Store/movieReducer';
 //work with cookie
 import Cookies from 'universal-cookie';
+import PersonPage from './Pages/PersonPage/PersonPage';
 
 const cookies = new Cookies();
 
@@ -37,7 +38,7 @@ export type FilterType = {
 }
 
 
-class App extends React.Component<MapStateToProps & MapDispatchToProps> {
+class App extends React.PureComponent<MapStateToProps & MapDispatchToProps> {
     state = {
         visible: true
     }
@@ -63,8 +64,8 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
     }
 
     render() {
-        // console.log('APP')
-        const {appReducer: {error, status, session_id, user, isAuth}, getFavoriteList, favoriteMovies, addWatchlist,setRatingThunk, addFavorite, statusCode} = this.props;
+        console.log('APP')
+        const {appReducer: {error, status, session_id, user, isAuth}, getFavoriteList, favoriteMovies, addWatchlist, setRatingThunk, addFavorite, statusCode} = this.props;
 
         return (
             <>
@@ -79,6 +80,7 @@ class App extends React.Component<MapStateToProps & MapDispatchToProps> {
                     <Route exact path={'/'} render={() => <MoviesPage/>}/>
                     <Route exact path={'/movie/:id'} render={() => <MoviePage/>}/>
                     <Route exact path={'/movie/:id/:movietype?'} render={() => <MoviePage/>}/>
+                    <Route exact path={'/person/:id'} render={() => <PersonPage/>}/>
                     <Route exact path={'/favorite'} render={() => <Favorite session_id={session_id}
                                                                             account_id={user && user.id}
                                                                             isAuth={isAuth}

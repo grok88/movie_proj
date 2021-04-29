@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {PureComponent} from 'react';
 import Login from './Login/Login';
 import {GetAccountDetailsResponse} from './Login/LoginForm/LoginForm';
 import UserDropDownMenu from './UserDropDownMenu/UserDropDownMenu';
@@ -9,9 +9,10 @@ type HeaderPropsType = {
     onDeleteSession: () => void
 }
 
-class Header extends Component<HeaderPropsType> {
+class Header extends PureComponent<HeaderPropsType> {
 
     render() {
+        console.log('HEADER')
         const {user, onDeleteSession} = this.props;
         return (
             <nav className={'navbar navbar-dark bg-dark'}>
