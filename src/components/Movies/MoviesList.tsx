@@ -17,10 +17,11 @@ type MoviesListPropsType = {
 }
 
 const MoviesList: React.FC<MoviesListPropsType> = ({movies, changeFavorite, changeWatchlist, account_id, isAuth, session_id}) => {
+
     return <div className="row">
         {movies.map(movie => {
             return (
-                <div key={movie.id} className="col-6 mb-4">
+                <div key={movie.id} className="col-sm-6 col-lg-4 mb-4">
                     <MovieItem item={movie}
                                changeFavorite={changeFavorite}
                                changeWatchlist={changeWatchlist}

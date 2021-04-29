@@ -53,14 +53,12 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
         }
     }
 
-    rating = ( newRating:any, name:any) => {
-        console.log('rating', newRating, name);
+    rating = (newRating: any, name: any) => {
         if (!this.props.isAuth) {
             this.toggleModal();
         } else {
-            console.log('RATING');
-            const ratingUrl = `${API_URL}/movie/460465/rating?api_key=${API_KEY_3}&session_id=5a5edbb684cd739ff78297edd969d5306cf99afd`;
-            API.setRating(ratingUrl, {value: 9})
+            const ratingUrl = `${API_URL}/movie/${this.props.item.id}/rating?api_key=${API_KEY_3}&session_id=${this.props.session_id}`;
+            API.setRating(ratingUrl, {value: newRating})
                 .then(res => {
                     debugger
                     console.log(res);
@@ -70,7 +68,6 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
 
     render() {
         const {item} = this.props;
-        // console.log(item);
         return (
             <>
                 {
@@ -82,7 +79,7 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
                         </Modal>
                         : ''
                 }
-                <div className="card" style={{width: '100%'}}>
+                <div className="card " style={{width: '100%'}}>
                     <NavLink to={`/movie/${item.id}`}>
                         <img
                             className="card-img-top card-img--height"
@@ -97,7 +94,6 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
                         {/*<div className="card-text"><b>Описание</b>: {item.overview}</div>*/}
                         <div className="card-text"><b>Рейтинг</b>: {item.vote_average}</div>
                         <div className="card-text">
-                            {/*<button onClick={this.rating}>оценка</button>*/}
                             <StarRatings
                                 rating={item.vote_average}
                                 starRatedColor="blue"
@@ -105,7 +101,7 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
                                 numberOfStars={10}
                                 name='rating'
                                 starSpacing="1px"
-                                starDimension='20px'
+                                starDimension='15px'
                             />
                         </div>
                         <div className="card-text d-inline-block float-right pl-1">

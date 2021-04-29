@@ -46,7 +46,7 @@ class MoviesPage extends React.Component<MapStateToProps & MapDispatchToProps> {
             <>
                 <div className="container">
                     <div className="row mt-4">
-                        <div className="col-4">
+                        <div className=" col-sm-4">
                             <div className="card" style={{width: '100%'}}>
                                 <div className="card-body">
                                     <h3>Фильтры:</h3>
@@ -60,7 +60,7 @@ class MoviesPage extends React.Component<MapStateToProps & MapDispatchToProps> {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-8">
+                        <div className="container col-sm-8">
                             <MoviesList filters={filters} page={page}
                                         session_id={this.props.session_id}
                                         onChangePage={this.onChangePage}

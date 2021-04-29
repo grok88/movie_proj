@@ -19,7 +19,7 @@ class SimilarMoviesList extends Component<SimilarMoviesListPropsType> {
             <div className="row mt-3">
                 {movies.map(movie => {
                     return (
-                        <div key={movie.id} className="col-6   col-md-4 col-lg-3 mb-4">
+                        <div key={movie.id} className="col-6 col-md-4 col-lg-3 mb-4">
                             <MovieItem item={movie}
                                        changeFavorite={changeFavorite}
                                        changeWatchlist={changeWatchlist}
