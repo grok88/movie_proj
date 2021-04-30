@@ -128,6 +128,8 @@ export const setRatingThunk = (link: string, body: { value: number }) => async (
     try {
         let data = await API.setRating(link, body);
         dispatch(changeStatus('succeeded'));
+        dispatch(setRating(body.value));
+
     } catch (e) {
         dispatch(changeStatus('failed'));
         dispatch(setError(e.response.data.status_message));

@@ -261,3 +261,10 @@ body {
 .person__films-img{
     border-radius: 5px;
 }
+
+.rating__alert{
+    position: absolute;
+    top:50%;
+    left:0
+
+}

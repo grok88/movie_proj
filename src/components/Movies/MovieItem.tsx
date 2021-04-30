@@ -1,7 +1,7 @@
 import React from 'react';
 import {API_KEY_3, API_URL, MovieType} from '../../api/api';
 import {NavLink} from 'react-router-dom';
-import {Modal, ModalBody} from 'reactstrap';
+import {Alert, Modal, ModalBody} from 'reactstrap';
 import LoginForm from '../Header/Login/LoginForm/LoginForm';
 // @ts-ignore
 import StarRatings from 'react-star-ratings';
@@ -18,17 +18,29 @@ type MovieItemPropsType = {
 }
 
 
-export default class MovieItem extends React.Component<MovieItemPropsType, { favorite: boolean, bookmark: boolean, showModal: boolean }> {
+export default class MovieItem extends React.Component<MovieItemPropsType, { favorite: boolean, bookmark: boolean, showModal: boolean, showAlert: boolean }> {
 
     state = {
         favorite: false,
         bookmark: false,
-        showModal: false
+        showModal: false,
+        showAlert: false
     }
+
     toggleModal = () => {
         this.setState(prevState => ({
             showModal: !prevState.showModal
         }))
+    }
+    toggleAlert = () => {
+        this.setState(prevState => ({
+            showAlert: !prevState.showAlert
+        }))
+        setTimeout(()=>{
+            this.setState({
+                showAlert:false
+            })
+        }, 2000)
     }
     changeFavoriteHandler = () => {
         if (!this.props.isAuth) {
@@ -55,12 +67,13 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
     }
 
     setRating = (newRating: number, name: any) => {
-        console.log(this.props.setRatingThunk)
         if (!this.props.isAuth) {
             this.toggleModal();
         } else {
+
             const ratingUrl = `${API_URL}/movie/${this.props.item.id}/rating?api_key=${API_KEY_3}&session_id=${this.props.session_id}`;
-            this.props.setRatingThunk(ratingUrl,{value: newRating});
+            this.props.setRatingThunk(ratingUrl, {value: newRating});
+            this.toggleAlert();
         }
     }
 
@@ -88,11 +101,12 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
                         />
                     </NavLink>
                     <div className="card-body">
-                        <h6 className="card-title">{item.title}</h6>
+                        <h6 className="card-title" style={{fontWeight:'bold'}}>{item.title}</h6>
                         {/*<div className="card-text"><b>Описание</b>: {item.overview}</div>*/}
                         <div className="card-text"><b>Рейтинг</b>: {item.vote_average}</div>
                         <div className="card-text">
                             <StarRatings
+                                id={'rating'}
                                 rating={item.vote_average}
                                 starRatedColor="blue"
                                 changeRating={this.setRating}
@@ -101,6 +115,10 @@ export default class MovieItem extends React.Component<MovieItemPropsType, { fav
                                 starSpacing="1px"
                                 starDimension='15px'
                             />
+                            <Alert color="success" isOpen={this.state.showAlert} toggle={this.toggleAlert} className={'rating__alert'}>
+                                <h4 className="alert-heading">Success!</h4>
+                               Ваша оценка фильма сохранена.
+                            </Alert>
                         </div>
                         <div className="card-text d-inline-block float-right pl-1">
                             {/*<b>Watchlist </b>*/}
