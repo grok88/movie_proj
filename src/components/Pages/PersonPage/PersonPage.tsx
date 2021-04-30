@@ -78,6 +78,43 @@ class PersonPage extends PureComponent<PersonPagePropsType> {
                                 }
                             </div>
                             <h3 className={'person__details-title'}>Персональная информация</h3>
+                            <section className="person__info">
+                                <p>
+                                    <strong>
+                                        <bdi>Известность за</bdi>
+                                    </strong>
+                                    Актёрское искусство
+                                </p>
+                                <p>
+                                    <strong>
+                                        <bdi>Пол</bdi>
+                                    </strong>
+                                    {
+                                        personDetails && personDetails.gender === 1
+                                            ? 'Женский'
+                                            : 'Мужской'
+                                    }
+                                </p>
+                                <p>
+                                    <strong>
+                                        <bdi>Дата рождения</bdi>
+                                    </strong>
+                                    {personDetails && personDetails.birthday}
+                                </p>
+                                <p>
+                                    <strong>
+                                        <bdi>Место рождения</bdi>
+                                    </strong>
+                                    {personDetails && personDetails.place_of_birth}
+                                </p>
+                                <p>
+                                    <strong>
+                                        <bdi>Также известен под именем</bdi>
+                                    </strong>
+                                    {personDetails && personDetails.also_known_as.map(name => <span
+                                        key={name}>{name}</span>)}
+                                </p>
+                            </section>
                         </div>
 
                     </div>

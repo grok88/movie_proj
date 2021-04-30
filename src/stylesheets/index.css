@@ -230,3 +230,11 @@ body {
 .social-facebook{
     margin-right: 10px;
 }
+.person__info > p{
+    margin: 0 0 20px 0;
+    font-size: 1em;
+}
+.person__info > p strong{
+    display: block;
+    font-weight: 600;
+}
