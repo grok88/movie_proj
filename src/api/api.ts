@@ -302,7 +302,7 @@ export type PersonSocialRespType = {
     id: number
     instagram_id: string | null
 }
-type PersonCastType = {
+export type PersonCastType = {
     character: string
     credit_id: string
     release_date: string

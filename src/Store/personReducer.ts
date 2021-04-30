@@ -91,7 +91,7 @@ export const getPersonSocial = (link: string) => async (dispatch: ThunkDispatch<
 }
 export const getPersonFilms = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
     dispatch(changeStatus('loading'));
-    debugger
+    // debugger
     try {
         let data = await API.getPersonFilms(link);
         dispatch(changeStatus('succeeded'));

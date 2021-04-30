@@ -4,6 +4,7 @@ import {connect} from 'react-redux';
 import {getPersonDetail, getPersonFilms, getPersonSocial, InitialPersonStateType} from '../../../Store/personReducer';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
 import {API_KEY_3, API_URL} from '../../../api/api';
+import PersonItem from './PersonItem/PersonItem';
 
 type PersonParamsType = {
     personId: string
@@ -13,7 +14,7 @@ type PersonPagePropsType = RouteComponentProps<PersonParamsType> & MapStateToPro
 class PersonPage extends PureComponent<PersonPagePropsType> {
     componentDidMount() {
         const personId = this.props.match.params.personId;
-        let personDetailsUrl = `${API_URL}/person/${personId}?api_key=${API_KEY_3}`;
+        let personDetailsUrl = `${API_URL}/person/${personId}?api_key=${API_KEY_3}&language=ru-RU`;
         this.props.getPersonDetail(personDetailsUrl);
         let personSocialUrl = `${API_URL}/person/${personId}/external_ids?api_key=${API_KEY_3}`;
         this.props.getPersonSocial(personSocialUrl);
@@ -24,11 +25,10 @@ class PersonPage extends PureComponent<PersonPagePropsType> {
     render() {
         const {personState: {personDetails, social, personFilms}} = this.props;
         console.log('PersonPage');
-        console.log(personFilms);
         return (
             <div className={'container mt-4 person__page'}>
                 <div className="row person">
-                    <div style={{width: '300px', outline: '1px solid red'}} className={''}>
+                    <div style={{width: '300px'}} className={''}>
                         <div className="person__poster">
                             {
                                 personDetails && personDetails.profile_path
@@ -122,7 +122,7 @@ class PersonPage extends PureComponent<PersonPagePropsType> {
                         </div>
 
                     </div>
-                    <div style={{outline: '1px solid red'}} className={'col '}>
+                    <div className={'col '}>
                         <div className="person__content">
                             <h2 className="person__content-title">{personDetails && personDetails.name}</h2>
                             <div className="person__biography">
@@ -134,7 +134,15 @@ class PersonPage extends PureComponent<PersonPagePropsType> {
                                 }
                             </div>
                             <div className="person__films mt-3">
-                                11111
+                                <h3>Снимался в фильмах</h3>
+                                <div className="row">
+                                    {
+                                        personFilms && personFilms.cast.map(film => <div key={film.id}
+                                                                                         className="col-sm-6 col-lg-3 .col-xl- mb-2">
+                                            <PersonItem film={film}/>
+                                        </div>)
+                                    }
+                                </div>
                             </div>
                         </div>
                     </div>
