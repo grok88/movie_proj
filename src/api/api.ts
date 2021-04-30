@@ -73,6 +73,9 @@ export const API = {
     getPersonSocial(link: string) {
         return axiosInstance.get<PersonSocialRespType>(link).then(res => res.data)
     },
+    getPersonFilms(link: string) {
+        return axiosInstance.get<PersonFilmsRespType>(link).then(res => res.data)
+    },
 }
 
 // export const fetchApi = (url: string, options: any = {}) => {
@@ -298,4 +301,27 @@ export type PersonSocialRespType = {
     twitter_id: string | null
     id: number
     instagram_id: string | null
+}
+type PersonCastType = {
+    character: string
+    credit_id: string
+    release_date: string
+    vote_count: number
+    video: boolean
+    adult: boolean
+    vote_average: number
+    title: string
+    genre_ids: Array<number>
+    original_language: string
+    original_title: string
+    popularity: number
+    id: number
+    backdrop_path: null | string
+    overview: string
+    poster_path: null | string
+}
+export type PersonFilmsRespType = {
+    id: number
+    cast: Array<PersonCastType>
+    crew: Array<any>
 }

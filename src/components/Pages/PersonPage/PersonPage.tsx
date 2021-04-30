@@ -1,9 +1,9 @@
 import React, {PureComponent} from 'react';
 import {AppRootStateType} from '../../../Store/store';
 import {connect} from 'react-redux';
-import {getPersonDetail, getPersonSocial} from '../../../Store/personReducer';
+import {getPersonDetail, getPersonFilms, getPersonSocial, InitialPersonStateType} from '../../../Store/personReducer';
 import {RouteComponentProps, withRouter} from 'react-router-dom';
-import {API_KEY_3, API_URL, PersonDetailType, PersonSocialRespType} from '../../../api/api';
+import {API_KEY_3, API_URL} from '../../../api/api';
 
 type PersonParamsType = {
     personId: string
@@ -16,14 +16,17 @@ class PersonPage extends PureComponent<PersonPagePropsType> {
         let personDetailsUrl = `${API_URL}/person/${personId}?api_key=${API_KEY_3}`;
         this.props.getPersonDetail(personDetailsUrl);
         let personSocialUrl = `${API_URL}/person/${personId}/external_ids?api_key=${API_KEY_3}`;
-        this.props.getPersonSocial(personSocialUrl)
+        this.props.getPersonSocial(personSocialUrl);
+        let personFilmsUrl = `${API_URL}/person/${personId}/movie_credits?api_key=${API_KEY_3}`;
+        this.props.getPersonFilms(personFilmsUrl);
     }
 
     render() {
-        const {personDetails, social} = this.props;
-        console.log(personDetails, social)
+        const {personState: {personDetails, social, personFilms}} = this.props;
+        console.log('PersonPage');
+        console.log(personFilms);
         return (
-            <div className={'container mt-3 person__page'}>
+            <div className={'container mt-4 person__page'}>
                 <div className="row person">
                     <div style={{width: '300px', outline: '1px solid red'}} className={''}>
                         <div className="person__poster">
@@ -112,14 +115,28 @@ class PersonPage extends PureComponent<PersonPagePropsType> {
                                         <bdi>Также известен под именем</bdi>
                                     </strong>
                                     {personDetails && personDetails.also_known_as.map(name => <span
+                                        style={{display: 'block'}}
                                         key={name}>{name}</span>)}
                                 </p>
                             </section>
                         </div>
 
                     </div>
-                    <div style={{outline: '1px solid red'}} className={'col'}>
-                        INFO
+                    <div style={{outline: '1px solid red'}} className={'col '}>
+                        <div className="person__content">
+                            <h2 className="person__content-title">{personDetails && personDetails.name}</h2>
+                            <div className="person__biography">
+                                <h3>Биография</h3>
+                                {
+                                    personDetails && personDetails.biography
+                                        ? <p> {personDetails && personDetails.biography}</p>
+                                        : <p>У нас нет биографии для {personDetails && personDetails.name}</p>
+                                }
+                            </div>
+                            <div className="person__films mt-3">
+                                11111
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -129,21 +146,26 @@ class PersonPage extends PureComponent<PersonPagePropsType> {
 
 
 type MapStateToProps = {
-    personDetails: null | PersonDetailType
-    social: null | PersonSocialRespType
+    // personDetails: null | PersonDetailType
+    // social: null | PersonSocialRespType
+    // personFilms:  null | PersonFilmsRespType
+    personState: InitialPersonStateType
 }
 const mapStateToProps = (state: AppRootStateType): MapStateToProps => {
     return {
-        personDetails: state.personPage.personDetails,
-        social: state.personPage.social
+        // personDetails: state.personPage.personDetails,
+        // social: state.personPage.social
+        personState: state.personPage
     }
 }
 
 type MapDispatchToProps = {
     getPersonDetail: (link: string) => void
     getPersonSocial: (link: string) => void
+    getPersonFilms: (link: string) => void
 }
 export default connect<MapStateToProps, MapDispatchToProps, {}, AppRootStateType>(mapStateToProps, {
     getPersonDetail,
-    getPersonSocial
+    getPersonSocial,
+    getPersonFilms
 })(withRouter(PersonPage));

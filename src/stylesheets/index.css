@@ -238,3 +238,22 @@ body {
     display: block;
     font-weight: 600;
 }
+
+
+/*person__content*/
+.person__content{
+    padding-left: 30px;
+}
+
+.person__content-title {
+    font-size: 2.2rem;
+}
+
+.person__biography{
+    margin-top: 30px;
+}
+.person__biography h3{
+    font-weight: 600;
+    font-size: 1.3em;
+    margin-bottom: 8px;
+}
