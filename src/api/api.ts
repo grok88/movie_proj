@@ -75,6 +75,9 @@ export const API = {
         //     return err.response.data.status_message;
         // })
     },
+    getPersonDetail(link: string, personId: string) {
+        return axiosInstance.get<GetMovies>(link).then(res => res.data)
+    },
 }
 
 // export const fetchApi = (url: string, options: any = {}) => {

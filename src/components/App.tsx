@@ -80,7 +80,7 @@ class App extends React.PureComponent<MapStateToProps & MapDispatchToProps> {
                     <Route exact path={'/'} render={() => <MoviesPage/>}/>
                     <Route exact path={'/movie/:id'} render={() => <MoviePage/>}/>
                     <Route exact path={'/movie/:id/:movietype?'} render={() => <MoviePage/>}/>
-                    <Route exact path={'/person/:id'} render={() => <PersonPage/>}/>
+                    <Route exact path={'/person/:personId'} render={() => <PersonPage/>}/>
                     <Route exact path={'/favorite'} render={() => <Favorite session_id={session_id}
                                                                             account_id={user && user.id}
                                                                             isAuth={isAuth}

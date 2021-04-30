@@ -1,7 +1,7 @@
-import {API} from '../api/api';
+import {API, API_KEY_3, API_URL} from '../api/api';
 import {ThunkDispatch} from 'redux-thunk';
 import {AppRootStateType, TMDBActionType} from './store';
-import {changeStatus} from './appReducer';
+import {changeStatus, setError} from './appReducer';
 
 const initialState = {
     personDetails: null
@@ -32,16 +32,23 @@ export const setPersonDetail = (person: any) => {
 
 
 //thunks
-export const getMovieDetails = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
+export const getPersonDetail = (link: string, personId: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
     dispatch(changeStatus('loading'));
+    debugger
     try {
-        let data = await API.getMovieDetails(link);
+
+        let data = await API.getPersonDetail(link, personId);
         dispatch(changeStatus('succeeded'));
 
         console.log(data)
     } catch (e) {
         dispatch(changeStatus('failed'));
-        console.log(e.message);
+        //ser LoginForm serverError
+        dispatch(setError(e.response.data.status_message));
+
+        setTimeout(() => {
+            dispatch(setError(null));
+        }, 3000);
     }
 }
 
