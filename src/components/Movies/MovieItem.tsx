@@ -1,5 +1,5 @@
 import React from 'react';
-import {API, API_KEY_3, API_URL, MovieType} from '../../api/api';
+import {API_KEY_3, API_URL, MovieType} from '../../api/api';
 import {NavLink} from 'react-router-dom';
 import {Modal, ModalBody} from 'reactstrap';
 import LoginForm from '../Header/Login/LoginForm/LoginForm';

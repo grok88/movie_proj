@@ -1,15 +1,16 @@
-import {API, API_KEY_3, API_URL} from '../api/api';
+import {API, PersonDetailType, PersonSocialRespType} from '../api/api';
 import {ThunkDispatch} from 'redux-thunk';
 import {AppRootStateType, TMDBActionType} from './store';
 import {changeStatus, setError} from './appReducer';
 
 const initialState = {
-    personDetails: null
+    personDetails: null as null | PersonDetailType,
+    social: null as null | PersonSocialRespType
 }
 
 export type InitialPersonStateType = typeof initialState;
 
-export const personReducer = (state: InitialPersonStateType = initialState, action: MovieActionsType): InitialPersonStateType => {
+export const personReducer = (state: InitialPersonStateType = initialState, action: PersonActionsType): InitialPersonStateType => {
     switch (action.type) {
 
         case 'PERSON/SET-PERSON-DETAIL':
@@ -17,29 +18,55 @@ export const personReducer = (state: InitialPersonStateType = initialState, acti
                 ...state,
                 personDetails: action.payload
             }
+        case 'PERSON/SET-SOCIAL':
+            return {
+                ...state,
+                social: action.payload
+            }
         default:
             return state;
     }
 }
 
 //actions
-export const setPersonDetail = (person: any) => {
+export const setPersonDetail = (person: PersonDetailType) => {
     return {
         type: 'PERSON/SET-PERSON-DETAIL',
         payload: person
     } as const;
 }
-
+export const setSocial = (social: PersonSocialRespType) => {
+    return {
+        type: 'PERSON/SET-SOCIAL',
+        payload: social
+    } as const;
+}
 
 //thunks
-export const getPersonDetail = (link: string, personId: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
+export const getPersonDetail = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
     dispatch(changeStatus('loading'));
-    debugger
     try {
-
-        let data = await API.getPersonDetail(link, personId);
+        let data = await API.getPersonDetail(link);
         dispatch(changeStatus('succeeded'));
+        dispatch(setPersonDetail(data));
 
+        console.log(data)
+    } catch (e) {
+        dispatch(changeStatus('failed'));
+        //ser LoginForm serverError
+        dispatch(setError(e.response.data.status_message));
+
+        setTimeout(() => {
+            dispatch(setError(null));
+        }, 3000);
+    }
+}
+export const getPersonSocial = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
+    dispatch(changeStatus('loading'));
+    try {
+        let data = await API.getPersonSocial(link);
+        dispatch(changeStatus('succeeded'));
+        dispatch(setSocial(data));
         console.log(data)
     } catch (e) {
         dispatch(changeStatus('failed'));
@@ -54,7 +81,9 @@ export const getPersonDetail = (link: string, personId: string) => async (dispat
 
 //types
 type SetPersonDetailAC = ReturnType<typeof setPersonDetail>;
+type SetSocialAC = ReturnType<typeof setSocial>;
 
 
-export type MovieActionsType =
-    SetPersonDetailAC;
+export type PersonActionsType =
+    SetPersonDetailAC
+    | SetSocialAC;

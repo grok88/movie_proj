@@ -1,5 +1,5 @@
 import React, {PureComponent} from 'react';
-import {API, API_KEY_3, API_URL, GetMovieDetailsResp} from '../../../../api/api';
+import {GetMovieDetailsResp} from '../../../../api/api';
 import {Modal, ModalBody} from 'reactstrap';
 import LoginForm from '../../../Header/Login/LoginForm/LoginForm';
 

@@ -5,7 +5,7 @@ import {GenresFilterActionsType, genresFilterReducer} from './genresFilterReduce
 import thunk from 'redux-thunk';
 import {MovieActionsType, movieReducer} from './movieReducer';
 import {TabMovieActionsType, tabMovieReducer} from './tabMovieReducer';
-import {personReducer} from './personReducer';
+import {PersonActionsType, personReducer} from './personReducer';
 
 const rootReducer = combineReducers({
     app: appReducer,
@@ -24,7 +24,8 @@ export type TMDBActionType =
     | AppActionsType
     | MoviesActionsType
     | MovieActionsType
-    | TabMovieActionsType;
+    | TabMovieActionsType
+    | PersonActionsType;
 
 //@ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

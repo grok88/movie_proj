@@ -28,21 +28,12 @@ export const API = {
     //auth logic
     getRequestToken(tokenUrl: string) {
         return axios.get<GetToken>(tokenUrl).then(res => res.data)
-        // .catch((err) => {
-        //     return err.response.data.status_message;
-        // })
     },
     createSessionWithLogin(loginUrl: string, body: CreateSessionWithLoginBody) {
         return axios.post<CreateSessionWithLoginResp>(loginUrl, body).then(res => res.data)
-        //     .catch((err) => {
-        //     return err.response.data.status_message;
-        // })
     },
     createSessionId(sessionUrl: string, body: { request_token: string }) {
         return axios.post<{ success: boolean, session_id: string }>(sessionUrl, body).then(res => res.data)
-        //     .catch((err) => {
-        //     return err.response.data.status_message;
-        // })
     },
 
     getAccountDetails(link: string) {
@@ -75,8 +66,12 @@ export const API = {
         //     return err.response.data.status_message;
         // })
     },
-    getPersonDetail(link: string, personId: string) {
-        return axiosInstance.get<GetMovies>(link).then(res => res.data)
+    //PERSON PAGE
+    getPersonDetail(link: string) {
+        return axiosInstance.get<PersonDetailType>(link).then(res => res.data)
+    },
+    getPersonSocial(link: string) {
+        return axiosInstance.get<PersonSocialRespType>(link).then(res => res.data)
     },
 }
 
@@ -274,27 +269,33 @@ export type CreateSessionWithLoginBody = {
     username: string
     password: string
 }
-//GetSimilarMovieType
-// type SimilarMovieType = {
-//     poster_path: string | null
-//     adult: boolean
-//     overview: string
-//     release_date: string
-//     genre_ids:number[]
-//     id:number
-//     original_language: string
-//     original_title: string
-//     title: string
-//     backdrop_path: string | null
-//     popularity: number
-//     video: string
-//     vote_average: number
-//     vote_count: number
-// }
-// export type GetSimilarMovieType = {
-//     page:number
-//     results:Array<SimilarMovieType>
-//     total_pages:number
-//     total_results:number
-// }
 
+// -----------------------PERSON PAGE----------------
+export type PersonDetailType = {
+    birthday: null | string
+    known_for_department: string
+    deathday: null | string
+    id: number
+    name: string
+    also_known_as: Array<string>
+    gender: number
+    biography: string
+    popularity: number
+    place_of_birth: null | string
+    profile_path: null | string
+    adult: boolean
+    imdb_id: string
+    homepage: null | string
+}
+
+
+export type PersonSocialRespType = {
+    imdb_id: string | null
+    facebook_id: string | null
+    freebase_mid: string | null
+    freebase_id: string | null
+    tvrage_id: number | string
+    twitter_id: string | null
+    id: number
+    instagram_id: string | null
+}
