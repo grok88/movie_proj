@@ -60,8 +60,6 @@ export const getPersonDetail = (link: string) => async (dispatch: ThunkDispatch<
         let data = await API.getPersonDetail(link);
         dispatch(changeStatus('succeeded'));
         dispatch(setPersonDetail(data));
-
-        console.log(data)
     } catch (e) {
         dispatch(changeStatus('failed'));
         //ser LoginForm serverError
@@ -78,7 +76,6 @@ export const getPersonSocial = (link: string) => async (dispatch: ThunkDispatch<
         let data = await API.getPersonSocial(link);
         dispatch(changeStatus('succeeded'));
         dispatch(setSocial(data));
-        console.log(data)
     } catch (e) {
         dispatch(changeStatus('failed'));
         //ser LoginForm serverError
@@ -91,13 +88,10 @@ export const getPersonSocial = (link: string) => async (dispatch: ThunkDispatch<
 }
 export const getPersonFilms = (link: string) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
     dispatch(changeStatus('loading'));
-    // debugger
     try {
         let data = await API.getPersonFilms(link);
         dispatch(changeStatus('succeeded'));
         dispatch(setPersonFilms(data));
-
-        console.log(data)
     } catch (e) {
         dispatch(changeStatus('failed'));
         //ser LoginForm serverError

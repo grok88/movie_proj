@@ -12,7 +12,6 @@ type HeaderPropsType = {
 class Header extends PureComponent<HeaderPropsType> {
 
     render() {
-        console.log('HEADER')
         const {user, onDeleteSession} = this.props;
         return (
             <nav className={'navbar navbar-dark bg-dark'}>

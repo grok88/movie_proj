@@ -48,7 +48,6 @@ class Favorite extends PureComponent<FavoritePropsType> {
     }
 
     componentDidUpdate(prevProps: Readonly<FavoritePropsType>, prevState: Readonly<{}>, snapshot?: any) {
-        console.log('componentDidUpdate');
         if (this.props.statusCode === 13 && this.props.statusCode !== prevProps.statusCode) {
             const session_id = cookies.get('session_id');
             if (session_id) {
@@ -59,7 +58,6 @@ class Favorite extends PureComponent<FavoritePropsType> {
     }
 
     render() {
-        console.log('Favorite')
         const {favoriteMovies, isAuth, session_id, account_id,setRatingThunk} = this.props;
         if (!isAuth) {
             return (

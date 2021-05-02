@@ -72,7 +72,6 @@ export const getMovieDetails = (link: string) => async (dispatch: ThunkDispatch<
         let data = await API.getMovieDetails(link);
         dispatch(changeStatus('succeeded'));
         dispatch(setMovie(data));
-        console.log(data)
     } catch (e) {
         dispatch(changeStatus('failed'));
         console.log(e.message);
@@ -84,7 +83,6 @@ export const getFavoriteList = (link: string) => async (dispatch: ThunkDispatch<
         let data = await API.getFavoriteList(link);
         dispatch(changeStatus('succeeded'));
         dispatch(setFavoriteMovies(data));
-        console.log(data)
     } catch (e) {
         dispatch(changeStatus('failed'));
         console.log(e.message);
@@ -98,7 +96,6 @@ export const addFavorite = (link: string, body: AddFavoriteBodyType) => async (d
         let data = await API.addFavorite(link, body);
         dispatch(changeStatus('succeeded'));
         dispatch(setFavoriteStatusCode(data.status_code));
-        console.log(data)
     } catch (e) {
         dispatch(changeStatus('failed'));
         dispatch(setError(e.response.data.status_message));
@@ -111,9 +108,8 @@ export const addFavorite = (link: string, body: AddFavoriteBodyType) => async (d
 export const addWatchlist = (link: string, body: AddWatchlistBodyType) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
     dispatch(changeStatus('loading'));
     try {
-        let data = await API.addWatchlist(link, body);
+        await API.addWatchlist(link, body);
         dispatch(changeStatus('succeeded'));
-        console.log(data)
     } catch (e) {
         dispatch(changeStatus('failed'));
         dispatch(setError(e.response.data.status_message));
@@ -126,7 +122,7 @@ export const addWatchlist = (link: string, body: AddWatchlistBodyType) => async 
 export const setRatingThunk = (link: string, body: { value: number }) => async (dispatch: ThunkDispatch<AppRootStateType, unknown, TMDBActionType>) => {
     dispatch(changeStatus('loading'));
     try {
-        let data = await API.setRating(link, body);
+        await API.setRating(link, body);
         dispatch(changeStatus('succeeded'));
         dispatch(setRating(body.value));
 

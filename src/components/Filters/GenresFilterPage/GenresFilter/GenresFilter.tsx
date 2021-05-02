@@ -4,7 +4,6 @@ import {GenreType} from '../../../../api/api';
 type GenresFilterPropsType = {
     genres: Array<GenreType>
     onGenresChange: (genreId: string) => void
-    // checked: boolean | undefined
     onChangeChecked: (genreId: number, checked: boolean) => void
 }
 
@@ -12,7 +11,6 @@ class GenresFilter extends PureComponent<GenresFilterPropsType, {}> {
 
     render() {
         const {genres, onChangeChecked} = this.props;
-        console.log('GenresFilter')
         return (
             <div className='form-group mt-3'>
                 {genres.map(g => <GenreCheckbox

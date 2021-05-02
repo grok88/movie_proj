@@ -136,7 +136,6 @@ export const getMovies = (link: string) => async (dispatch: ThunkDispatch<AppRoo
         dispatch(changeStatus('succeeded'));
         dispatch(setTotalPages(data.total_pages));
         dispatch(setMovies(data.results));
-        console.log(data)
     } catch (e) {
         //ser LoginForm serverError
         dispatch(changeStatus('failed'));

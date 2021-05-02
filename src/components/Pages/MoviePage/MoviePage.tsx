@@ -58,7 +58,6 @@ class MoviePage extends PureComponent<MoviePagePropsType, { movie_id: string }> 
     render() {
         const {movieDetails, isAuth,} = this.props;
         const movie_id = this.props.match.params.id;
-        console.log('MoviePage')
 
         let movietype = this.props.match.params.movietype;
 

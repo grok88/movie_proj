@@ -28,21 +28,17 @@ class ReleaseYear extends PureComponent<ReleaseYearPropsType, {}> {
 
     render() {
         const {releaseYear} = this.props;
-        console.log('releaseYear', releaseYear)
-
         return (
             <div className='form-group'>
                 <label htmlFor="primary_release_year">Сортировать по году выпуска:</label>
                 <select className="form-control" id="primary_release_year" name="primary_release_year"
                         onChange={this.selectValue}
                         value={releaseYear}
-                    // placeholder={releaseYear}
                 >
                     {
                         ReleaseYear.defaultProps.options.map(option => <option value={option.value}
                                                                                key={option.value}>{option.label}</option>)
                     }
-
                 </select>
             </div>
         );

@@ -64,7 +64,6 @@ class App extends React.PureComponent<MapStateToProps & MapDispatchToProps> {
     }
 
     render() {
-        console.log('APP')
         const {appReducer: {error, status, session_id, user, isAuth}, getFavoriteList, favoriteMovies, addWatchlist, setRatingThunk, addFavorite, statusCode} = this.props;
 
         return (

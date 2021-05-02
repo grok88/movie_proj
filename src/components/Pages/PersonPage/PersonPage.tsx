@@ -24,7 +24,6 @@ class PersonPage extends PureComponent<PersonPagePropsType> {
 
     render() {
         const {personState: {personDetails, social, personFilms}} = this.props;
-        console.log('PersonPage');
         return (
             <div className={'container mt-4 person__page'}>
                 <div className="row person">
@@ -137,7 +136,7 @@ class PersonPage extends PureComponent<PersonPagePropsType> {
                                 <h3>Снимался в фильмах</h3>
                                 <div className="row">
                                     {
-                                        personFilms && personFilms.cast.map(film => <div key={film.id}
+                                        personFilms && personFilms.cast.map((film, i) => <div key={film.id + i}
                                                                                          className="col-sm-6 col-lg-3 .col-xl- mb-2">
                                             <PersonItem film={film}/>
                                         </div>)

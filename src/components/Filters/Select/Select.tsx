@@ -32,7 +32,6 @@ class Select extends Component<SelectPropsType, {}> {
 
     render() {
         const {filters} = this.props;
-        console.log('Select')
         return <div className="form-group">
             <label htmlFor="sort_by">Сортировать по:</label>
             <select className="form-control" id="sort_by" name="sort_by" onChange={this.selectValue}

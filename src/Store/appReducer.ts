@@ -133,7 +133,6 @@ export const getAccountDetails = (link: string, session_id: string) => async (di
     try {
         let data = await API.getAccountDetails(link);
         dispatch(changeStatus('succeeded'));
-        console.log(data);
         dispatch(setUser(data));
         dispatch(setSessionId(session_id));
         dispatch(changeIsAuth(true));

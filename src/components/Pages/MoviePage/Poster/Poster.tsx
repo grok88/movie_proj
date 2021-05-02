@@ -49,20 +49,9 @@ class Poster extends PureComponent<PosterPropsType, { favorite: boolean, bookmar
         }
     }
 
-    // rating = () => {
-    //     console.log('RATING');
-    //     const ratingUrl = `${API_URL}/movie/460465/rating?api_key=${API_KEY_3}&session_id=5a5edbb684cd739ff78297edd969d5306cf99afd`;
-    //     API.setRating(ratingUrl, {value: 9})
-    //         .then(res => {
-    //             debugger
-    //             console.log(res);
-    //         })
-    // }
-
     render() {
         const {movieDetails} = this.props;
         const backdrop_url = `https://image.tmdb.org/t/p/w500/${movieDetails && movieDetails.backdrop_path}`;
-        console.log('Poster');
         return <>
             {
                 this.state.showModal && !this.props.isAuth

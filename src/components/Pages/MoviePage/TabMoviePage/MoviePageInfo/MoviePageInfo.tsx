@@ -9,15 +9,10 @@ type MoviePageInfoPropsType = {
 class MoviePageInfo extends Component<MoviePageInfoPropsType> {
     render() {
         const {movieDetails} = this.props;
-        console.log(movieDetails)
         return (
             <div className={'mt-3'}>
                 <Table>
                     <thead>
-                    {/*<tr>*/}
-                    {/*    /!*<th>First Name</th>*!/*/}
-                    {/*    /!*<th>Last Name</th>*!/*/}
-                    {/*</tr>*/}
                     </thead>
                     <tbody>
                     <tr>

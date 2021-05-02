@@ -5,7 +5,6 @@ type TotalPagesPropsType = {
     totalPages: null | number
 }
 const TotalPages: React.FC<TotalPagesPropsType> = React.memo(({totalPages, page}) => {
-    console.log('TotalPages')
     return (
         <div className={'ml-1'}>
             <span className={'ml-3'}

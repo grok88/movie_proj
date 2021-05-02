@@ -64,7 +64,6 @@ export const getActorsDetails = (link: string) => async (dispatch: ThunkDispatch
         let data = await API.getActing(link);
         dispatch(changeStatus('succeeded'));
         dispatch(setActorsDetails(data))
-        console.log(data)
     } catch (e) {
         dispatch(changeStatus('failed'));
         console.log(e.message);
@@ -76,7 +75,6 @@ export const getSimilarMovies = (link: string) => async (dispatch: ThunkDispatch
         let data = await API.getSimilarMovie(link);
         dispatch(changeStatus('succeeded'));
         dispatch(setSimilarMovies(data))
-        console.log(data)
     } catch (e) {
         dispatch(changeStatus('failed'));
         console.log(e.message);

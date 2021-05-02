@@ -16,7 +16,6 @@ class ActingPage extends PureComponent<ActingPagePropsType, { acting: null | Act
 
     render() {
         const {actorsDetails} = this.props;
-        console.log('ActingPage')
         return (
             <div className={'mt-3 actingPage container'}>
                 <h3>В главных ролях</h3>
