@@ -53,9 +53,6 @@ const validate = (values: LoginFormValues) => {
 
 // FUNCTIONAL COMPONENT USE  FORM
 type LoginFormPropsType = {
-    // userAuthFlow?: (username: string, password: string) => void
-    // disabled?: boolean
-    // error?: null | string
     toggleModal?: () => void
 
 }
@@ -85,15 +82,16 @@ const LoginForm: React.FC<LoginFormPropsType> = ({toggleModal}) => {
             <Form className={'form-login'} onSubmit={formik.handleSubmit}>
                 <FormGroup className={'form-group'}>
                     <Label for="username">Email</Label>
-                    <Input type="text" id="username" placeholder="username" {...formik.getFieldProps('username')}
+                    <Input type="text" id="username" placeholder="Alex_gor" {...formik.getFieldProps('username')}
                            className={'form-control'}
+
                            style={formik.touched.username && formik.errors.username ? {border: '2px solid red'} : undefined}/>
                     {formik.touched.username && formik.errors.username ?
                         <div style={{color: 'red'}}>{formik.errors.username}</div> : null}
                 </FormGroup>
                 <FormGroup className={'form-group'}>
                     <Label for="password">Password</Label>
-                    <Input type="password" id="password" placeholder="password"
+                    <Input type="password" id="password" placeholder="thisissparta"
                            {...formik.getFieldProps('password')} className={'form-control'}
                            style={formik.touched.password && formik.errors.password ? {border: '2px solid red'} : undefined}/>
                     {formik.touched.password && formik.errors.password ?
@@ -102,7 +100,7 @@ const LoginForm: React.FC<LoginFormPropsType> = ({toggleModal}) => {
                 <FormGroup className={'form-group'}>
                     <Label for="repeatPassword">Repeat Password</Label>
                     <Input type="password" id="repeatPassword"
-                           placeholder="repeatPassword" {...formik.getFieldProps('repeatPassword')}
+                           placeholder="thisissparta" {...formik.getFieldProps('repeatPassword')}
                            className={'form-control'}
                            style={formik.touched.repeatPassword && formik.errors.repeatPassword ? {border: '2px solid red'} : undefined}
                     />
